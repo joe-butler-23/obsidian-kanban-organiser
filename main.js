@@ -45,19 +45,19 @@ var require_react_development = __commonJS({
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
         var ReactVersion = "18.3.1";
-        var REACT_ELEMENT_TYPE = Symbol.for("react.element");
-        var REACT_PORTAL_TYPE = Symbol.for("react.portal");
-        var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
-        var REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode");
-        var REACT_PROFILER_TYPE = Symbol.for("react.profiler");
-        var REACT_PROVIDER_TYPE = Symbol.for("react.provider");
-        var REACT_CONTEXT_TYPE = Symbol.for("react.context");
-        var REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref");
-        var REACT_SUSPENSE_TYPE = Symbol.for("react.suspense");
-        var REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list");
-        var REACT_MEMO_TYPE = Symbol.for("react.memo");
-        var REACT_LAZY_TYPE = Symbol.for("react.lazy");
-        var REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen");
+        var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element");
+        var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
+        var REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
+        var REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode");
+        var REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler");
+        var REACT_PROVIDER_TYPE = /* @__PURE__ */ Symbol.for("react.provider");
+        var REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context");
+        var REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref");
+        var REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense");
+        var REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list");
+        var REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo");
+        var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var REACT_OFFSCREEN_TYPE = /* @__PURE__ */ Symbol.for("react.offscreen");
         var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
         var FAUX_ITERATOR_SYMBOL = "@@iterator";
         function getIteratorFn(maybeIterable) {
@@ -519,7 +519,7 @@ var require_react_development = __commonJS({
           }
           return element;
         };
-        function createElement7(type, config, children) {
+        function createElement3(type, config, children) {
           var propName;
           var props = {};
           var key = null;
@@ -980,7 +980,7 @@ var require_react_development = __commonJS({
           }
           return lazyType;
         }
-        function forwardRef2(render) {
+        function forwardRef(render) {
           {
             if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
               error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1021,7 +1021,7 @@ var require_react_development = __commonJS({
         }
         var REACT_MODULE_REFERENCE;
         {
-          REACT_MODULE_REFERENCE = Symbol.for("react.module.reference");
+          REACT_MODULE_REFERENCE = /* @__PURE__ */ Symbol.for("react.module.reference");
         }
         function isValidElementType(type) {
           if (typeof type === "string" || typeof type === "function") {
@@ -1093,7 +1093,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState4(initialState) {
+        function useState2(initialState) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useState(initialState);
         }
@@ -1101,11 +1101,11 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef4(initialValue) {
+        function useRef2(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
-        function useEffect4(create, deps) {
+        function useEffect2(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useEffect(create, deps);
         }
@@ -1113,15 +1113,15 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useInsertionEffect(create, deps);
         }
-        function useLayoutEffect2(create, deps) {
+        function useLayoutEffect(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useLayoutEffect(create, deps);
         }
-        function useCallback5(callback, deps) {
+        function useCallback2(callback, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useCallback(callback, deps);
         }
-        function useMemo5(create, deps) {
+        function useMemo2(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useMemo(create, deps);
         }
@@ -1618,7 +1618,7 @@ var require_react_development = __commonJS({
               error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
             }
           }
-          var element = createElement7.apply(this, arguments);
+          var element = createElement3.apply(this, arguments);
           if (element == null) {
             return element;
           }
@@ -1878,25 +1878,25 @@ var require_react_development = __commonJS({
         exports.createElement = createElement$1;
         exports.createFactory = createFactory;
         exports.createRef = createRef;
-        exports.forwardRef = forwardRef2;
+        exports.forwardRef = forwardRef;
         exports.isValidElement = isValidElement;
         exports.lazy = lazy;
         exports.memo = memo;
         exports.startTransition = startTransition;
         exports.unstable_act = act;
-        exports.useCallback = useCallback5;
+        exports.useCallback = useCallback2;
         exports.useContext = useContext;
         exports.useDebugValue = useDebugValue;
         exports.useDeferredValue = useDeferredValue;
-        exports.useEffect = useEffect4;
+        exports.useEffect = useEffect2;
         exports.useId = useId;
         exports.useImperativeHandle = useImperativeHandle;
         exports.useInsertionEffect = useInsertionEffect;
-        exports.useLayoutEffect = useLayoutEffect2;
-        exports.useMemo = useMemo5;
+        exports.useLayoutEffect = useLayoutEffect;
+        exports.useMemo = useMemo2;
         exports.useReducer = useReducer;
-        exports.useRef = useRef4;
-        exports.useState = useState4;
+        exports.useRef = useRef2;
+        exports.useState = useState2;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition;
         exports.version = ReactVersion;
@@ -2392,9 +2392,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React7 = require_react();
+        var React3 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React7.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -2443,7 +2443,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment2 = 7;
+        var Fragment = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -2614,6 +2614,7 @@ var require_react_dom_development = __commonJS({
           }
           switch (typeof value) {
             case "function":
+            // $FlowIssue symbol is perfectly valid here
             case "symbol":
               return true;
             case "boolean": {
@@ -3054,11 +3055,11 @@ var require_react_dom_development = __commonJS({
         });
         var isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
         var didWarn = false;
-        function sanitizeURL(url) {
+        function sanitizeURL(url2) {
           {
-            if (!didWarn && isJavaScriptProtocol.test(url)) {
+            if (!didWarn && isJavaScriptProtocol.test(url2)) {
               didWarn = true;
-              error("A future version of React will block javascript: URLs as a security precaution. Use event handlers instead if you can. If you need to generate unsafe HTML try using dangerouslySetInnerHTML instead. React was passed %s.", JSON.stringify(url));
+              error("A future version of React will block javascript: URLs as a security precaution. Use event handlers instead if you can. If you need to generate unsafe HTML try using dangerouslySetInnerHTML instead. React was passed %s.", JSON.stringify(url2));
             }
           }
         }
@@ -3186,24 +3187,24 @@ var require_react_dom_development = __commonJS({
             }
           }
         }
-        var REACT_ELEMENT_TYPE = Symbol.for("react.element");
-        var REACT_PORTAL_TYPE = Symbol.for("react.portal");
-        var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
-        var REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode");
-        var REACT_PROFILER_TYPE = Symbol.for("react.profiler");
-        var REACT_PROVIDER_TYPE = Symbol.for("react.provider");
-        var REACT_CONTEXT_TYPE = Symbol.for("react.context");
-        var REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref");
-        var REACT_SUSPENSE_TYPE = Symbol.for("react.suspense");
-        var REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list");
-        var REACT_MEMO_TYPE = Symbol.for("react.memo");
-        var REACT_LAZY_TYPE = Symbol.for("react.lazy");
-        var REACT_SCOPE_TYPE = Symbol.for("react.scope");
-        var REACT_DEBUG_TRACING_MODE_TYPE = Symbol.for("react.debug_trace_mode");
-        var REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen");
-        var REACT_LEGACY_HIDDEN_TYPE = Symbol.for("react.legacy_hidden");
-        var REACT_CACHE_TYPE = Symbol.for("react.cache");
-        var REACT_TRACING_MARKER_TYPE = Symbol.for("react.tracing_marker");
+        var REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element");
+        var REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal");
+        var REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment");
+        var REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode");
+        var REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler");
+        var REACT_PROVIDER_TYPE = /* @__PURE__ */ Symbol.for("react.provider");
+        var REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context");
+        var REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref");
+        var REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense");
+        var REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list");
+        var REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo");
+        var REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var REACT_SCOPE_TYPE = /* @__PURE__ */ Symbol.for("react.scope");
+        var REACT_DEBUG_TRACING_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.debug_trace_mode");
+        var REACT_OFFSCREEN_TYPE = /* @__PURE__ */ Symbol.for("react.offscreen");
+        var REACT_LEGACY_HIDDEN_TYPE = /* @__PURE__ */ Symbol.for("react.legacy_hidden");
+        var REACT_CACHE_TYPE = /* @__PURE__ */ Symbol.for("react.cache");
+        var REACT_TRACING_MARKER_TYPE = /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
         var FAUX_ITERATOR_SYMBOL = "@@iterator";
         function getIteratorFn(maybeIterable) {
@@ -3599,7 +3600,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment2:
+            case Fragment:
               return "Fragment";
             case HostComponent:
               return type;
@@ -3628,6 +3629,7 @@ var require_react_dom_development = __commonJS({
               return "SuspenseList";
             case TracingMarkerComponent:
               return "TracingMarker";
+            // The display name for this tags come from the user-provided type:
             case ClassComponent:
             case FunctionComponent:
             case IncompleteClassComponent:
@@ -3999,7 +4001,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React7.Children.forEach(props.children, function(child) {
+                React3.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -4625,6 +4627,10 @@ var require_react_dom_development = __commonJS({
             return typeof props.is === "string";
           }
           switch (tagName) {
+            // These are reserved SVG and MathML elements.
+            // We don't mind this list too much because we expect it to never grow.
+            // The alternative is to track the namespace in a few places which is convoluted.
+            // https://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
             case "annotation-xml":
             case "color-profile":
             case "font-face":
@@ -7454,6 +7460,7 @@ var require_react_dom_development = __commonJS({
         }
         function getEventPriority(domEventName) {
           switch (domEventName) {
+            // Used by SimpleEventPlugin:
             case "cancel":
             case "click":
             case "close":
@@ -7489,14 +7496,20 @@ var require_react_dom_development = __commonJS({
             case "touchend":
             case "touchstart":
             case "volumechange":
+            // Used by polyfills:
+            // eslint-disable-next-line no-fallthrough
             case "change":
             case "selectionchange":
             case "textInput":
             case "compositionstart":
             case "compositionend":
             case "compositionupdate":
+            // Only enableCreateEventHandleAPI:
+            // eslint-disable-next-line no-fallthrough
             case "beforeblur":
             case "afterblur":
+            // Not used by React but could be by user code:
+            // eslint-disable-next-line no-fallthrough
             case "beforeinput":
             case "blur":
             case "fullscreenchange":
@@ -7521,6 +7534,8 @@ var require_react_dom_development = __commonJS({
             case "toggle":
             case "touchmove":
             case "wheel":
+            // Not used by React but could be by user code:
+            // eslint-disable-next-line no-fallthrough
             case "mouseenter":
             case "mouseleave":
             case "pointerenter":
@@ -7752,8 +7767,7 @@ var require_react_dom_development = __commonJS({
           button: 0,
           buttons: 0,
           relatedTarget: function(event) {
-            if (event.relatedTarget === void 0)
-              return event.fromElement === event.srcElement ? event.toElement : event.fromElement;
+            if (event.relatedTarget === void 0) return event.fromElement === event.srcElement ? event.toElement : event.fromElement;
             return event.relatedTarget;
           },
           movementX: function(event) {
@@ -8277,8 +8291,8 @@ var require_react_dom_development = __commonJS({
           }
         }
         function handleControlledInputBlur(node) {
-          var state2 = node._wrapperState;
-          if (!state2 || !state2.controlled || node.type !== "number") {
+          var state = node._wrapperState;
+          if (!state || !state.controlled || node.type !== "number") {
             return;
           }
           {
@@ -8469,43 +8483,42 @@ var require_react_dom_development = __commonJS({
           var indexWithinFocus = 0;
           var node = outerNode;
           var parentNode = null;
-          outer:
+          outer: while (true) {
+            var next = null;
             while (true) {
-              var next = null;
-              while (true) {
-                if (node === anchorNode && (anchorOffset === 0 || node.nodeType === TEXT_NODE)) {
-                  start = length + anchorOffset;
-                }
-                if (node === focusNode && (focusOffset === 0 || node.nodeType === TEXT_NODE)) {
-                  end = length + focusOffset;
-                }
-                if (node.nodeType === TEXT_NODE) {
-                  length += node.nodeValue.length;
-                }
-                if ((next = node.firstChild) === null) {
-                  break;
-                }
-                parentNode = node;
-                node = next;
+              if (node === anchorNode && (anchorOffset === 0 || node.nodeType === TEXT_NODE)) {
+                start = length + anchorOffset;
               }
-              while (true) {
-                if (node === outerNode) {
-                  break outer;
-                }
-                if (parentNode === anchorNode && ++indexWithinAnchor === anchorOffset) {
-                  start = length;
-                }
-                if (parentNode === focusNode && ++indexWithinFocus === focusOffset) {
-                  end = length;
-                }
-                if ((next = node.nextSibling) !== null) {
-                  break;
-                }
-                node = parentNode;
-                parentNode = node.parentNode;
+              if (node === focusNode && (focusOffset === 0 || node.nodeType === TEXT_NODE)) {
+                end = length + focusOffset;
               }
+              if (node.nodeType === TEXT_NODE) {
+                length += node.nodeValue.length;
+              }
+              if ((next = node.firstChild) === null) {
+                break;
+              }
+              parentNode = node;
               node = next;
             }
+            while (true) {
+              if (node === outerNode) {
+                break outer;
+              }
+              if (parentNode === anchorNode && ++indexWithinAnchor === anchorOffset) {
+                start = length;
+              }
+              if (parentNode === focusNode && ++indexWithinFocus === focusOffset) {
+                end = length;
+              }
+              if ((next = node.nextSibling) !== null) {
+                break;
+              }
+              node = parentNode;
+              parentNode = node.parentNode;
+            }
+            node = next;
+          }
           if (start === -1 || end === -1) {
             return null;
           }
@@ -8708,6 +8721,7 @@ var require_react_dom_development = __commonJS({
         function extractEvents$3(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
           var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
           switch (domEventName) {
+            // Track the input node that has focus.
             case "focusin":
               if (isTextInputElement(targetNode) || targetNode.contentEditable === "true") {
                 activeElement$1 = targetNode;
@@ -8720,6 +8734,8 @@ var require_react_dom_development = __commonJS({
               activeElementInst$1 = null;
               lastSelection = null;
               break;
+            // Don't fire the event while the user is dragging. This matches the
+            // semantics of the native select event.
             case "mousedown":
               mouseDown = true;
               break;
@@ -8729,10 +8745,20 @@ var require_react_dom_development = __commonJS({
               mouseDown = false;
               constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
               break;
+            // Chrome and IE fire non-standard event when selection is changed (and
+            // sometimes when it hasn't). IE's event fires out of order with respect
+            // to key and input events on deletion, so we discard it.
+            //
+            // Firefox doesn't support selectionchange, so check selection status
+            // after each key entry. The selection changes after keydown and before
+            // keyup, but we check on keydown as well in the case of holding down a
+            // key, when multiple keydown events are fired but only one keyup is.
+            // This is also our approach for IE handling, for the reason above.
             case "selectionchange":
               if (skipSelectionChangeEvent) {
                 break;
               }
+            // falls through
             case "keydown":
             case "keyup":
               constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
@@ -8815,6 +8841,7 @@ var require_react_dom_development = __commonJS({
               if (getEventCharCode(nativeEvent) === 0) {
                 return;
               }
+            /* falls through */
             case "keydown":
             case "keyup":
               SyntheticEventCtor = SyntheticKeyboardEvent;
@@ -8835,11 +8862,14 @@ var require_react_dom_development = __commonJS({
               if (nativeEvent.button === 2) {
                 return;
               }
+            /* falls through */
             case "auxclick":
             case "dblclick":
             case "mousedown":
             case "mousemove":
             case "mouseup":
+            // TODO: Disabled elements should not respond to mouse events
+            /* falls through */
             case "mouseout":
             case "mouseover":
             case "contextmenu":
@@ -9047,45 +9077,44 @@ var require_react_dom_development = __commonJS({
             var targetContainerNode = targetContainer;
             if (targetInst !== null) {
               var node = targetInst;
-              mainLoop:
-                while (true) {
-                  if (node === null) {
-                    return;
-                  }
-                  var nodeTag = node.tag;
-                  if (nodeTag === HostRoot || nodeTag === HostPortal) {
-                    var container = node.stateNode.containerInfo;
-                    if (isMatchingRootContainer(container, targetContainerNode)) {
-                      break;
-                    }
-                    if (nodeTag === HostPortal) {
-                      var grandNode = node.return;
-                      while (grandNode !== null) {
-                        var grandTag = grandNode.tag;
-                        if (grandTag === HostRoot || grandTag === HostPortal) {
-                          var grandContainer = grandNode.stateNode.containerInfo;
-                          if (isMatchingRootContainer(grandContainer, targetContainerNode)) {
-                            return;
-                          }
-                        }
-                        grandNode = grandNode.return;
-                      }
-                    }
-                    while (container !== null) {
-                      var parentNode = getClosestInstanceFromNode(container);
-                      if (parentNode === null) {
-                        return;
-                      }
-                      var parentTag = parentNode.tag;
-                      if (parentTag === HostComponent || parentTag === HostText) {
-                        node = ancestorInst = parentNode;
-                        continue mainLoop;
-                      }
-                      container = container.parentNode;
-                    }
-                  }
-                  node = node.return;
+              mainLoop: while (true) {
+                if (node === null) {
+                  return;
                 }
+                var nodeTag = node.tag;
+                if (nodeTag === HostRoot || nodeTag === HostPortal) {
+                  var container = node.stateNode.containerInfo;
+                  if (isMatchingRootContainer(container, targetContainerNode)) {
+                    break;
+                  }
+                  if (nodeTag === HostPortal) {
+                    var grandNode = node.return;
+                    while (grandNode !== null) {
+                      var grandTag = grandNode.tag;
+                      if (grandTag === HostRoot || grandTag === HostPortal) {
+                        var grandContainer = grandNode.stateNode.containerInfo;
+                        if (isMatchingRootContainer(grandContainer, targetContainerNode)) {
+                          return;
+                        }
+                      }
+                      grandNode = grandNode.return;
+                    }
+                  }
+                  while (container !== null) {
+                    var parentNode = getClosestInstanceFromNode(container);
+                    if (parentNode === null) {
+                      return;
+                    }
+                    var parentTag = parentNode.tag;
+                    if (parentTag === HostComponent || parentTag === HostText) {
+                      node = ancestorInst = parentNode;
+                      continue mainLoop;
+                    }
+                    container = container.parentNode;
+                  }
+                }
+                node = node.return;
+              }
             }
           }
           batchedUpdates(function() {
@@ -9365,10 +9394,8 @@ var require_react_dom_development = __commonJS({
               } else if (typeof nextProp === "number") {
                 setTextContent(domElement, "" + nextProp);
               }
-            } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING)
-              ;
-            else if (propKey === AUTOFOCUS)
-              ;
+            } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING) ;
+            else if (propKey === AUTOFOCUS) ;
             else if (registrationNameDependencies.hasOwnProperty(propKey)) {
               if (nextProp != null) {
                 if (typeof nextProp !== "function") {
@@ -9398,7 +9425,7 @@ var require_react_dom_development = __commonJS({
             }
           }
         }
-        function createElement7(type, props, rootContainerElement, parentNamespace) {
+        function createElement3(type, props, rootContainerElement, parentNamespace) {
           var isCustomComponentTag;
           var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
           var domElement;
@@ -9584,12 +9611,9 @@ var require_react_dom_development = __commonJS({
                   styleUpdates[styleName] = "";
                 }
               }
-            } else if (propKey === DANGEROUSLY_SET_INNER_HTML || propKey === CHILDREN)
-              ;
-            else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING)
-              ;
-            else if (propKey === AUTOFOCUS)
-              ;
+            } else if (propKey === DANGEROUSLY_SET_INNER_HTML || propKey === CHILDREN) ;
+            else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING) ;
+            else if (propKey === AUTOFOCUS) ;
             else if (registrationNameDependencies.hasOwnProperty(propKey)) {
               if (!updatePayload) {
                 updatePayload = [];
@@ -9648,8 +9672,7 @@ var require_react_dom_development = __commonJS({
               if (typeof nextProp === "string" || typeof nextProp === "number") {
                 (updatePayload = updatePayload || []).push(propKey, "" + nextProp);
               }
-            } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING)
-              ;
+            } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING) ;
             else if (registrationNameDependencies.hasOwnProperty(propKey)) {
               if (nextProp != null) {
                 if (typeof nextProp !== "function") {
@@ -9760,6 +9783,8 @@ var require_react_dom_development = __commonJS({
             for (var _i = 0; _i < attributes.length; _i++) {
               var name = attributes[_i].name.toLowerCase();
               switch (name) {
+                // Controlled attributes are not validated
+                // TODO: Only ignore them on controlled tags.
                 case "value":
                   break;
                 case "checked":
@@ -9806,12 +9831,10 @@ var require_react_dom_development = __commonJS({
             typeof isCustomComponentTag === "boolean") {
               var serverValue = void 0;
               var propertyInfo = isCustomComponentTag && enableCustomElementPropertySupport ? null : getPropertyInfo(propKey);
-              if (rawProps[SUPPRESS_HYDRATION_WARNING] === true)
-                ;
+              if (rawProps[SUPPRESS_HYDRATION_WARNING] === true) ;
               else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING || // Controlled attributes are not validated
               // TODO: Only ignore them on controlled tags.
-              propKey === "value" || propKey === "checked" || propKey === "selected")
-                ;
+              propKey === "value" || propKey === "checked" || propKey === "selected") ;
               else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
                 var serverHTML = domElement.innerHTML;
                 var nextHtml = nextProp ? nextProp[HTML$1] : void 0;
@@ -10029,24 +10052,37 @@ var require_react_dom_development = __commonJS({
           };
           var isTagValidWithParent = function(tag, parentTag) {
             switch (parentTag) {
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inselect
               case "select":
                 return tag === "option" || tag === "optgroup" || tag === "#text";
               case "optgroup":
                 return tag === "option" || tag === "#text";
+              // Strictly speaking, seeing an <option> doesn't mean we're in a <select>
+              // but
               case "option":
                 return tag === "#text";
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intd
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incaption
+              // No special behavior since these rules fall back to "in body" mode for
+              // all except special table nodes which cause bad parsing behavior anyway.
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intr
               case "tr":
                 return tag === "th" || tag === "td" || tag === "style" || tag === "script" || tag === "template";
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intbody
               case "tbody":
               case "thead":
               case "tfoot":
                 return tag === "tr" || tag === "style" || tag === "script" || tag === "template";
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incolgroup
               case "colgroup":
                 return tag === "col" || tag === "template";
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intable
               case "table":
                 return tag === "caption" || tag === "colgroup" || tag === "tbody" || tag === "tfoot" || tag === "thead" || tag === "style" || tag === "script" || tag === "template";
+              // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inhead
               case "head":
                 return tag === "base" || tag === "basefont" || tag === "bgsound" || tag === "link" || tag === "meta" || tag === "title" || tag === "noscript" || tag === "noframes" || tag === "style" || tag === "script" || tag === "template";
+              // https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
               case "html":
                 return tag === "head" || tag === "body" || tag === "frameset";
               case "frameset":
@@ -10259,7 +10295,7 @@ var require_react_dom_development = __commonJS({
             }
             parentNamespace = hostContextDev.namespace;
           }
-          var domElement = createElement7(type, props, rootContainerInstance, parentNamespace);
+          var domElement = createElement3(type, props, rootContainerInstance, parentNamespace);
           precacheFiberNode(internalInstanceHandle, domElement);
           updateFiberProps(domElement, props);
           return domElement;
@@ -10607,8 +10643,7 @@ var require_react_dom_development = __commonJS({
           {
             if (instance.nodeType === ELEMENT_NODE) {
               warnForDeletedHydratableElement(parentContainer, instance);
-            } else if (instance.nodeType === COMMENT_NODE)
-              ;
+            } else if (instance.nodeType === COMMENT_NODE) ;
             else {
               warnForDeletedHydratableText(parentContainer, instance);
             }
@@ -10620,8 +10655,7 @@ var require_react_dom_development = __commonJS({
             if (parentNode !== null) {
               if (instance.nodeType === ELEMENT_NODE) {
                 warnForDeletedHydratableElement(parentNode, instance);
-              } else if (instance.nodeType === COMMENT_NODE)
-                ;
+              } else if (instance.nodeType === COMMENT_NODE) ;
               else {
                 warnForDeletedHydratableText(parentNode, instance);
               }
@@ -10633,8 +10667,7 @@ var require_react_dom_development = __commonJS({
             if (isConcurrentMode || parentProps[SUPPRESS_HYDRATION_WARNING$1] !== true) {
               if (instance.nodeType === ELEMENT_NODE) {
                 warnForDeletedHydratableElement(parentInstance, instance);
-              } else if (instance.nodeType === COMMENT_NODE)
-                ;
+              } else if (instance.nodeType === COMMENT_NODE) ;
               else {
                 warnForDeletedHydratableText(parentInstance, instance);
               }
@@ -10654,15 +10687,13 @@ var require_react_dom_development = __commonJS({
         function didNotFindHydratableInstanceWithinSuspenseInstance(parentInstance, type, props) {
           {
             var parentNode = parentInstance.parentNode;
-            if (parentNode !== null)
-              warnForInsertedHydratedElement(parentNode, type);
+            if (parentNode !== null) warnForInsertedHydratedElement(parentNode, type);
           }
         }
         function didNotFindHydratableTextInstanceWithinSuspenseInstance(parentInstance, text) {
           {
             var parentNode = parentInstance.parentNode;
-            if (parentNode !== null)
-              warnForInsertedHydratedText(parentNode, text);
+            if (parentNode !== null) warnForInsertedHydratedText(parentNode, text);
           }
         }
         function didNotFindHydratableInstance(parentType, parentProps, parentInstance, type, props, isConcurrentMode) {
@@ -11249,8 +11280,7 @@ var require_react_dom_development = __commonJS({
               }
               case SuspenseComponent: {
                 var suspenseState = returnFiber.memoizedState;
-                if (suspenseState.dehydrated !== null)
-                  didNotHydrateInstanceWithinSuspenseInstance(suspenseState.dehydrated, instance);
+                if (suspenseState.dehydrated !== null) didNotHydrateInstanceWithinSuspenseInstance(suspenseState.dehydrated, instance);
                 break;
               }
             }
@@ -11329,18 +11359,17 @@ var require_react_dom_development = __commonJS({
               case SuspenseComponent: {
                 var suspenseState = returnFiber.memoizedState;
                 var _parentInstance = suspenseState.dehydrated;
-                if (_parentInstance !== null)
-                  switch (fiber.tag) {
-                    case HostComponent:
-                      var _type2 = fiber.type;
-                      var _props2 = fiber.pendingProps;
-                      didNotFindHydratableInstanceWithinSuspenseInstance(_parentInstance, _type2);
-                      break;
-                    case HostText:
-                      var _text2 = fiber.pendingProps;
-                      didNotFindHydratableTextInstanceWithinSuspenseInstance(_parentInstance, _text2);
-                      break;
-                  }
+                if (_parentInstance !== null) switch (fiber.tag) {
+                  case HostComponent:
+                    var _type2 = fiber.type;
+                    var _props2 = fiber.pendingProps;
+                    didNotFindHydratableInstanceWithinSuspenseInstance(_parentInstance, _type2);
+                    break;
+                  case HostText:
+                    var _text2 = fiber.pendingProps;
+                    didNotFindHydratableTextInstanceWithinSuspenseInstance(_parentInstance, _text2);
+                    break;
+                }
                 break;
               }
               default:
@@ -12000,7 +12029,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment2) {
+            if (current2 === null || current2.tag !== Fragment) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -12403,7 +12432,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment2) {
+                  if (child.tag === Fragment) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -12629,8 +12658,7 @@ var require_react_dom_development = __commonJS({
                     var update = createUpdate(NoTimestamp, lane);
                     update.tag = ForceUpdate;
                     var updateQueue = fiber.updateQueue;
-                    if (updateQueue === null)
-                      ;
+                    if (updateQueue === null) ;
                     else {
                       var sharedQueue = updateQueue.shared;
                       var pending = sharedQueue.pending;
@@ -12716,8 +12744,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           var value = context._currentValue;
-          if (lastFullyObservedContext === context)
-            ;
+          if (lastFullyObservedContext === context) ;
           else {
             var contextItem = {
               context,
@@ -13014,6 +13041,7 @@ var require_react_dom_development = __commonJS({
             case CaptureUpdate: {
               workInProgress2.flags = workInProgress2.flags & ~ShouldCapture | DidCapture;
             }
+            // Intentional fallthrough
             case UpdateState: {
               var _payload = update.payload;
               var partialState;
@@ -13290,9 +13318,9 @@ var require_react_dom_development = __commonJS({
           var node = row;
           while (node !== null) {
             if (node.tag === SuspenseComponent) {
-              var state2 = node.memoizedState;
-              if (state2 !== null) {
-                var dehydrated = state2.dehydrated;
+              var state = node.memoizedState;
+              if (state !== null) {
+                var dehydrated = state.dehydrated;
                 if (dehydrated === null || isSuspenseInstancePending(dehydrated) || isSuspenseInstanceFallback(dehydrated)) {
                   return node;
                 }
@@ -13634,8 +13662,8 @@ var require_react_dom_development = __commonJS({
             stores: null
           };
         }
-        function basicStateReducer(state2, action) {
-          return typeof action === "function" ? action(state2) : action;
+        function basicStateReducer(state, action) {
+          return typeof action === "function" ? action(state) : action;
         }
         function mountReducer(reducer, initialArg, init) {
           var hook = mountWorkInProgressHook();
@@ -15622,10 +15650,10 @@ var require_react_dom_development = __commonJS({
               }
             }
           }
-          var state2 = workInProgress2.memoizedState = instance.state !== null && instance.state !== void 0 ? instance.state : null;
+          var state = workInProgress2.memoizedState = instance.state !== null && instance.state !== void 0 ? instance.state : null;
           adoptClassInstance(workInProgress2, instance);
           {
-            if (typeof ctor.getDerivedStateFromProps === "function" && state2 === null) {
+            if (typeof ctor.getDerivedStateFromProps === "function" && state === null) {
               var componentName = getComponentNameFromType(ctor) || "Component";
               if (!didWarnAboutUninitializedState.has(componentName)) {
                 didWarnAboutUninitializedState.add(componentName);
@@ -16548,8 +16576,8 @@ var require_react_dom_development = __commonJS({
                 var _instance = workInProgress2.stateNode;
                 var ctor = workInProgress2.type;
                 var tempInstance = new ctor(workInProgress2.memoizedProps, _instance.context);
-                var state2 = tempInstance.state;
-                _instance.updater.enqueueSetState(_instance, state2, null);
+                var state = tempInstance.state;
+                _instance.updater.enqueueSetState(_instance, state, null);
                 break;
               }
               case true: {
@@ -17324,8 +17352,8 @@ var require_react_dom_development = __commonJS({
           var node = firstChild;
           while (node !== null) {
             if (node.tag === SuspenseComponent) {
-              var state2 = node.memoizedState;
-              if (state2 !== null) {
+              var state = node.memoizedState;
+              if (state !== null) {
                 scheduleSuspenseWorkOnFiber(node, renderLanes2, workInProgress2);
               }
             } else if (node.tag === SuspenseListComponent) {
@@ -17754,9 +17782,9 @@ var require_react_dom_development = __commonJS({
               }
               break;
             case SuspenseComponent: {
-              var state2 = workInProgress2.memoizedState;
-              if (state2 !== null) {
-                if (state2.dehydrated !== null) {
+              var state = workInProgress2.memoizedState;
+              if (state !== null) {
+                if (state.dehydrated !== null) {
                   pushSuspenseContext(workInProgress2, setDefaultShallowSuspenseContext(suspenseStackCursor.current));
                   workInProgress2.flags |= DidCapture;
                   return null;
@@ -17880,7 +17908,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment2:
+            case Fragment:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -17951,8 +17979,7 @@ var require_react_dom_development = __commonJS({
             while (node !== null) {
               if (node.tag === HostComponent || node.tag === HostText) {
                 appendInitialChild(parent, node.stateNode);
-              } else if (node.tag === HostPortal)
-                ;
+              } else if (node.tag === HostPortal) ;
               else if (node.child !== null) {
                 node.child.return = node;
                 node = node.child;
@@ -18153,7 +18180,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment2:
+            case Fragment:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -18906,20 +18933,19 @@ var require_react_dom_development = __commonJS({
                     onPostCommit(id, phase, passiveEffectDuration, commitTime2);
                   }
                   var parentFiber = finishedWork.return;
-                  outer:
-                    while (parentFiber !== null) {
-                      switch (parentFiber.tag) {
-                        case HostRoot:
-                          var root2 = parentFiber.stateNode;
-                          root2.passiveEffectDuration += passiveEffectDuration;
-                          break outer;
-                        case Profiler:
-                          var parentStateNode = parentFiber.stateNode;
-                          parentStateNode.passiveEffectDuration += passiveEffectDuration;
-                          break outer;
-                      }
-                      parentFiber = parentFiber.return;
+                  outer: while (parentFiber !== null) {
+                    switch (parentFiber.tag) {
+                      case HostRoot:
+                        var root2 = parentFiber.stateNode;
+                        root2.passiveEffectDuration += passiveEffectDuration;
+                        break outer;
+                      case Profiler:
+                        var parentStateNode = parentFiber.stateNode;
+                        parentStateNode.passiveEffectDuration += passiveEffectDuration;
+                        break outer;
                     }
+                    parentFiber = parentFiber.return;
+                  }
                   break;
                 }
               }
@@ -19066,20 +19092,19 @@ var require_react_dom_development = __commonJS({
                     }
                     enqueuePendingPassiveProfilerEffect(finishedWork);
                     var parentFiber = finishedWork.return;
-                    outer:
-                      while (parentFiber !== null) {
-                        switch (parentFiber.tag) {
-                          case HostRoot:
-                            var root2 = parentFiber.stateNode;
-                            root2.effectDuration += effectDuration;
-                            break outer;
-                          case Profiler:
-                            var parentStateNode = parentFiber.stateNode;
-                            parentStateNode.effectDuration += effectDuration;
-                            break outer;
-                        }
-                        parentFiber = parentFiber.return;
+                    outer: while (parentFiber !== null) {
+                      switch (parentFiber.tag) {
+                        case HostRoot:
+                          var root2 = parentFiber.stateNode;
+                          root2.effectDuration += effectDuration;
+                          break outer;
+                        case Profiler:
+                          var parentStateNode = parentFiber.stateNode;
+                          parentStateNode.effectDuration += effectDuration;
+                          break outer;
                       }
+                      parentFiber = parentFiber.return;
+                    }
                   }
                 }
                 break;
@@ -19171,8 +19196,7 @@ var require_react_dom_development = __commonJS({
                     captureCommitPhaseError(finishedWork, finishedWork.return, error2);
                   }
                 }
-              } else if ((node.tag === OffscreenComponent || node.tag === LegacyHiddenComponent) && node.memoizedState !== null && node !== finishedWork)
-                ;
+              } else if ((node.tag === OffscreenComponent || node.tag === LegacyHiddenComponent) && node.memoizedState !== null && node !== finishedWork) ;
               else if (node.child !== null) {
                 node.child.return = node;
                 node = node.child;
@@ -19290,31 +19314,30 @@ var require_react_dom_development = __commonJS({
         }
         function getHostSibling(fiber) {
           var node = fiber;
-          siblings:
-            while (true) {
-              while (node.sibling === null) {
-                if (node.return === null || isHostParent(node.return)) {
-                  return null;
-                }
-                node = node.return;
+          siblings: while (true) {
+            while (node.sibling === null) {
+              if (node.return === null || isHostParent(node.return)) {
+                return null;
               }
-              node.sibling.return = node.return;
-              node = node.sibling;
-              while (node.tag !== HostComponent && node.tag !== HostText && node.tag !== DehydratedFragment) {
-                if (node.flags & Placement) {
-                  continue siblings;
-                }
-                if (node.child === null || node.tag === HostPortal) {
-                  continue siblings;
-                } else {
-                  node.child.return = node;
-                  node = node.child;
-                }
+              node = node.return;
+            }
+            node.sibling.return = node.return;
+            node = node.sibling;
+            while (node.tag !== HostComponent && node.tag !== HostText && node.tag !== DehydratedFragment) {
+              if (node.flags & Placement) {
+                continue siblings;
               }
-              if (!(node.flags & Placement)) {
-                return node.stateNode;
+              if (node.child === null || node.tag === HostPortal) {
+                continue siblings;
+              } else {
+                node.child.return = node;
+                node = node.child;
               }
             }
+            if (!(node.flags & Placement)) {
+              return node.stateNode;
+            }
+          }
         }
         function commitPlacement(finishedWork) {
           var parentFiber = getHostParentFiber(finishedWork);
@@ -19336,6 +19359,7 @@ var require_react_dom_development = __commonJS({
               insertOrAppendPlacementNodeIntoContainer(finishedWork, _before, _parent);
               break;
             }
+            // eslint-disable-next-line-no-fallthrough
             default:
               throw new Error("Invalid host parent fiber. This error is likely caused by a bug in React. Please file an issue.");
           }
@@ -19350,8 +19374,7 @@ var require_react_dom_development = __commonJS({
             } else {
               appendChildToContainer(parent, stateNode);
             }
-          } else if (tag === HostPortal)
-            ;
+          } else if (tag === HostPortal) ;
           else {
             var child = node.child;
             if (child !== null) {
@@ -19374,8 +19397,7 @@ var require_react_dom_development = __commonJS({
             } else {
               appendChild(parent, stateNode);
             }
-          } else if (tag === HostPortal)
-            ;
+          } else if (tag === HostPortal) ;
           else {
             var child = node.child;
             if (child !== null) {
@@ -19393,27 +19415,26 @@ var require_react_dom_development = __commonJS({
         function commitDeletionEffects(root2, returnFiber, deletedFiber) {
           {
             var parent = returnFiber;
-            findParent:
-              while (parent !== null) {
-                switch (parent.tag) {
-                  case HostComponent: {
-                    hostParent = parent.stateNode;
-                    hostParentIsContainer = false;
-                    break findParent;
-                  }
-                  case HostRoot: {
-                    hostParent = parent.stateNode.containerInfo;
-                    hostParentIsContainer = true;
-                    break findParent;
-                  }
-                  case HostPortal: {
-                    hostParent = parent.stateNode.containerInfo;
-                    hostParentIsContainer = true;
-                    break findParent;
-                  }
+            findParent: while (parent !== null) {
+              switch (parent.tag) {
+                case HostComponent: {
+                  hostParent = parent.stateNode;
+                  hostParentIsContainer = false;
+                  break findParent;
                 }
-                parent = parent.return;
+                case HostRoot: {
+                  hostParent = parent.stateNode.containerInfo;
+                  hostParentIsContainer = true;
+                  break findParent;
+                }
+                case HostPortal: {
+                  hostParent = parent.stateNode.containerInfo;
+                  hostParentIsContainer = true;
+                  break findParent;
+                }
               }
+              parent = parent.return;
+            }
             if (hostParent === null) {
               throw new Error("Expected to find a host parent. This error is likely caused by a bug in React. Please file an issue.");
             }
@@ -19438,6 +19459,7 @@ var require_react_dom_development = __commonJS({
                 safelyDetachRef(deletedFiber, nearestMountedAncestor);
               }
             }
+            // eslint-disable-next-line-no-fallthrough
             case HostText: {
               {
                 var prevHostParent = hostParent;
@@ -20699,6 +20721,9 @@ var require_react_dom_development = __commonJS({
             case RootFatalErrored: {
               throw new Error("Root did not complete. This is a bug in React.");
             }
+            // Flow knows about invariant, so it complains if I add a break
+            // statement, but eslint doesn't know about invariant, so it complains
+            // if I do. eslint-disable-next-line no-fallthrough
             case RootErrored: {
               commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
               break;
@@ -22325,67 +22350,71 @@ var require_react_dom_development = __commonJS({
           } else if (typeof type === "string") {
             fiberTag = HostComponent;
           } else {
-            getTag:
-              switch (type) {
-                case REACT_FRAGMENT_TYPE:
-                  return createFiberFromFragment(pendingProps.children, mode, lanes, key);
-                case REACT_STRICT_MODE_TYPE:
-                  fiberTag = Mode;
-                  mode |= StrictLegacyMode;
-                  if ((mode & ConcurrentMode) !== NoMode) {
-                    mode |= StrictEffectsMode;
-                  }
-                  break;
-                case REACT_PROFILER_TYPE:
-                  return createFiberFromProfiler(pendingProps, mode, lanes, key);
-                case REACT_SUSPENSE_TYPE:
-                  return createFiberFromSuspense(pendingProps, mode, lanes, key);
-                case REACT_SUSPENSE_LIST_TYPE:
-                  return createFiberFromSuspenseList(pendingProps, mode, lanes, key);
-                case REACT_OFFSCREEN_TYPE:
-                  return createFiberFromOffscreen(pendingProps, mode, lanes, key);
-                case REACT_LEGACY_HIDDEN_TYPE:
-                case REACT_SCOPE_TYPE:
-                case REACT_CACHE_TYPE:
-                case REACT_TRACING_MARKER_TYPE:
-                case REACT_DEBUG_TRACING_MODE_TYPE:
-                default: {
-                  if (typeof type === "object" && type !== null) {
-                    switch (type.$$typeof) {
-                      case REACT_PROVIDER_TYPE:
-                        fiberTag = ContextProvider;
-                        break getTag;
-                      case REACT_CONTEXT_TYPE:
-                        fiberTag = ContextConsumer;
-                        break getTag;
-                      case REACT_FORWARD_REF_TYPE:
-                        fiberTag = ForwardRef;
-                        {
-                          resolvedType = resolveForwardRefForHotReloading(resolvedType);
-                        }
-                        break getTag;
-                      case REACT_MEMO_TYPE:
-                        fiberTag = MemoComponent;
-                        break getTag;
-                      case REACT_LAZY_TYPE:
-                        fiberTag = LazyComponent;
-                        resolvedType = null;
-                        break getTag;
-                    }
-                  }
-                  var info = "";
-                  {
-                    if (type === void 0 || typeof type === "object" && type !== null && Object.keys(type).length === 0) {
-                      info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.";
-                    }
-                    var ownerName = owner ? getComponentNameFromFiber(owner) : null;
-                    if (ownerName) {
-                      info += "\n\nCheck the render method of `" + ownerName + "`.";
-                    }
-                  }
-                  throw new Error("Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) " + ("but got: " + (type == null ? type : typeof type) + "." + info));
+            getTag: switch (type) {
+              case REACT_FRAGMENT_TYPE:
+                return createFiberFromFragment(pendingProps.children, mode, lanes, key);
+              case REACT_STRICT_MODE_TYPE:
+                fiberTag = Mode;
+                mode |= StrictLegacyMode;
+                if ((mode & ConcurrentMode) !== NoMode) {
+                  mode |= StrictEffectsMode;
                 }
+                break;
+              case REACT_PROFILER_TYPE:
+                return createFiberFromProfiler(pendingProps, mode, lanes, key);
+              case REACT_SUSPENSE_TYPE:
+                return createFiberFromSuspense(pendingProps, mode, lanes, key);
+              case REACT_SUSPENSE_LIST_TYPE:
+                return createFiberFromSuspenseList(pendingProps, mode, lanes, key);
+              case REACT_OFFSCREEN_TYPE:
+                return createFiberFromOffscreen(pendingProps, mode, lanes, key);
+              case REACT_LEGACY_HIDDEN_TYPE:
+              // eslint-disable-next-line no-fallthrough
+              case REACT_SCOPE_TYPE:
+              // eslint-disable-next-line no-fallthrough
+              case REACT_CACHE_TYPE:
+              // eslint-disable-next-line no-fallthrough
+              case REACT_TRACING_MARKER_TYPE:
+              // eslint-disable-next-line no-fallthrough
+              case REACT_DEBUG_TRACING_MODE_TYPE:
+              // eslint-disable-next-line no-fallthrough
+              default: {
+                if (typeof type === "object" && type !== null) {
+                  switch (type.$$typeof) {
+                    case REACT_PROVIDER_TYPE:
+                      fiberTag = ContextProvider;
+                      break getTag;
+                    case REACT_CONTEXT_TYPE:
+                      fiberTag = ContextConsumer;
+                      break getTag;
+                    case REACT_FORWARD_REF_TYPE:
+                      fiberTag = ForwardRef;
+                      {
+                        resolvedType = resolveForwardRefForHotReloading(resolvedType);
+                      }
+                      break getTag;
+                    case REACT_MEMO_TYPE:
+                      fiberTag = MemoComponent;
+                      break getTag;
+                    case REACT_LAZY_TYPE:
+                      fiberTag = LazyComponent;
+                      resolvedType = null;
+                      break getTag;
+                  }
+                }
+                var info = "";
+                {
+                  if (type === void 0 || typeof type === "object" && type !== null && Object.keys(type).length === 0) {
+                    info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.";
+                  }
+                  var ownerName = owner ? getComponentNameFromFiber(owner) : null;
+                  if (ownerName) {
+                    info += "\n\nCheck the render method of `" + ownerName + "`.";
+                  }
+                }
+                throw new Error("Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) " + ("but got: " + (type == null ? type : typeof type) + "." + info));
               }
+            }
           }
           var fiber = createFiber(fiberTag, pendingProps, key, mode);
           fiber.elementType = type;
@@ -22412,7 +22441,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment2, elements, key, mode);
+          var fiber = createFiber(Fragment, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23561,3043 +23590,1413 @@ var require_client = __commonJS({
   }
 });
 
+// node_modules/atoa/atoa.js
+var require_atoa = __commonJS({
+  "node_modules/atoa/atoa.js"(exports, module2) {
+    module2.exports = function atoa(a, n) {
+      return Array.prototype.slice.call(a, n);
+    };
+  }
+});
+
+// node_modules/ticky/ticky-browser.js
+var require_ticky_browser = __commonJS({
+  "node_modules/ticky/ticky-browser.js"(exports, module2) {
+    var si = typeof setImmediate === "function";
+    var tick;
+    if (si) {
+      tick = function(fn) {
+        setImmediate(fn);
+      };
+    } else {
+      tick = function(fn) {
+        setTimeout(fn, 0);
+      };
+    }
+    module2.exports = tick;
+  }
+});
+
+// node_modules/contra/debounce.js
+var require_debounce = __commonJS({
+  "node_modules/contra/debounce.js"(exports, module2) {
+    "use strict";
+    var ticky = require_ticky_browser();
+    module2.exports = function debounce(fn, args, ctx) {
+      if (!fn) {
+        return;
+      }
+      ticky(function run() {
+        fn.apply(ctx || null, args || []);
+      });
+    };
+  }
+});
+
+// node_modules/contra/emitter.js
+var require_emitter = __commonJS({
+  "node_modules/contra/emitter.js"(exports, module2) {
+    "use strict";
+    var atoa = require_atoa();
+    var debounce = require_debounce();
+    module2.exports = function emitter(thing, options) {
+      var opts = options || {};
+      var evt = {};
+      if (thing === void 0) {
+        thing = {};
+      }
+      thing.on = function(type, fn) {
+        if (!evt[type]) {
+          evt[type] = [fn];
+        } else {
+          evt[type].push(fn);
+        }
+        return thing;
+      };
+      thing.once = function(type, fn) {
+        fn._once = true;
+        thing.on(type, fn);
+        return thing;
+      };
+      thing.off = function(type, fn) {
+        var c = arguments.length;
+        if (c === 1) {
+          delete evt[type];
+        } else if (c === 0) {
+          evt = {};
+        } else {
+          var et = evt[type];
+          if (!et) {
+            return thing;
+          }
+          et.splice(et.indexOf(fn), 1);
+        }
+        return thing;
+      };
+      thing.emit = function() {
+        var args = atoa(arguments);
+        return thing.emitterSnapshot(args.shift()).apply(this, args);
+      };
+      thing.emitterSnapshot = function(type) {
+        var et = (evt[type] || []).slice(0);
+        return function() {
+          var args = atoa(arguments);
+          var ctx = this || thing;
+          if (type === "error" && opts.throws !== false && !et.length) {
+            throw args.length === 1 ? args[0] : args;
+          }
+          et.forEach(function emitter2(listen) {
+            if (opts.async) {
+              debounce(listen, args, ctx);
+            } else {
+              listen.apply(ctx, args);
+            }
+            if (listen._once) {
+              thing.off(type, listen);
+            }
+          });
+          return thing;
+        };
+      };
+      return thing;
+    };
+  }
+});
+
+// node_modules/custom-event/index.js
+var require_custom_event = __commonJS({
+  "node_modules/custom-event/index.js"(exports, module2) {
+    var NativeCustomEvent = global.CustomEvent;
+    function useNative() {
+      try {
+        var p = new NativeCustomEvent("cat", { detail: { foo: "bar" } });
+        return "cat" === p.type && "bar" === p.detail.foo;
+      } catch (e) {
+      }
+      return false;
+    }
+    module2.exports = useNative() ? NativeCustomEvent : (
+      // IE >= 9
+      "undefined" !== typeof document && "function" === typeof document.createEvent ? function CustomEvent(type, params) {
+        var e = document.createEvent("CustomEvent");
+        if (params) {
+          e.initCustomEvent(type, params.bubbles, params.cancelable, params.detail);
+        } else {
+          e.initCustomEvent(type, false, false, void 0);
+        }
+        return e;
+      } : (
+        // IE <= 8
+        function CustomEvent(type, params) {
+          var e = document.createEventObject();
+          e.type = type;
+          if (params) {
+            e.bubbles = Boolean(params.bubbles);
+            e.cancelable = Boolean(params.cancelable);
+            e.detail = params.detail;
+          } else {
+            e.bubbles = false;
+            e.cancelable = false;
+            e.detail = void 0;
+          }
+          return e;
+        }
+      )
+    );
+  }
+});
+
+// node_modules/crossvent/src/eventmap.js
+var require_eventmap = __commonJS({
+  "node_modules/crossvent/src/eventmap.js"(exports, module2) {
+    "use strict";
+    var eventmap = [];
+    var eventname = "";
+    var ron = /^on/;
+    for (eventname in global) {
+      if (ron.test(eventname)) {
+        eventmap.push(eventname.slice(2));
+      }
+    }
+    module2.exports = eventmap;
+  }
+});
+
+// node_modules/crossvent/src/crossvent.js
+var require_crossvent = __commonJS({
+  "node_modules/crossvent/src/crossvent.js"(exports, module2) {
+    "use strict";
+    var customEvent = require_custom_event();
+    var eventmap = require_eventmap();
+    var doc = global.document;
+    var addEvent = addEventEasy;
+    var removeEvent = removeEventEasy;
+    var hardCache = [];
+    if (!global.addEventListener) {
+      addEvent = addEventHard;
+      removeEvent = removeEventHard;
+    }
+    module2.exports = {
+      add: addEvent,
+      remove: removeEvent,
+      fabricate: fabricateEvent
+    };
+    function addEventEasy(el, type, fn, capturing) {
+      return el.addEventListener(type, fn, capturing);
+    }
+    function addEventHard(el, type, fn) {
+      return el.attachEvent("on" + type, wrap(el, type, fn));
+    }
+    function removeEventEasy(el, type, fn, capturing) {
+      return el.removeEventListener(type, fn, capturing);
+    }
+    function removeEventHard(el, type, fn) {
+      var listener = unwrap(el, type, fn);
+      if (listener) {
+        return el.detachEvent("on" + type, listener);
+      }
+    }
+    function fabricateEvent(el, type, model) {
+      var e = eventmap.indexOf(type) === -1 ? makeCustomEvent() : makeClassicEvent();
+      if (el.dispatchEvent) {
+        el.dispatchEvent(e);
+      } else {
+        el.fireEvent("on" + type, e);
+      }
+      function makeClassicEvent() {
+        var e2;
+        if (doc.createEvent) {
+          e2 = doc.createEvent("Event");
+          e2.initEvent(type, true, true);
+        } else if (doc.createEventObject) {
+          e2 = doc.createEventObject();
+        }
+        return e2;
+      }
+      function makeCustomEvent() {
+        return new customEvent(type, { detail: model });
+      }
+    }
+    function wrapperFactory(el, type, fn) {
+      return function wrapper(originalEvent) {
+        var e = originalEvent || global.event;
+        e.target = e.target || e.srcElement;
+        e.preventDefault = e.preventDefault || function preventDefault() {
+          e.returnValue = false;
+        };
+        e.stopPropagation = e.stopPropagation || function stopPropagation() {
+          e.cancelBubble = true;
+        };
+        e.which = e.which || e.keyCode;
+        fn.call(el, e);
+      };
+    }
+    function wrap(el, type, fn) {
+      var wrapper = unwrap(el, type, fn) || wrapperFactory(el, type, fn);
+      hardCache.push({
+        wrapper,
+        element: el,
+        type,
+        fn
+      });
+      return wrapper;
+    }
+    function unwrap(el, type, fn) {
+      var i = find(el, type, fn);
+      if (i) {
+        var wrapper = hardCache[i].wrapper;
+        hardCache.splice(i, 1);
+        return wrapper;
+      }
+    }
+    function find(el, type, fn) {
+      var i, item;
+      for (i = 0; i < hardCache.length; i++) {
+        item = hardCache[i];
+        if (item.element === el && item.type === type && item.fn === fn) {
+          return i;
+        }
+      }
+    }
+  }
+});
+
+// node_modules/dragula/classes.js
+var require_classes = __commonJS({
+  "node_modules/dragula/classes.js"(exports, module2) {
+    "use strict";
+    var cache = {};
+    var start = "(?:^|\\s)";
+    var end = "(?:\\s|$)";
+    function lookupClass(className) {
+      var cached = cache[className];
+      if (cached) {
+        cached.lastIndex = 0;
+      } else {
+        cache[className] = cached = new RegExp(start + className + end, "g");
+      }
+      return cached;
+    }
+    function addClass(el, className) {
+      var current = el.className;
+      if (!current.length) {
+        el.className = className;
+      } else if (!lookupClass(className).test(current)) {
+        el.className += " " + className;
+      }
+    }
+    function rmClass(el, className) {
+      el.className = el.className.replace(lookupClass(className), " ").trim();
+    }
+    module2.exports = {
+      add: addClass,
+      rm: rmClass
+    };
+  }
+});
+
+// node_modules/dragula/dragula.js
+var require_dragula = __commonJS({
+  "node_modules/dragula/dragula.js"(exports, module2) {
+    "use strict";
+    var emitter = require_emitter();
+    var crossvent = require_crossvent();
+    var classes = require_classes();
+    var doc = document;
+    var documentElement = doc.documentElement;
+    function dragula(initialContainers, options) {
+      var len = arguments.length;
+      if (len === 1 && Array.isArray(initialContainers) === false) {
+        options = initialContainers;
+        initialContainers = [];
+      }
+      var _mirror;
+      var _source;
+      var _item;
+      var _offsetX;
+      var _offsetY;
+      var _moveX;
+      var _moveY;
+      var _initialSibling;
+      var _currentSibling;
+      var _copy;
+      var _renderTimer;
+      var _lastDropTarget = null;
+      var _grabbed;
+      var o = options || {};
+      if (o.moves === void 0) {
+        o.moves = always;
+      }
+      if (o.accepts === void 0) {
+        o.accepts = always;
+      }
+      if (o.invalid === void 0) {
+        o.invalid = invalidTarget;
+      }
+      if (o.containers === void 0) {
+        o.containers = initialContainers || [];
+      }
+      if (o.isContainer === void 0) {
+        o.isContainer = never;
+      }
+      if (o.copy === void 0) {
+        o.copy = false;
+      }
+      if (o.copySortSource === void 0) {
+        o.copySortSource = false;
+      }
+      if (o.revertOnSpill === void 0) {
+        o.revertOnSpill = false;
+      }
+      if (o.removeOnSpill === void 0) {
+        o.removeOnSpill = false;
+      }
+      if (o.direction === void 0) {
+        o.direction = "vertical";
+      }
+      if (o.ignoreInputTextSelection === void 0) {
+        o.ignoreInputTextSelection = true;
+      }
+      if (o.mirrorContainer === void 0) {
+        o.mirrorContainer = doc.body;
+      }
+      var drake = emitter({
+        containers: o.containers,
+        start: manualStart,
+        end,
+        cancel,
+        remove,
+        destroy,
+        canMove,
+        dragging: false
+      });
+      if (o.removeOnSpill === true) {
+        drake.on("over", spillOver).on("out", spillOut);
+      }
+      events();
+      return drake;
+      function isContainer(el) {
+        return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
+      }
+      function events(remove2) {
+        var op = remove2 ? "remove" : "add";
+        touchy(documentElement, op, "mousedown", grab);
+        touchy(documentElement, op, "mouseup", release);
+      }
+      function eventualMovements(remove2) {
+        var op = remove2 ? "remove" : "add";
+        touchy(documentElement, op, "mousemove", startBecauseMouseMoved);
+      }
+      function movements(remove2) {
+        var op = remove2 ? "remove" : "add";
+        crossvent[op](documentElement, "selectstart", preventGrabbed);
+        crossvent[op](documentElement, "click", preventGrabbed);
+      }
+      function destroy() {
+        events(true);
+        release({});
+      }
+      function preventGrabbed(e) {
+        if (_grabbed) {
+          e.preventDefault();
+        }
+      }
+      function grab(e) {
+        _moveX = e.clientX;
+        _moveY = e.clientY;
+        var ignore = whichMouseButton(e) !== 1 || e.metaKey || e.ctrlKey;
+        if (ignore) {
+          return;
+        }
+        var item = e.target;
+        var context = canStart(item);
+        if (!context) {
+          return;
+        }
+        _grabbed = context;
+        eventualMovements();
+        if (e.type === "mousedown") {
+          if (isInput(item)) {
+            item.focus();
+          } else {
+            e.preventDefault();
+          }
+        }
+      }
+      function startBecauseMouseMoved(e) {
+        if (!_grabbed) {
+          return;
+        }
+        if (whichMouseButton(e) === 0) {
+          release({});
+          return;
+        }
+        if (e.clientX !== void 0 && Math.abs(e.clientX - _moveX) <= (o.slideFactorX || 0) && (e.clientY !== void 0 && Math.abs(e.clientY - _moveY) <= (o.slideFactorY || 0))) {
+          return;
+        }
+        if (o.ignoreInputTextSelection) {
+          var clientX = getCoord("clientX", e) || 0;
+          var clientY = getCoord("clientY", e) || 0;
+          var elementBehindCursor = doc.elementFromPoint(clientX, clientY);
+          if (isInput(elementBehindCursor)) {
+            return;
+          }
+        }
+        var grabbed = _grabbed;
+        eventualMovements(true);
+        movements();
+        end();
+        start(grabbed);
+        var offset = getOffset(_item);
+        _offsetX = getCoord("pageX", e) - offset.left;
+        _offsetY = getCoord("pageY", e) - offset.top;
+        classes.add(_copy || _item, "gu-transit");
+        renderMirrorImage();
+        drag(e);
+      }
+      function canStart(item) {
+        if (drake.dragging && _mirror) {
+          return;
+        }
+        if (isContainer(item)) {
+          return;
+        }
+        var handle = item;
+        while (getParent(item) && isContainer(getParent(item)) === false) {
+          if (o.invalid(item, handle)) {
+            return;
+          }
+          item = getParent(item);
+          if (!item) {
+            return;
+          }
+        }
+        var source = getParent(item);
+        if (!source) {
+          return;
+        }
+        if (o.invalid(item, handle)) {
+          return;
+        }
+        var movable = o.moves(item, source, handle, nextEl(item));
+        if (!movable) {
+          return;
+        }
+        return {
+          item,
+          source
+        };
+      }
+      function canMove(item) {
+        return !!canStart(item);
+      }
+      function manualStart(item) {
+        var context = canStart(item);
+        if (context) {
+          start(context);
+        }
+      }
+      function start(context) {
+        if (isCopy(context.item, context.source)) {
+          _copy = context.item.cloneNode(true);
+          drake.emit("cloned", _copy, context.item, "copy");
+        }
+        _source = context.source;
+        _item = context.item;
+        _initialSibling = _currentSibling = nextEl(context.item);
+        drake.dragging = true;
+        drake.emit("drag", _item, _source);
+      }
+      function invalidTarget() {
+        return false;
+      }
+      function end() {
+        if (!drake.dragging) {
+          return;
+        }
+        var item = _copy || _item;
+        drop(item, getParent(item));
+      }
+      function ungrab() {
+        _grabbed = false;
+        eventualMovements(true);
+        movements(true);
+      }
+      function release(e) {
+        ungrab();
+        if (!drake.dragging) {
+          return;
+        }
+        var item = _copy || _item;
+        var clientX = getCoord("clientX", e) || 0;
+        var clientY = getCoord("clientY", e) || 0;
+        var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+        var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
+        if (dropTarget && (_copy && o.copySortSource || (!_copy || dropTarget !== _source))) {
+          drop(item, dropTarget);
+        } else if (o.removeOnSpill) {
+          remove();
+        } else {
+          cancel();
+        }
+      }
+      function drop(item, target) {
+        var parent = getParent(item);
+        if (_copy && o.copySortSource && target === _source) {
+          parent.removeChild(_item);
+        }
+        if (isInitialPlacement(target)) {
+          drake.emit("cancel", item, _source, _source);
+        } else {
+          drake.emit("drop", item, target, _source, _currentSibling);
+        }
+        cleanup();
+      }
+      function remove() {
+        if (!drake.dragging) {
+          return;
+        }
+        var item = _copy || _item;
+        var parent = getParent(item);
+        if (parent) {
+          parent.removeChild(item);
+        }
+        drake.emit(_copy ? "cancel" : "remove", item, parent, _source);
+        cleanup();
+      }
+      function cancel(revert) {
+        if (!drake.dragging) {
+          return;
+        }
+        var reverts = arguments.length > 0 ? revert : o.revertOnSpill;
+        var item = _copy || _item;
+        var parent = getParent(item);
+        var initial = isInitialPlacement(parent);
+        if (initial === false && reverts) {
+          if (_copy) {
+            if (parent) {
+              parent.removeChild(_copy);
+            }
+          } else {
+            _source.insertBefore(item, _initialSibling);
+          }
+        }
+        if (initial || reverts) {
+          drake.emit("cancel", item, _source, _source);
+        } else {
+          drake.emit("drop", item, parent, _source, _currentSibling);
+        }
+        cleanup();
+      }
+      function cleanup() {
+        var item = _copy || _item;
+        ungrab();
+        removeMirrorImage();
+        if (item) {
+          classes.rm(item, "gu-transit");
+        }
+        if (_renderTimer) {
+          clearTimeout(_renderTimer);
+        }
+        drake.dragging = false;
+        if (_lastDropTarget) {
+          drake.emit("out", item, _lastDropTarget, _source);
+        }
+        drake.emit("dragend", item);
+        _source = _item = _copy = _initialSibling = _currentSibling = _renderTimer = _lastDropTarget = null;
+      }
+      function isInitialPlacement(target, s) {
+        var sibling;
+        if (s !== void 0) {
+          sibling = s;
+        } else if (_mirror) {
+          sibling = _currentSibling;
+        } else {
+          sibling = nextEl(_copy || _item);
+        }
+        return target === _source && sibling === _initialSibling;
+      }
+      function findDropTarget(elementBehindCursor, clientX, clientY) {
+        var target = elementBehindCursor;
+        while (target && !accepted()) {
+          target = getParent(target);
+        }
+        return target;
+        function accepted() {
+          var droppable = isContainer(target);
+          if (droppable === false) {
+            return false;
+          }
+          var immediate = getImmediateChild(target, elementBehindCursor);
+          var reference = getReference(target, immediate, clientX, clientY);
+          var initial = isInitialPlacement(target, reference);
+          if (initial) {
+            return true;
+          }
+          return o.accepts(_item, target, _source, reference);
+        }
+      }
+      function drag(e) {
+        if (!_mirror) {
+          return;
+        }
+        e.preventDefault();
+        var clientX = getCoord("clientX", e) || 0;
+        var clientY = getCoord("clientY", e) || 0;
+        var x = clientX - _offsetX;
+        var y = clientY - _offsetY;
+        _mirror.style.left = x + "px";
+        _mirror.style.top = y + "px";
+        var item = _copy || _item;
+        var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+        var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
+        var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
+        if (changed || dropTarget === null) {
+          out();
+          _lastDropTarget = dropTarget;
+          over();
+        }
+        var parent = getParent(item);
+        if (dropTarget === _source && _copy && !o.copySortSource) {
+          if (parent) {
+            parent.removeChild(item);
+          }
+          return;
+        }
+        var reference;
+        var immediate = getImmediateChild(dropTarget, elementBehindCursor);
+        if (immediate !== null) {
+          reference = getReference(dropTarget, immediate, clientX, clientY);
+        } else if (o.revertOnSpill === true && !_copy) {
+          reference = _initialSibling;
+          dropTarget = _source;
+        } else {
+          if (_copy && parent) {
+            parent.removeChild(item);
+          }
+          return;
+        }
+        if (reference === null && changed || reference !== item && reference !== nextEl(item)) {
+          _currentSibling = reference;
+          dropTarget.insertBefore(item, reference);
+          drake.emit("shadow", item, dropTarget, _source);
+        }
+        function moved(type) {
+          drake.emit(type, item, _lastDropTarget, _source);
+        }
+        function over() {
+          if (changed) {
+            moved("over");
+          }
+        }
+        function out() {
+          if (_lastDropTarget) {
+            moved("out");
+          }
+        }
+      }
+      function spillOver(el) {
+        classes.rm(el, "gu-hide");
+      }
+      function spillOut(el) {
+        if (drake.dragging) {
+          classes.add(el, "gu-hide");
+        }
+      }
+      function renderMirrorImage() {
+        if (_mirror) {
+          return;
+        }
+        var rect = _item.getBoundingClientRect();
+        _mirror = _item.cloneNode(true);
+        _mirror.style.width = getRectWidth(rect) + "px";
+        _mirror.style.height = getRectHeight(rect) + "px";
+        classes.rm(_mirror, "gu-transit");
+        classes.add(_mirror, "gu-mirror");
+        o.mirrorContainer.appendChild(_mirror);
+        touchy(documentElement, "add", "mousemove", drag);
+        classes.add(o.mirrorContainer, "gu-unselectable");
+        drake.emit("cloned", _mirror, _item, "mirror");
+      }
+      function removeMirrorImage() {
+        if (_mirror) {
+          classes.rm(o.mirrorContainer, "gu-unselectable");
+          touchy(documentElement, "remove", "mousemove", drag);
+          getParent(_mirror).removeChild(_mirror);
+          _mirror = null;
+        }
+      }
+      function getImmediateChild(dropTarget, target) {
+        var immediate = target;
+        while (immediate !== dropTarget && getParent(immediate) !== dropTarget) {
+          immediate = getParent(immediate);
+        }
+        if (immediate === documentElement) {
+          return null;
+        }
+        return immediate;
+      }
+      function getReference(dropTarget, target, x, y) {
+        var horizontal = o.direction === "horizontal";
+        var reference = target !== dropTarget ? inside() : outside();
+        return reference;
+        function outside() {
+          var len2 = dropTarget.children.length;
+          var i;
+          var el;
+          var rect;
+          for (i = 0; i < len2; i++) {
+            el = dropTarget.children[i];
+            rect = el.getBoundingClientRect();
+            if (horizontal && rect.left + rect.width / 2 > x) {
+              return el;
+            }
+            if (!horizontal && rect.top + rect.height / 2 > y) {
+              return el;
+            }
+          }
+          return null;
+        }
+        function inside() {
+          var rect = target.getBoundingClientRect();
+          if (horizontal) {
+            return resolve(x > rect.left + getRectWidth(rect) / 2);
+          }
+          return resolve(y > rect.top + getRectHeight(rect) / 2);
+        }
+        function resolve(after) {
+          return after ? nextEl(target) : target;
+        }
+      }
+      function isCopy(item, container) {
+        return typeof o.copy === "boolean" ? o.copy : o.copy(item, container);
+      }
+    }
+    function touchy(el, op, type, fn) {
+      var touch = {
+        mouseup: "touchend",
+        mousedown: "touchstart",
+        mousemove: "touchmove"
+      };
+      var pointers = {
+        mouseup: "pointerup",
+        mousedown: "pointerdown",
+        mousemove: "pointermove"
+      };
+      var microsoft = {
+        mouseup: "MSPointerUp",
+        mousedown: "MSPointerDown",
+        mousemove: "MSPointerMove"
+      };
+      if (global.navigator.pointerEnabled) {
+        crossvent[op](el, pointers[type], fn);
+      } else if (global.navigator.msPointerEnabled) {
+        crossvent[op](el, microsoft[type], fn);
+      } else {
+        crossvent[op](el, touch[type], fn);
+        crossvent[op](el, type, fn);
+      }
+    }
+    function whichMouseButton(e) {
+      if (e.touches !== void 0) {
+        return e.touches.length;
+      }
+      if (e.which !== void 0 && e.which !== 0) {
+        return e.which;
+      }
+      if (e.buttons !== void 0) {
+        return e.buttons;
+      }
+      var button = e.button;
+      if (button !== void 0) {
+        return button & 1 ? 1 : button & 2 ? 3 : button & 4 ? 2 : 0;
+      }
+    }
+    function getOffset(el) {
+      var rect = el.getBoundingClientRect();
+      return {
+        left: rect.left + getScroll("scrollLeft", "pageXOffset"),
+        top: rect.top + getScroll("scrollTop", "pageYOffset")
+      };
+    }
+    function getScroll(scrollProp, offsetProp) {
+      if (typeof global[offsetProp] !== "undefined") {
+        return global[offsetProp];
+      }
+      if (documentElement.clientHeight) {
+        return documentElement[scrollProp];
+      }
+      return doc.body[scrollProp];
+    }
+    function getElementBehindPoint(point, x, y) {
+      point = point || {};
+      var state = point.className || "";
+      var el;
+      point.className += " gu-hide";
+      el = doc.elementFromPoint(x, y);
+      point.className = state;
+      return el;
+    }
+    function never() {
+      return false;
+    }
+    function always() {
+      return true;
+    }
+    function getRectWidth(rect) {
+      return rect.width || rect.right - rect.left;
+    }
+    function getRectHeight(rect) {
+      return rect.height || rect.bottom - rect.top;
+    }
+    function getParent(el) {
+      return el.parentNode === doc ? null : el.parentNode;
+    }
+    function isInput(el) {
+      return el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || isEditable(el);
+    }
+    function isEditable(el) {
+      if (!el) {
+        return false;
+      }
+      if (el.contentEditable === "false") {
+        return false;
+      }
+      if (el.contentEditable === "true") {
+        return true;
+      }
+      return isEditable(getParent(el));
+    }
+    function nextEl(el) {
+      return el.nextElementSibling || manually();
+      function manually() {
+        var sibling = el;
+        do {
+          sibling = sibling.nextSibling;
+        } while (sibling && sibling.nodeType !== 1);
+        return sibling;
+      }
+    }
+    function getEventHost(e) {
+      if (e.targetTouches && e.targetTouches.length) {
+        return e.targetTouches[0];
+      }
+      if (e.changedTouches && e.changedTouches.length) {
+        return e.changedTouches[0];
+      }
+      return e;
+    }
+    function getCoord(coord, e) {
+      var host = getEventHost(e);
+      var missMap = {
+        pageX: "clientX",
+        // IE8
+        pageY: "clientY"
+        // IE8
+      };
+      if (coord in missMap && !(coord in host) && missMap[coord] in host) {
+        coord = missMap[coord];
+      }
+      return host[coord];
+    }
+    module2.exports = dragula;
+  }
+});
+
+// node_modules/jkanban/jkanban.js
+var require_jkanban = __commonJS({
+  "node_modules/jkanban/jkanban.js"() {
+    var dragula = require_dragula();
+    (function() {
+      this.jKanban = function() {
+        var self = this;
+        var __DEFAULT_ITEM_HANDLE_OPTIONS = {
+          enabled: false
+        };
+        var __DEFAULT_ITEM_ADD_OPTIONS = {
+          enabled: false
+        };
+        this._disallowedItemProperties = [
+          "id",
+          "title",
+          "click",
+          "drag",
+          "dragend",
+          "drop",
+          "order"
+        ];
+        this.element = "";
+        this.container = "";
+        this.boardContainer = [];
+        this.handlers = [];
+        this.dragula = dragula;
+        this.drake = "";
+        this.drakeBoard = "";
+        this.itemAddOptions = __DEFAULT_ITEM_ADD_OPTIONS;
+        this.itemHandleOptions = __DEFAULT_ITEM_HANDLE_OPTIONS;
+        var defaults = {
+          element: "",
+          gutter: "15px",
+          widthBoard: "250px",
+          responsive: "700",
+          responsivePercentage: false,
+          boards: [],
+          dragBoards: true,
+          dragItems: true,
+          //whether can drag cards or not, useful when set permissions on it.
+          itemAddOptions: __DEFAULT_ITEM_ADD_OPTIONS,
+          itemHandleOptions: __DEFAULT_ITEM_HANDLE_OPTIONS,
+          dragEl: function(el, source) {
+          },
+          dragendEl: function(el) {
+          },
+          dropEl: function(el, target, source, sibling) {
+          },
+          dragBoard: function(el, source) {
+          },
+          dragendBoard: function(el) {
+          },
+          dropBoard: function(el, target, source, sibling) {
+          },
+          click: function(el) {
+          },
+          buttonClick: function(el, boardId) {
+          }
+        };
+        if (arguments[0] && typeof arguments[0] === "object") {
+          this.options = __extendDefaults(defaults, arguments[0]);
+        }
+        this.__getCanMove = function(handle) {
+          if (!self.options.itemHandleOptions.enabled) {
+            return !!self.options.dragItems;
+          }
+          if (self.options.itemHandleOptions.handleClass) {
+            return handle.classList.contains(self.options.itemHandleOptions.handleClass);
+          }
+          return handle.classList.contains("item_handle");
+        };
+        this.init = function() {
+          __setBoard();
+          if (window.innerWidth > self.options.responsive) {
+            self.drakeBoard = self.dragula([self.container], {
+              moves: function(el, source, handle, sibling) {
+                if (!self.options.dragBoards) return false;
+                return handle.classList.contains("kanban-board-header") || handle.classList.contains("kanban-title-board");
+              },
+              accepts: function(el, target, source, sibling) {
+                return target.classList.contains("kanban-container");
+              },
+              revertOnSpill: true,
+              direction: "horizontal"
+            }).on("drag", function(el, source) {
+              el.classList.add("is-moving");
+              self.options.dragBoard(el, source);
+              if (typeof el.dragfn === "function") el.dragfn(el, source);
+            }).on("dragend", function(el) {
+              __updateBoardsOrder();
+              el.classList.remove("is-moving");
+              self.options.dragendBoard(el);
+              if (typeof el.dragendfn === "function") el.dragendfn(el);
+            }).on("drop", function(el, target, source, sibling) {
+              el.classList.remove("is-moving");
+              self.options.dropBoard(el, target, source, sibling);
+              if (typeof el.dropfn === "function")
+                el.dropfn(el, target, source, sibling);
+            });
+            self.drake = self.dragula(self.boardContainer, {
+              moves: function(el, source, handle, sibling) {
+                return self.__getCanMove(handle);
+              },
+              revertOnSpill: true
+            }).on("cancel", function(el, container, source) {
+              self.enableAllBoards();
+            }).on("drag", function(el, source) {
+              var elClass = el.getAttribute("class");
+              if (elClass !== "" && elClass.indexOf("not-draggable") > -1) {
+                self.drake.cancel(true);
+                return;
+              }
+              el.classList.add("is-moving");
+              self.options.dragEl(el, source);
+              var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
+              if (boardJSON.dragTo !== void 0) {
+                self.options.boards.map(function(board) {
+                  if (boardJSON.dragTo.indexOf(board.id) === -1 && board.id !== source.parentNode.dataset.id) {
+                    self.findBoard(board.id).classList.add("disabled-board");
+                  }
+                });
+              }
+              if (el !== null && typeof el.dragfn === "function")
+                el.dragfn(el, source);
+            }).on("dragend", function(el) {
+              self.options.dragendEl(el);
+              if (el !== null && typeof el.dragendfn === "function")
+                el.dragendfn(el);
+            }).on("drop", function(el, target, source, sibling) {
+              self.enableAllBoards();
+              var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
+              if (boardJSON.dragTo !== void 0) {
+                if (boardJSON.dragTo.indexOf(target.parentNode.dataset.id) === -1 && target.parentNode.dataset.id !== source.parentNode.dataset.id) {
+                  self.drake.cancel(true);
+                }
+              }
+              if (el !== null) {
+                var result = self.options.dropEl(el, target, source, sibling);
+                if (result === false) {
+                  self.drake.cancel(true);
+                }
+                el.classList.remove("is-moving");
+                if (typeof el.dropfn === "function")
+                  el.dropfn(el, target, source, sibling);
+              }
+            });
+          }
+        };
+        this.enableAllBoards = function() {
+          var allB = document.querySelectorAll(".kanban-board");
+          if (allB.length > 0 && allB !== void 0) {
+            for (var i = 0; i < allB.length; i++) {
+              allB[i].classList.remove("disabled-board");
+            }
+          }
+        };
+        this.addElement = function(boardID, element) {
+          var board = self.element.querySelector(
+            '[data-id="' + boardID + '"] .kanban-drag'
+          );
+          var nodeItem = document.createElement("div");
+          nodeItem.classList.add("kanban-item");
+          if (typeof element.id !== "undefined" && element.id !== "") {
+            nodeItem.setAttribute("data-eid", element.id);
+          }
+          if (element.class && Array.isArray(element.class)) {
+            element.class.forEach(function(cl) {
+              nodeItem.classList.add(cl);
+            });
+          }
+          nodeItem.innerHTML = __buildItemTitle(element.title);
+          nodeItem.clickfn = element.click;
+          nodeItem.dragfn = element.drag;
+          nodeItem.dragendfn = element.dragend;
+          nodeItem.dropfn = element.drop;
+          __appendCustomProperties(nodeItem, element);
+          __onclickHandler(nodeItem);
+          if (self.options.itemHandleOptions.enabled) {
+            nodeItem.style.cursor = "default";
+          }
+          board.appendChild(nodeItem);
+          return self;
+        };
+        this.addForm = function(boardID, formItem) {
+          var board = self.element.querySelector(
+            '[data-id="' + boardID + '"] .kanban-drag'
+          );
+          var _attribute = formItem.getAttribute("class");
+          formItem.setAttribute("class", _attribute + " not-draggable");
+          board.appendChild(formItem);
+          return self;
+        };
+        this.addBoards = function(boards, isInit) {
+          if (self.options.responsivePercentage) {
+            self.container.style.width = "100%";
+            self.options.gutter = "1%";
+            if (window.innerWidth > self.options.responsive) {
+              var boardWidth = (100 - boards.length * 2) / boards.length;
+            } else {
+              var boardWidth = 100 - boards.length * 2;
+            }
+          } else {
+            var boardWidth = self.options.widthBoard;
+          }
+          var addButton = self.options.itemAddOptions.enabled;
+          var buttonContent = self.options.itemAddOptions.content;
+          var buttonClass = self.options.itemAddOptions.class;
+          var buttonFooter = self.options.itemAddOptions.footer;
+          for (var boardkey in boards) {
+            var board = boards[boardkey];
+            if (!isInit) {
+              self.options.boards.push(board);
+            }
+            if (!self.options.responsivePercentage) {
+              if (self.container.style.width === "") {
+                self.container.style.width = parseInt(boardWidth) + parseInt(self.options.gutter) * 2 + "px";
+              } else {
+                self.container.style.width = parseInt(self.container.style.width) + parseInt(boardWidth) + parseInt(self.options.gutter) * 2 + "px";
+              }
+            }
+            var boardNode = document.createElement("div");
+            boardNode.dataset.id = board.id;
+            boardNode.dataset.order = self.container.childNodes.length + 1;
+            boardNode.classList.add("kanban-board");
+            if (self.options.responsivePercentage) {
+              boardNode.style.width = boardWidth + "%";
+            } else {
+              boardNode.style.width = boardWidth;
+            }
+            boardNode.style.marginLeft = self.options.gutter;
+            boardNode.style.marginRight = self.options.gutter;
+            var headerBoard = document.createElement("header");
+            if (board.class !== "" && board.class !== void 0)
+              var allClasses = board.class.split(",");
+            else allClasses = [];
+            headerBoard.classList.add("kanban-board-header");
+            allClasses.map(function(value) {
+              value = value.replace(/^[ ]+/g, "");
+              headerBoard.classList.add(value);
+            });
+            headerBoard.innerHTML = '<div class="kanban-title-board">' + board.title + "</div>";
+            var contentBoard = document.createElement("main");
+            contentBoard.classList.add("kanban-drag");
+            if (board.bodyClass !== "" && board.bodyClass !== void 0)
+              var bodyClasses = board.bodyClass.split(",");
+            else bodyClasses = [];
+            bodyClasses.map(function(value) {
+              contentBoard.classList.add(value);
+            });
+            self.boardContainer.push(contentBoard);
+            for (var itemkey in board.item) {
+              var itemKanban = board.item[itemkey];
+              var nodeItem = document.createElement("div");
+              nodeItem.classList.add("kanban-item");
+              if (itemKanban.id) {
+                nodeItem.dataset.eid = itemKanban.id;
+              }
+              if (itemKanban.class && Array.isArray(itemKanban.class)) {
+                itemKanban.class.forEach(function(cl) {
+                  nodeItem.classList.add(cl);
+                });
+              }
+              nodeItem.innerHTML = __buildItemTitle(itemKanban.title);
+              nodeItem.clickfn = itemKanban.click;
+              nodeItem.dragfn = itemKanban.drag;
+              nodeItem.dragendfn = itemKanban.dragend;
+              nodeItem.dropfn = itemKanban.drop;
+              __appendCustomProperties(nodeItem, itemKanban);
+              __onclickHandler(nodeItem);
+              if (self.options.itemHandleOptions.enabled) {
+                nodeItem.style.cursor = "default";
+              }
+              contentBoard.appendChild(nodeItem);
+            }
+            var footerBoard = document.createElement("footer");
+            if (addButton) {
+              var btn = document.createElement("BUTTON");
+              var t = document.createTextNode(buttonContent ? buttonContent : "+");
+              btn.setAttribute(
+                "class",
+                buttonClass ? buttonClass : "kanban-title-button btn btn-default btn-xs"
+              );
+              btn.appendChild(t);
+              if (buttonFooter) {
+                footerBoard.appendChild(btn);
+              } else {
+                headerBoard.appendChild(btn);
+              }
+              __onButtonClickHandler(btn, board.id);
+            }
+            boardNode.appendChild(headerBoard);
+            boardNode.appendChild(contentBoard);
+            boardNode.appendChild(footerBoard);
+            self.container.appendChild(boardNode);
+          }
+          return self;
+        };
+        this.findBoard = function(id) {
+          var el = self.element.querySelector('[data-id="' + id + '"]');
+          return el;
+        };
+        this.getParentBoardID = function(el) {
+          if (typeof el === "string") {
+            el = self.element.querySelector('[data-eid="' + el + '"]');
+          }
+          if (el === null) {
+            return null;
+          }
+          return el.parentNode.parentNode.dataset.id;
+        };
+        this.moveElement = function(targetBoardID, elementID, element) {
+          if (targetBoardID === this.getParentBoardID(elementID)) {
+            return;
+          }
+          this.removeElement(elementID);
+          return this.addElement(targetBoardID, element);
+        };
+        this.replaceElement = function(el, element) {
+          var nodeItem = el;
+          if (typeof nodeItem === "string") {
+            nodeItem = self.element.querySelector('[data-eid="' + el + '"]');
+          }
+          nodeItem.innerHTML = element.title;
+          nodeItem.clickfn = element.click;
+          nodeItem.dragfn = element.drag;
+          nodeItem.dragendfn = element.dragend;
+          nodeItem.dropfn = element.drop;
+          __appendCustomProperties(nodeItem, element);
+          return self;
+        };
+        this.findElement = function(id) {
+          var el = self.element.querySelector('[data-eid="' + id + '"]');
+          return el;
+        };
+        this.getBoardElements = function(id) {
+          var board = self.element.querySelector(
+            '[data-id="' + id + '"] .kanban-drag'
+          );
+          return board.childNodes;
+        };
+        this.removeElement = function(el) {
+          if (typeof el === "string")
+            el = self.element.querySelector('[data-eid="' + el + '"]');
+          if (el !== null) {
+            if (typeof el.remove == "function") {
+              el.remove();
+            } else {
+              el.parentNode.removeChild(el);
+            }
+          }
+          return self;
+        };
+        this.removeBoard = function(board) {
+          var boardElement = null;
+          if (typeof board === "string")
+            boardElement = self.element.querySelector('[data-id="' + board + '"]');
+          if (boardElement !== null) {
+            if (typeof boardElement.remove == "function") {
+              boardElement.remove();
+            } else {
+              boardElement.parentNode.removeChild(boardElement);
+            }
+          }
+          for (var i = 0; i < self.options.boards.length; i++) {
+            if (self.options.boards[i].id === board) {
+              self.options.boards.splice(i, 1);
+              break;
+            }
+          }
+          return self;
+        };
+        this.onButtonClick = function(el) {
+        };
+        function __extendDefaults(source, properties) {
+          var property;
+          for (property in properties) {
+            if (properties.hasOwnProperty(property)) {
+              source[property] = properties[property];
+            }
+          }
+          return source;
+        }
+        function __setBoard() {
+          self.element = document.querySelector(self.options.element);
+          var boardContainer = document.createElement("div");
+          boardContainer.classList.add("kanban-container");
+          self.container = boardContainer;
+          if (document.querySelector(self.options.element).dataset.hasOwnProperty("board")) {
+            url = document.querySelector(self.options.element).dataset.board;
+            window.fetch(url, {
+              method: "GET",
+              headers: { "Content-Type": "application/json" }
+            }).then((response) => {
+              response.json().then(function(data) {
+                self.options.boards = data;
+                self.addBoards(self.options.boards, true);
+              });
+            }).catch((error) => {
+              console.log("Error: ", error);
+            });
+          } else {
+            self.addBoards(self.options.boards, true);
+          }
+          self.element.appendChild(self.container);
+        }
+        function __onclickHandler(nodeItem, clickfn) {
+          nodeItem.addEventListener("click", function(e) {
+            e.preventDefault();
+            self.options.click(this);
+            if (typeof this.clickfn === "function") this.clickfn(this);
+          });
+        }
+        function __onButtonClickHandler(nodeItem, boardId) {
+          nodeItem.addEventListener("click", function(e) {
+            e.preventDefault();
+            self.options.buttonClick(this, boardId);
+          });
+        }
+        function __findBoardJSON(id) {
+          var el = [];
+          self.options.boards.map(function(board) {
+            if (board.id === id) {
+              return el.push(board);
+            }
+          });
+          return el[0];
+        }
+        function __appendCustomProperties(element, parentObject) {
+          for (var propertyName in parentObject) {
+            if (self._disallowedItemProperties.indexOf(propertyName) > -1) {
+              continue;
+            }
+            element.setAttribute(
+              "data-" + propertyName,
+              parentObject[propertyName]
+            );
+          }
+        }
+        function __updateBoardsOrder() {
+          var index = 1;
+          for (var i = 0; i < self.container.childNodes.length; i++) {
+            self.container.childNodes[i].dataset.order = index++;
+          }
+        }
+        function __buildItemTitle(title) {
+          var result = title;
+          if (self.options.itemHandleOptions.enabled) {
+            if ((self.options.itemHandleOptions.customHandler || void 0) === void 0) {
+              var customCssHandler = self.options.itemHandleOptions.customCssHandler;
+              var customCssIconHandler = self.options.itemHandleOptions.customCssIconHandler;
+              if ((customCssHandler || void 0) === void 0) {
+                customCssHandler = "drag_handler";
+              }
+              if ((customCssIconHandler || void 0) === void 0) {
+                customCssIconHandler = customCssHandler + "_icon";
+              }
+              result = "<div class='item_handle " + customCssHandler + "'><i class='item_handle " + customCssIconHandler + "'></i></div><div>" + result + "</div>";
+            } else {
+              result = self.options.itemHandleOptions.customHandler.replace("%s", result);
+            }
+          }
+          return result;
+        }
+        this.init();
+      };
+    })();
+  }
+});
+
 // src/main.ts
 var main_exports = {};
 __export(main_exports, {
   default: () => WeeklyOrganiserPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian5 = require("obsidian");
+var import_obsidian4 = require("obsidian");
 
 // src/view.tsx
-var import_obsidian4 = require("obsidian");
-var React6 = __toESM(require_react());
+var import_obsidian3 = require("obsidian");
+var React2 = __toESM(require_react());
 var import_client = __toESM(require_client());
 
 // src/components/WeeklyOrganiserBoard.tsx
-var React5 = __toESM(require_react());
-var import_obsidian3 = require("obsidian");
-
-// src/components/KanbanBoard.tsx
-var React3 = __toESM(require_react());
-var import_obsidian2 = require("obsidian");
-
-// src/components/KanbanColumn.tsx
 var React = __toESM(require_react());
-
-// node_modules/@formkit/drag-and-drop/react/index.mjs
-var import_react = __toESM(require_react(), 1);
-
-// node_modules/@formkit/drag-and-drop/index.mjs
-function pd(e) {
-  e.preventDefault();
-}
-function sp(e) {
-  e.stopPropagation();
-}
-function createEmitter() {
-  const callbacks = /* @__PURE__ */ new Map();
-  const emit2 = function(eventName, data) {
-    if (!callbacks.get(eventName))
-      return;
-    callbacks.get(eventName).forEach((cb) => {
-      cb(data);
-    });
-  };
-  const on2 = function(eventName, callback) {
-    var _a;
-    const cbs = (_a = callbacks.get(eventName)) != null ? _a : [];
-    cbs.push(callback);
-    callbacks.set(eventName, cbs);
-  };
-  return [emit2, on2];
-}
-var [emit, on] = createEmitter();
-function eqRegExp(x, y) {
-  return x.source === y.source && x.flags.split("").sort().join("") === y.flags.split("").sort().join("");
-}
-function eq(valA, valB, deep = true, explicit = ["__key"]) {
-  if (valA === valB)
-    return true;
-  if (typeof valB === "object" && typeof valA === "object" && valA !== null && valB !== null) {
-    if (valA instanceof Map)
-      return false;
-    if (valA instanceof Set)
-      return false;
-    if (valA instanceof Date && valB instanceof Date)
-      return valA.getTime() === valB.getTime();
-    if (valA instanceof RegExp && valB instanceof RegExp)
-      return eqRegExp(valA, valB);
-    if (valA === null || valB === null)
-      return false;
-    const objA = valA;
-    const objB = valB;
-    if (Object.keys(objA).length !== Object.keys(objB).length)
-      return false;
-    for (const k of explicit) {
-      if ((k in objA || k in objB) && objA[k] !== objB[k])
-        return false;
-    }
-    for (const key in objA) {
-      if (!(key in objB))
-        return false;
-      if (objA[key] !== objB[key] && !deep)
-        return false;
-      if (deep && !eq(objA[key], objB[key], deep, explicit))
-        return false;
-    }
-    return true;
-  }
-  return false;
-}
-function splitClass(className) {
-  return className.split(" ").filter((x) => x);
-}
-function eventCoordinates(data) {
-  return { x: data.clientX, y: data.clientY };
-}
-function animations(animationsConfig = {}) {
-  const slideUp = [
-    {
-      transform: `translateY(${animationsConfig.yScale || 50}%)`
-    },
-    {
-      transform: `translateY(${animationsConfig.yScale || 0}%)`
-    }
-  ];
-  const slideDown = [
-    {
-      transform: `translateY(-${animationsConfig.yScale || 50}%)`
-    },
-    {
-      transform: `translateY(${animationsConfig.yScale || 0}%)`
-    }
-  ];
-  const slideLeft = [
-    {
-      transform: `translateX(${animationsConfig.xScale || 50}%)`
-    },
-    {
-      transform: `translateX(${animationsConfig.xScale || 0}%)`
-    }
-  ];
-  const slideRight = [
-    {
-      transform: `translateX(-${animationsConfig.xScale || 50}%)`
-    },
-    {
-      transform: `translateX(${animationsConfig.xScale || 0}%)`
-    }
-  ];
-  return (parent) => {
-    const parentData = parents.get(parent);
-    if (!parentData)
-      return;
-    return {
-      setup() {
-        if (document.head.querySelector("[data-drag-and-drop]"))
-          return;
-      },
-      setupNodeRemap(data) {
-        if (!isDragState(state))
-          return;
-        const duration = animationsConfig.duration || 150;
-        if (data.node.data.value === state.draggedNode.data.value) {
-          switch (state.incomingDirection) {
-            case "below":
-              animate(data.node.el, slideUp, duration);
-              break;
-            case "above":
-              animate(data.node.el, slideDown, duration);
-              break;
-            case "left":
-              animate(data.node.el, slideRight, duration);
-              break;
-            case "right":
-              animate(data.node.el, slideLeft, duration);
-              break;
-          }
-          return;
-        }
-        if (!state.affectedNodes.map((x) => x.data.value).includes(data.node.data.value))
-          return;
-        const nodeRect = data.node.el.getBoundingClientRect();
-        const nodeIndex = state.affectedNodes.findIndex(
-          (x) => x.data.value === data.node.data.value
-        );
-        const draggedNodeIndex = state.draggedNode.data.index;
-        const ascendingDirection = draggedNodeIndex >= state.targetIndex;
-        let adjacentNode;
-        if (ascendingDirection) {
-          adjacentNode = state.affectedNodes[nodeIndex + 1] ? state.affectedNodes[nodeIndex + 1] : state.affectedNodes[nodeIndex - 1];
-        } else {
-          adjacentNode = state.affectedNodes[nodeIndex - 1] ? state.affectedNodes[nodeIndex - 1] : state.affectedNodes[nodeIndex + 1];
-        }
-        if (adjacentNode) {
-          const xDiff = Math.abs(
-            nodeRect.x - adjacentNode.el.getBoundingClientRect().x
-          );
-          const yDiff = Math.abs(
-            nodeRect.y - adjacentNode.el.getBoundingClientRect().y
-          );
-          if (xDiff > yDiff && ascendingDirection) {
-            animate(data.node.el, slideRight, duration);
-          } else if (xDiff > yDiff && !ascendingDirection) {
-            animate(data.node.el, slideLeft, duration);
-          }
-        } else {
-          switch (state.incomingDirection) {
-            case "below":
-              animate(data.node.el, slideDown, duration);
-              break;
-            case "above":
-              animate(data.node.el, slideUp, duration);
-              break;
-            case "left":
-              animate(data.node.el, slideLeft, duration);
-              break;
-            case "right":
-              animate(data.node.el, slideRight, duration);
-              break;
-          }
-        }
-      }
-    };
-  };
-}
-function animate(node, animation, duration) {
-  if (!state)
-    return;
-  state.preventEnter = true;
-  node.animate(animation, {
-    duration,
-    easing: "ease-in-out"
-  });
-  setTimeout(() => {
-    if (!state)
-      return;
-    state.preventEnter = false;
-  }, duration);
-}
-var insertState = {
-  draggedOverNodes: [],
-  draggedOverParent: null,
-  targetIndex: 0,
-  ascending: false,
-  insertPoint: null,
-  dragging: false
-};
-var documentController;
-function insert(insertConfig) {
-  return (parent) => {
-    const parentData = parents.get(parent);
-    if (!parentData)
-      return;
-    const insertParentConfig = {
-      ...parentData.config,
-      insertConfig
-    };
-    return {
-      teardown() {
-        if (parentData.abortControllers.root) {
-          parentData.abortControllers.root.abort();
-        }
-      },
-      setup() {
-        insertParentConfig.handleNodeDragover = insertConfig.handleNodeDragover || handleNodeDragover;
-        insertParentConfig.handleParentPointerover = insertConfig.handleParentPointerover || handleParentPointerover;
-        insertParentConfig.handleNodePointerover = insertConfig.handleNodePointerover || handleParentPointerover;
-        insertParentConfig.handleParentDragover = insertConfig.handleParentDragover || handleParentDragover;
-        const originalHandleend = insertParentConfig.handleEnd;
-        insertParentConfig.handleEnd = (state2) => {
-          handleEnd(state2);
-          originalHandleend(state2);
-        };
-        parentData.on("dragStarted", () => {
-          documentController = addEvents(document, {
-            dragover: checkPosition,
-            pointermove: checkPosition
-          });
-        });
-        parentData.on("dragEnded", () => {
-          documentController == null ? void 0 : documentController.abort();
-        });
-        parentData.config = insertParentConfig;
-        state.on("dragStarted", () => {
-          defineRanges(parent);
-        });
-        state.on("scrollStarted", () => {
-          if (insertState.insertPoint)
-            insertState.insertPoint.el.style.display = "none";
-        });
-        state.on("scrollEnded", () => {
-          defineRanges(parent);
-        });
-        const firstScrollableParent = findFirstOverflowingParent(parent);
-        if (firstScrollableParent) {
-          firstScrollableParent.addEventListener(
-            "scroll",
-            defineRanges.bind(null, parent)
-          );
-        }
-        window.addEventListener("resize", defineRanges.bind(null, parent));
-      }
-    };
-  };
-}
-function findFirstOverflowingParent(element) {
-  let parent = element.parentElement;
-  while (parent) {
-    const { overflow, overflowY, overflowX } = getComputedStyle(parent);
-    const isOverflowSet = overflow !== "visible" || overflowY !== "visible" || overflowX !== "visible";
-    const isOverflowing = parent.scrollHeight > parent.clientHeight || parent.scrollWidth > parent.clientWidth;
-    const hasScrollPosition = parent.scrollTop > 0 || parent.scrollLeft > 0;
-    if (isOverflowSet && (isOverflowing || hasScrollPosition)) {
-      return parent;
-    }
-    parent = parent.parentElement;
-  }
-  return null;
-}
-function checkPosition(e) {
-  var _a;
-  if (!isDragState(state))
-    return;
-  const el = document.elementFromPoint(e.clientX, e.clientY);
-  if (!(el instanceof HTMLElement) || el === ((_a = insertState.insertPoint) == null ? void 0 : _a.el)) {
-    return;
-  }
-  let isWithinAParent = false;
-  let current = el;
-  while (current) {
-    if (nodes.has(current) || parents.has(current)) {
-      isWithinAParent = true;
-      break;
-    }
-    if (current === document.body)
-      break;
-    current = current.parentElement;
-  }
-  if (!isWithinAParent) {
-    if (insertState.insertPoint) {
-      insertState.insertPoint.el.style.display = "none";
-    }
-    if (insertState.draggedOverParent) {
-      removeClass(
-        [insertState.draggedOverParent.el],
-        insertState.draggedOverParent.data.config.dropZoneClass
-      );
-    }
-    insertState.draggedOverNodes = [];
-    insertState.draggedOverParent = null;
-    state.currentParent = state.initialParent;
-  }
-}
-function createVerticalRange(nodeCoords, otherCoords, isAscending) {
-  const center = nodeCoords.top + nodeCoords.height / 2;
-  if (!otherCoords) {
-    const offset = nodeCoords.height / 2 + 10;
-    return {
-      y: isAscending ? [center, center + offset] : [center - offset, center],
-      x: [nodeCoords.left, nodeCoords.right],
-      vertical: true
-    };
-  }
-  const otherEdge = isAscending ? otherCoords.top : otherCoords.bottom;
-  const nodeEdge = isAscending ? nodeCoords.bottom : nodeCoords.top;
-  let midpoint;
-  let range;
-  if (isAscending) {
-    midpoint = nodeEdge + (otherEdge - nodeEdge) / 2;
-    range = [center, midpoint];
-  } else {
-    midpoint = otherEdge + (nodeEdge - otherEdge) / 2;
-    range = [midpoint, center];
-  }
-  return {
-    y: range,
-    x: [nodeCoords.left, nodeCoords.right],
-    vertical: true
-  };
-}
-function createHorizontalRange(nodeCoords, otherCoords, isAscending, lastInRow = false) {
-  const center = nodeCoords.left + nodeCoords.width / 2;
-  if (!otherCoords) {
-    if (isAscending) {
-      return {
-        x: [center, center + nodeCoords.width],
-        y: [nodeCoords.top, nodeCoords.bottom],
-        vertical: false
-      };
-    } else {
-      return {
-        x: [nodeCoords.left - 10, center],
-        y: [nodeCoords.top, nodeCoords.bottom],
-        vertical: false
-      };
-    }
-  }
-  if (isAscending && lastInRow) {
-    return {
-      x: [center, nodeCoords.right + 10],
-      y: [nodeCoords.top, nodeCoords.bottom],
-      vertical: false
-    };
-  }
-  if (isAscending) {
-    const nextNodeCenter = otherCoords.left + otherCoords.width / 2;
-    return {
-      x: [center, center + Math.abs(center - nextNodeCenter) / 2],
-      y: [nodeCoords.top, nodeCoords.bottom],
-      vertical: false
-    };
-  } else {
-    return {
-      x: [
-        otherCoords.right + Math.abs(otherCoords.right - nodeCoords.left) / 2,
-        center
-      ],
-      y: [nodeCoords.top, nodeCoords.bottom],
-      vertical: false
-    };
-  }
-}
-function getRealCoords(el) {
-  const { top, bottom, left, right, height, width } = el.getBoundingClientRect();
-  const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
-  const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  return {
-    top: top + scrollTop,
-    bottom: bottom + scrollTop,
-    left: left + scrollLeft,
-    right: right + scrollLeft,
-    height,
-    width
-  };
-}
-function defineRanges(parent) {
-  if (!isDragState(state) && !isSynthDragState(state))
-    return;
-  const parentData = parents.get(parent);
-  if (!parentData)
-    return;
-  const enabledNodes = parentData.enabledNodes;
-  enabledNodes.forEach((node, index) => {
-    node.data.range = {};
-    const prevNode = enabledNodes[index - 1];
-    const nextNode = enabledNodes[index + 1];
-    const nodeCoords = getRealCoords(node.el);
-    const prevNodeCoords = prevNode ? getRealCoords(prevNode.el) : void 0;
-    const nextNodeCoords = nextNode ? getRealCoords(nextNode.el) : void 0;
-    const aboveOrBelowPrevious = prevNodeCoords && (nodeCoords.top > prevNodeCoords.bottom || nodeCoords.bottom < prevNodeCoords.top);
-    const aboveOrBelowAfter = nextNodeCoords && (nodeCoords.top > nextNodeCoords.bottom || nodeCoords.bottom < nextNodeCoords.top);
-    const fullishWidth = parent.getBoundingClientRect().width * 0.8 < nodeCoords.width;
-    if (fullishWidth) {
-      node.data.range.ascending = createVerticalRange(
-        nodeCoords,
-        nextNodeCoords,
-        true
-      );
-      node.data.range.descending = createVerticalRange(
-        nodeCoords,
-        prevNodeCoords,
-        false
-      );
-    } else if (aboveOrBelowAfter && !aboveOrBelowPrevious) {
-      node.data.range.ascending = createHorizontalRange(
-        nodeCoords,
-        nextNodeCoords,
-        true,
-        true
-      );
-      node.data.range.descending = createHorizontalRange(
-        nodeCoords,
-        prevNodeCoords,
-        false
-      );
-    } else if (!aboveOrBelowPrevious && !aboveOrBelowAfter) {
-      node.data.range.ascending = createHorizontalRange(
-        nodeCoords,
-        nextNodeCoords,
-        true
-      );
-      node.data.range.descending = createHorizontalRange(
-        nodeCoords,
-        prevNodeCoords,
-        false
-      );
-    } else if (aboveOrBelowPrevious && !nextNodeCoords) {
-      node.data.range.ascending = createHorizontalRange(
-        nodeCoords,
-        void 0,
-        true
-      );
-    } else if (aboveOrBelowPrevious && !aboveOrBelowAfter) {
-      node.data.range.ascending = createHorizontalRange(
-        nodeCoords,
-        nextNodeCoords,
-        true
-      );
-      node.data.range.descending = createHorizontalRange(
-        nodeCoords,
-        void 0,
-        false
-      );
-    }
-  });
-}
-function handleNodeDragover(data) {
-  const config = data.targetData.parent.data.config;
-  if (!config.nativeDrag)
-    return;
-  data.e.preventDefault();
-}
-function processParentDragEvent(e, targetData, state2, nativeDrag = false) {
-  var _a;
-  pd(e);
-  if (nativeDrag && e instanceof PointerEvent)
-    return;
-  const { x, y } = eventCoordinates(e);
-  const clientX = x;
-  const clientY = y;
-  const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
-  const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  state2.coordinates.x = clientX + scrollLeft;
-  state2.coordinates.y = clientY + scrollTop;
-  const nestedParent = targetData.parent.data.nestedParent;
-  let realTargetParent = targetData.parent;
-  if (nestedParent) {
-    const rect = nestedParent.el.getBoundingClientRect();
-    if (state2.coordinates.y > rect.top && state2.coordinates.y < rect.bottom)
-      realTargetParent = nestedParent;
-  }
-  if (realTargetParent.el === ((_a = state2.currentParent) == null ? void 0 : _a.el)) {
-    moveBetween(realTargetParent, state2);
-  } else {
-    moveOutside(realTargetParent, state2);
-  }
-  state2.currentParent = realTargetParent;
-}
-function handleParentDragover(data, state2) {
-  processParentDragEvent(data.e, data.targetData, state2, true);
-}
-function handleParentPointerover(data) {
-  const { detail } = data;
-  const { state: state2, targetData } = detail;
-  if (state2.scrolling)
-    return;
-  processParentDragEvent(detail.e, targetData, state2);
-}
-function moveBetween(data, state2) {
-  var _a, _b;
-  if (data.data.config.sortable === false)
-    return;
-  if (data.el === ((_a = insertState.draggedOverParent) == null ? void 0 : _a.el) && insertState.draggedOverParent.data.getValues(data.el).length === 0) {
-    return;
-  } else if ((_b = insertState.draggedOverParent) == null ? void 0 : _b.el) {
-    removeClass(
-      [insertState.draggedOverParent.el],
-      insertState.draggedOverParent.data.config.dropZoneClass
-    );
-    insertState.draggedOverParent = null;
-  }
-  const foundRange = findClosest(data.data.enabledNodes, state2);
-  if (!foundRange)
-    return;
-  const key = foundRange[1];
-  if (foundRange) {
-    const position = foundRange[0].data.range ? foundRange[0].data.range[key] : void 0;
-    if (position)
-      positionInsertPoint(
-        data,
-        position,
-        foundRange[1] === "ascending",
-        foundRange[0],
-        insertState
-      );
-  }
-}
-function moveOutside(data, state2) {
-  if (data.el === state2.currentParent.el)
-    return false;
-  const targetConfig = data.data.config;
-  if (state2.draggedNode.el.contains(data.el))
-    return false;
-  if (targetConfig.dropZone === false)
-    return;
-  const initialParentConfig = state2.initialParent.data.config;
-  if (targetConfig.accepts) {
-    return targetConfig.accepts(
-      data,
-      state2.initialParent,
-      state2.currentParent,
-      state2
-    );
-  } else if (!targetConfig.group || targetConfig.group !== initialParentConfig.group) {
-    return false;
-  }
-  const values = data.data.getValues(data.el);
-  if (!values.length) {
-    addParentClass([data.el], targetConfig.dropZoneClass);
-    insertState.draggedOverParent = data;
-    const insertPoint = insertState.insertPoint;
-    if (insertPoint)
-      insertPoint.el.style.display = "none";
-  } else {
-    removeClass([state2.currentParent.el], targetConfig.dropZoneClass);
-    const enabledNodes = data.data.enabledNodes;
-    const foundRange = findClosest(enabledNodes, state2);
-    if (!foundRange)
-      return;
-    const key = foundRange[1];
-    if (foundRange) {
-      const position = foundRange[0].data.range ? foundRange[0].data.range[key] : void 0;
-      if (position)
-        positionInsertPoint(
-          data,
-          position,
-          foundRange[1] === "ascending",
-          foundRange[0],
-          insertState
-        );
-    }
-  }
-}
-function findClosest(enabledNodes, state2) {
-  let foundRange = null;
-  for (let x = 0; x < enabledNodes.length; x++) {
-    if (!state2 || !enabledNodes[x].data.range)
-      continue;
-    if (enabledNodes[x].data.range.ascending) {
-      if (state2.coordinates.y > enabledNodes[x].data.range.ascending.y[0] && state2.coordinates.y < enabledNodes[x].data.range.ascending.y[1] && state2.coordinates.x > enabledNodes[x].data.range.ascending.x[0] && state2.coordinates.x < enabledNodes[x].data.range.ascending.x[1]) {
-        foundRange = [enabledNodes[x], "ascending"];
-        return foundRange;
-      }
-    }
-    if (enabledNodes[x].data.range.descending) {
-      if (state2.coordinates.y > enabledNodes[x].data.range.descending.y[0] && state2.coordinates.y < enabledNodes[x].data.range.descending.y[1] && state2.coordinates.x > enabledNodes[x].data.range.descending.x[0] && state2.coordinates.x < enabledNodes[x].data.range.descending.x[1]) {
-        foundRange = [enabledNodes[x], "descending"];
-        return foundRange;
-      }
-    }
-  }
-}
-function createInsertPoint(parent, insertState2) {
-  var _a;
-  const insertPoint = (_a = parent.data.config.insertConfig) == null ? void 0 : _a.insertPoint({
-    el: parent.el,
-    data: parent.data
-  });
-  if (!insertPoint)
-    throw new Error("Insert point not found", { cause: parent });
-  insertState2.insertPoint = {
-    parent,
-    el: insertPoint
-  };
-  document.body.appendChild(insertPoint);
-  Object.assign(insertPoint.style, {
-    position: "absolute",
-    display: "none"
-  });
-}
-function removeInsertPoint(insertState2) {
-  var _a;
-  if ((_a = insertState2.insertPoint) == null ? void 0 : _a.el)
-    insertState2.insertPoint.el.remove();
-  insertState2.insertPoint = null;
-}
-function positionInsertPoint(parent, position, ascending, node, insertState2) {
-  var _a;
-  if (((_a = insertState2.insertPoint) == null ? void 0 : _a.el) !== parent.el) {
-    removeInsertPoint(insertState2);
-    createInsertPoint(parent, insertState2);
-  }
-  insertState2.draggedOverNodes = [node];
-  if (!insertState2.insertPoint)
-    return;
-  insertState2.insertPoint.el.style.display = "block";
-  if (position.vertical) {
-    const insertPointHeight = insertState2.insertPoint.el.getBoundingClientRect().height;
-    const targetY = position.y[ascending ? 1 : 0];
-    const topPosition = targetY - insertPointHeight / 2;
-    Object.assign(insertState2.insertPoint.el.style, {
-      top: `${topPosition}px`,
-      left: `${position.x[0]}px`,
-      right: `${position.x[1]}px`,
-      width: `${position.x[1] - position.x[0]}px`
-    });
-  } else {
-    const leftPosition = position.x[ascending ? 1 : 0] - insertState2.insertPoint.el.getBoundingClientRect().width / 2;
-    insertState2.insertPoint.el.style.left = `${leftPosition}px`;
-    Object.assign(insertState2.insertPoint.el.style, {
-      top: `${position.y[0]}px`,
-      bottom: `${position.y[1]}px`,
-      height: `${position.y[1] - position.y[0]}px`
-    });
-  }
-  insertState2.targetIndex = node.data.index;
-  insertState2.ascending = ascending;
-}
-function handleEnd(state2) {
-  var _a, _b, _c, _d, _e;
-  if (!isDragState(state2) && !isSynthDragState(state2))
-    return;
-  const insertPoint = insertState.insertPoint;
-  if (!insertState.draggedOverParent) {
-    const draggedParentValues = parentValues(
-      state2.initialParent.el,
-      state2.initialParent.data
-    );
-    const transferred = state2.initialParent.el !== state2.currentParent.el;
-    remapNodes(state2.initialParent.el);
-    const draggedValues = state2.draggedNodes.map((node) => node.data.value);
-    const enabledNodes = [...state2.initialParent.data.enabledNodes];
-    const originalIndex = state2.draggedNodes[0].data.index;
-    const targetIndex = insertState.targetIndex;
-    if (!transferred && insertState.draggedOverNodes[0] && insertState.draggedOverNodes[0].el !== state2.draggedNodes[0].el) {
-      const newParentValues = [
-        ...draggedParentValues.filter(
-          (x) => !draggedValues.some((y) => eq(x, y))
-        )
-      ];
-      let index = insertState.draggedOverNodes[0].data.index;
-      if (insertState.targetIndex > state2.draggedNodes[0].data.index && !insertState.ascending) {
-        index--;
-      } else if (insertState.targetIndex < state2.draggedNodes[0].data.index && insertState.ascending) {
-        index++;
-      }
-      newParentValues.splice(index, 0, ...draggedValues);
-      setParentValues(state2.initialParent.el, state2.initialParent.data, [
-        ...newParentValues
-      ]);
-      if (state2.initialParent.data.config.onSort) {
-        const sortEventData = {
-          parent: {
-            el: state2.initialParent.el,
-            data: state2.initialParent.data
-          },
-          previousValues: [...draggedParentValues],
-          previousNodes: [...enabledNodes],
-          nodes: [...state2.initialParent.data.enabledNodes],
-          values: [...newParentValues],
-          draggedNodes: state2.draggedNodes,
-          targetNodes: insertState.draggedOverNodes,
-          previousPosition: originalIndex,
-          position: index,
-          state: state2
-        };
-        state2.initialParent.data.config.onSort(sortEventData);
-      }
-    } else if (transferred && insertState.draggedOverNodes.length) {
-      const draggedParentValues2 = parentValues(
-        state2.initialParent.el,
-        state2.initialParent.data
-      );
-      let index = insertState.draggedOverNodes[0].data.index || 0;
-      if (insertState.ascending)
-        index++;
-      const insertValues = ((_a = state2.initialParent.data.config.insertConfig) == null ? void 0 : _a.dynamicValues) ? state2.initialParent.data.config.insertConfig.dynamicValues({
-        sourceParent: state2.initialParent,
-        targetParent: state2.currentParent,
-        draggedNodes: state2.draggedNodes,
-        targetNodes: insertState.draggedOverNodes,
-        targetIndex: index
-      }) : draggedValues;
-      const newParentValues = [
-        ...draggedParentValues2.filter(
-          (x) => !draggedValues.some((y) => eq(x, y))
-        )
-      ];
-      if (state2.currentParent.el.contains(state2.initialParent.el)) {
-        setParentValues(state2.initialParent.el, state2.initialParent.data, [
-          ...newParentValues
-        ]);
-        const targetParentValues = parentValues(
-          state2.currentParent.el,
-          state2.currentParent.data
-        );
-        targetParentValues.splice(index, 0, ...insertValues);
-        setParentValues(state2.currentParent.el, state2.currentParent.data, [
-          ...targetParentValues
-        ]);
-      } else {
-        setParentValues(state2.initialParent.el, state2.initialParent.data, [
-          ...newParentValues
-        ]);
-        const targetParentValues = parentValues(
-          state2.currentParent.el,
-          state2.currentParent.data
-        );
-        targetParentValues.splice(index, 0, ...insertValues);
-        setParentValues(state2.currentParent.el, state2.currentParent.data, [
-          ...targetParentValues
-        ]);
-      }
-      const data = {
-        sourceParent: state2.initialParent,
-        targetParent: state2.currentParent,
-        initialParent: state2.initialParent,
-        draggedNodes: state2.draggedNodes,
-        targetIndex,
-        targetNodes: insertState.draggedOverNodes,
-        state: state2
-      };
-      if (state2.initialParent.data.config.onTransfer)
-        state2.initialParent.data.config.onTransfer(data);
-      if (state2.currentParent.data.config.onTransfer)
-        state2.currentParent.data.config.onTransfer(data);
-    }
-  } else if (insertState.draggedOverParent) {
-    if (state2.currentParent.el.contains(state2.initialParent.el)) {
-      const draggedParentValues = parentValues(
-        state2.initialParent.el,
-        state2.initialParent.data
-      );
-      const newParentValues = [
-        ...draggedParentValues.filter(
-          (x) => !draggedValues.some((y) => eq(x, y))
-        )
-      ];
-      setParentValues(state2.initialParent.el, state2.initialParent.data, [
-        ...newParentValues
-      ]);
-      const draggedOverParentValues = parentValues(
-        insertState.draggedOverParent.el,
-        insertState.draggedOverParent.data
-      );
-      const draggedValues = state2.draggedNodes.map((node) => node.data.value);
-      const insertValues = ((_b = state2.initialParent.data.config.insertConfig) == null ? void 0 : _b.dynamicValues) ? state2.initialParent.data.config.insertConfig.dynamicValues({
-        sourceParent: state2.initialParent,
-        targetParent: state2.currentParent,
-        draggedNodes: state2.draggedNodes,
-        targetNodes: insertState.draggedOverNodes
-      }) : draggedValues;
-      draggedOverParentValues.push(...insertValues);
-      setParentValues(
-        insertState.draggedOverParent.el,
-        insertState.draggedOverParent.data,
-        [...draggedOverParentValues]
-      );
-    } else {
-      const draggedValues = state2.draggedNodes.map((node) => node.data.value);
-      const draggedOverParentValues = parentValues(
-        insertState.draggedOverParent.el,
-        insertState.draggedOverParent.data
-      );
-      const insertValues = ((_c = state2.initialParent.data.config.insertConfig) == null ? void 0 : _c.dynamicValues) ? state2.initialParent.data.config.insertConfig.dynamicValues({
-        sourceParent: state2.initialParent,
-        targetParent: state2.currentParent,
-        draggedNodes: state2.draggedNodes,
-        targetNodes: insertState.draggedOverNodes
-      }) : draggedValues;
-      draggedOverParentValues.push(...insertValues);
-      setParentValues(
-        insertState.draggedOverParent.el,
-        insertState.draggedOverParent.data,
-        [...draggedOverParentValues]
-      );
-      const draggedParentValues = parentValues(
-        state2.initialParent.el,
-        state2.initialParent.data
-      );
-      const newParentValues = [
-        ...draggedParentValues.filter(
-          (x) => !draggedValues.some((y) => eq(x, y))
-        )
-      ];
-      setParentValues(state2.initialParent.el, state2.initialParent.data, [
-        ...newParentValues
-      ]);
-    }
-    const data = {
-      sourceParent: state2.initialParent,
-      targetParent: state2.currentParent,
-      draggedNodes: state2.draggedNodes,
-      targetNodes: insertState.draggedOverNodes,
-      state: state2
-    };
-    if ((_d = state2.initialParent.data.config.insertConfig) == null ? void 0 : _d.insertEvent)
-      state2.initialParent.data.config.insertConfig.insertEvent(data);
-    if ((_e = state2.currentParent.data.config.insertConfig) == null ? void 0 : _e.insertEvent)
-      state2.currentParent.data.config.insertConfig.insertEvent(data);
-    removeClass(
-      [insertState.draggedOverParent.el],
-      insertState.draggedOverParent.data.config.dropZoneClass
-    );
-  }
-  if (insertPoint)
-    insertPoint.el.style.display = "none";
-  const dropZoneClass = isSynthDragState(state2) ? state2.initialParent.data.config.synthDropZoneClass : state2.initialParent.data.config.dropZoneClass;
-  removeClass(
-    insertState.draggedOverNodes.map((node) => node.el),
-    dropZoneClass
-  );
-  const dragPlaceholderClass = state2.initialParent.data.config.dragPlaceholderClass;
-  removeClass(
-    state2.draggedNodes.map((node) => node.el),
-    dragPlaceholderClass
-  );
-  insertState.draggedOverNodes = [];
-  insertState.draggedOverParent = null;
-}
-var dropSwapState = {
-  draggedOverNodes: Array(),
-  initialDraggedIndex: void 0,
-  transferred: false,
-  dragging: false
-};
-var isBrowser = typeof window !== "undefined";
-var parents = /* @__PURE__ */ new WeakMap();
-var nodes = /* @__PURE__ */ new WeakMap();
-function isMobilePlatform() {
-  if (!isBrowser)
-    return false;
-  if ("userAgentData" in navigator) {
-    return navigator.userAgentData.mobile === true;
-  }
-  const ua = navigator.userAgent;
-  const isMobileUA = /android|iphone|ipod/i.test(ua);
-  const isIpad = /iPad/.test(ua) || ua.includes("Macintosh") && navigator.maxTouchPoints > 1;
-  return isMobileUA || isIpad;
-}
-var baseDragState = {
-  affectedNodes: [],
-  coordinates: {
-    x: 0,
-    y: 0
-  },
-  currentTargetValue: void 0,
-  on,
-  emit,
-  originalZIndex: void 0,
-  pointerSelection: false,
-  preventEnter: false,
-  rootUserSelect: void 0,
-  nodePointerdown: void 0,
-  longPress: false,
-  scrolling: false,
-  longPressTimeout: void 0,
-  remapJustFinished: false,
-  selectedNodes: [],
-  selectedParent: void 0,
-  preventSynthDrag: false,
-  pointerDown: void 0,
-  lastScrollContainerX: null,
-  lastScrollContainerY: null,
-  rootScrollWidth: void 0,
-  rootScrollHeight: void 0,
-  dragItemRect: void 0,
-  windowScrollX: void 0,
-  windowScrollY: void 0,
-  lastScrollDirectionX: void 0,
-  lastScrollDirectionY: void 0,
-  scrollDebounceTimeout: void 0,
-  frameIdX: void 0,
-  frameIdY: void 0
-};
-var state = baseDragState;
-var dropped = false;
-var documentController3;
-var scrollTimeout;
-function resetState() {
-  if (state.scrollDebounceTimeout) {
-    clearTimeout(state.scrollDebounceTimeout);
-  }
-  if (state.longPressTimeout) {
-    clearTimeout(state.longPressTimeout);
-  }
-  if (state.frameIdX !== void 0) {
-    cancelAnimationFrame(state.frameIdX);
-  }
-  if (state.frameIdY !== void 0) {
-    cancelAnimationFrame(state.frameIdY);
-  }
-  const baseDragState2 = {
-    affectedNodes: [],
-    coordinates: {
-      x: 0,
-      y: 0
-    },
-    on,
-    emit,
-    currentTargetValue: void 0,
-    originalZIndex: void 0,
-    pointerId: void 0,
-    preventEnter: false,
-    remapJustFinished: false,
-    selectedNodes: [],
-    nodePointerdown: void 0,
-    rootUserSelect: void 0,
-    preventSynthDrag: false,
-    scrolling: false,
-    selectedParent: void 0,
-    pointerSelection: false,
-    synthScrollDirection: void 0,
-    draggedNodeDisplay: void 0,
-    synthDragScrolling: false,
-    longPress: false,
-    pointerDown: void 0,
-    longPressTimeout: void 0,
-    lastScrollContainerX: null,
-    lastScrollContainerY: null,
-    rootScrollWidth: void 0,
-    rootScrollHeight: void 0,
-    dragItemRect: void 0,
-    windowScrollX: void 0,
-    windowScrollY: void 0,
-    lastScrollDirectionX: void 0,
-    lastScrollDirectionY: void 0,
-    scrollDebounceTimeout: void 0,
-    frameIdX: void 0,
-    frameIdY: void 0
-  };
-  state = { ...baseDragState2 };
-}
-function setDragState(dragStateProps2) {
-  Object.assign(state, dragStateProps2);
-  dragStateProps2.initialParent.data.emit("dragStarted", state);
-  dropped = false;
-  state.emit("dragStarted", state);
-  return state;
-}
-function handleRootPointerdown() {
-  if (state.activeState)
-    setActive(state.activeState.parent, void 0, state);
-  if (state.selectedState)
-    deselect(state.selectedState.nodes, state.selectedState.parent, state);
-  state.selectedState = state.activeState = void 0;
-}
-function handleRootPointerup() {
-  if (state.pointerDown)
-    state.pointerDown.node.el.draggable = true;
-  state.pointerDown = void 0;
-  if (!isSynthDragState(state))
-    return;
-  const config = state.currentParent.data.config;
-  if (isSynthDragState(state))
-    config.handleEnd(state);
-}
-function handleRootKeydown(e) {
-  if (e.key === "Escape") {
-    if (state.selectedState)
-      deselect(state.selectedState.nodes, state.selectedState.parent, state);
-    if (state.activeState)
-      setActive(state.activeState.parent, void 0, state);
-    state.selectedState = state.activeState = void 0;
-  }
-}
-function handleRootDrop(_e) {
-  if (!isDragState(state))
-    return;
-  dropped = true;
-  const handleEnd4 = state.initialParent.data.config.handleEnd;
-  handleEnd4(state);
-}
-function handleRootDragover(e) {
-  if (!isDragState(state))
-    return;
-  pd(e);
-  const { x, y } = eventCoordinates(e);
-  if (isDragState(state)) {
-    handleSynthScroll({ x, y }, e, state);
-  }
-}
-function handleRootPointermove(e) {
-  if (!state.pointerDown || !state.pointerDown.validated)
-    return;
-  const config = state.pointerDown.parent.data.config;
-  if (e.pointerType === "mouse" && !isMobilePlatform()) {
-    return;
-  }
-  if (!isSynthDragState(state)) {
-    pd(e);
-    if (config.longPress && !state.longPress) {
-      clearTimeout(state.longPressTimeout);
-      state.longPress = false;
-      return;
-    }
-    const nodes2 = config.draggedNodes(state.pointerDown);
-    config.dragstartClasses(state.pointerDown.node, nodes2, config, true);
-    const rect = state.pointerDown.node.el.getBoundingClientRect();
-    const synthDragState = initSynthDrag(
-      state.pointerDown.node,
-      state.pointerDown.parent,
-      e,
-      state,
-      nodes2,
-      rect
-    );
-    synthMove(e, synthDragState, true);
-  } else if (isSynthDragState(state)) {
-    synthMove(e, state);
-  }
-}
-function dragAndDrop({
-  parent,
-  getValues: getValues2,
-  setValues: setValues2,
-  config = {}
-}) {
-  var _a, _b, _c, _d, _e, _f, _g, _h;
-  if (!isBrowser)
-    return;
-  if (!documentController3) {
-    documentController3 = addEvents(document, {
-      dragover: handleRootDragover,
-      pointerdown: handleRootPointerdown,
-      pointerup: handleRootPointerup,
-      keydown: handleRootKeydown,
-      drop: handleRootDrop,
-      pointermove: handleRootPointermove,
-      pointercancel: nodeEventData(config.handlePointercancel),
-      touchmove: (e) => {
-        if (isDragState(state) && e.cancelable)
-          pd(e);
-      },
-      contextmenu: (e) => {
-        if (isSynthDragState(state))
-          pd(e);
-      }
-    });
-  }
-  tearDown(parent);
-  const [emit2, on2] = createEmitter();
-  const parentData = {
-    getValues: getValues2,
-    setValues: setValues2,
-    config: {
-      dragDropEffect: (_a = config.dragDropEffect) != null ? _a : "move",
-      dragEffectAllowed: (_b = config.dragEffectAllowed) != null ? _b : "move",
-      draggedNodes,
-      dragstartClasses,
-      handleNodeKeydown,
-      handleDragstart,
-      handleNodeDragover: handleNodeDragover3,
-      handleParentDragover: handleParentDragover3,
-      handleNodeDrop,
-      handleNodeFocus,
-      handleNodeBlur,
-      handlePointercancel,
-      handleEnd: handleEnd3,
-      handleDragend,
-      handleParentFocus,
-      handleNodePointerup,
-      handleNodePointerover: handleNodePointerover2,
-      handleParentPointerover: handleParentPointerover2,
-      handleParentScroll,
-      handleNodePointerdown,
-      handleNodeDragenter,
-      handleNodeDragleave,
-      handleParentDrop,
-      multiDrag: (_c = config.multiDrag) != null ? _c : false,
-      nativeDrag: (_d = config.nativeDrag) != null ? _d : true,
-      performSort,
-      performTransfer,
-      root: (_e = config.root) != null ? _e : document,
-      setupNode,
-      setupNodeRemap,
-      reapplyDragClasses,
-      tearDownNode,
-      tearDownNodeRemap,
-      remapFinished,
-      threshold: {
-        horizontal: 0,
-        vertical: 0
-      },
-      ...config
-    },
-    enabledNodes: [],
-    abortControllers: {},
-    privateClasses: [],
-    on: on2,
-    emit: emit2
-  };
-  const nodesObserver = new MutationObserver(nodesMutated);
-  nodesObserver.observe(parent, { childList: true });
-  parents.set(parent, parentData);
-  (_f = config.plugins) == null ? void 0 : _f.forEach((plugin) => {
-    var _a2, _b2;
-    (_b2 = (_a2 = plugin(parent)) == null ? void 0 : _a2.tearDown) == null ? void 0 : _b2.call(_a2);
-  });
-  (_g = config.plugins) == null ? void 0 : _g.forEach((plugin) => {
-    var _a2, _b2;
-    (_b2 = (_a2 = plugin(parent)) == null ? void 0 : _a2.tearDown) == null ? void 0 : _b2.call(_a2);
-  });
-  (_h = config.plugins) == null ? void 0 : _h.forEach((plugin) => {
-    var _a2, _b2;
-    (_b2 = (_a2 = plugin(parent)) == null ? void 0 : _a2.setup) == null ? void 0 : _b2.call(_a2);
-  });
-  setup(parent, parentData);
-  remapNodes(parent, true);
-}
-function dragStateProps(node, parent, e, draggedNodes2, offsetX, offsetY) {
-  var _a, _b, _c;
-  const { x, y } = eventCoordinates(e);
-  const rect = node.el.getBoundingClientRect();
-  return {
-    affectedNodes: [],
-    ascendingDirection: false,
-    clonedDraggedEls: [],
-    coordinates: {
-      x,
-      y
-    },
-    draggedNode: {
-      el: node.el,
-      data: node.data
-    },
-    draggedNodes: draggedNodes2,
-    incomingDirection: void 0,
-    initialIndex: node.data.index,
-    initialParent: {
-      el: parent.el,
-      data: parent.data
-    },
-    currentParent: {
-      el: parent.el,
-      data: parent.data
-    },
-    longPress: (_a = parent.data.config.longPress) != null ? _a : false,
-    longPressTimeout: void 0,
-    currentTargetValue: node.data.value,
-    scrollEls: [],
-    startLeft: offsetX ? offsetX : x - ((_b = rect == null ? void 0 : rect.left) != null ? _b : 0),
-    startTop: offsetY ? offsetY : y - ((_c = rect == null ? void 0 : rect.top) != null ? _c : 0),
-    targetIndex: node.data.index,
-    transferred: false
-  };
-}
-function performSort({
-  parent,
-  draggedNodes: draggedNodes2,
-  targetNodes
-}) {
-  remapNodes(parent.el);
-  const draggedValues = draggedNodes2.map((x) => x.data.value);
-  const targetParentValues = parentValues(parent.el, parent.data);
-  const originalIndex = draggedNodes2[0].data.index;
-  const enabledNodes = [...parent.data.enabledNodes];
-  const newParentValues = [
-    ...targetParentValues.filter((x) => !draggedValues.some((y) => eq(x, y)))
-  ];
-  newParentValues.splice(targetNodes[0].data.index, 0, ...draggedValues);
-  if ("draggedNode" in state)
-    state.currentTargetValue = targetNodes[0].data.value;
-  setParentValues(parent.el, parent.data, [...newParentValues]);
-  if (parent.data.config.onSort) {
-    parent.data.config.onSort({
-      parent: {
-        el: parent.el,
-        data: parent.data
-      },
-      previousValues: [...targetParentValues],
-      previousNodes: [...enabledNodes],
-      nodes: [...parent.data.enabledNodes],
-      values: [...newParentValues],
-      draggedNodes: draggedNodes2,
-      previousPosition: originalIndex,
-      position: targetNodes[0].data.index,
-      targetNodes,
-      state
-    });
-  }
-}
-function setActive(parent, newActiveNode, state2) {
-  if (!newActiveNode) {
-    state2.activeState = void 0;
-    return;
-  }
-  state2.activeState = {
-    node: newActiveNode,
-    parent
-  };
-}
-function deselect(nodes2, parent, state2) {
-  const selectedClass = parent.data.config.selectedClass;
-  if (!state2.selectedState)
-    return;
-  const iterativeNodes = Array.from(nodes2);
-  removeClass(
-    nodes2.map((x) => x.el),
-    selectedClass
-  );
-  for (const node of iterativeNodes) {
-    node.el.setAttribute("aria-selected", "false");
-    const index = state2.selectedState.nodes.findIndex((x) => x.el === node.el);
-    if (index === -1)
-      continue;
-    state2.selectedState.nodes.splice(index, 1);
-  }
-}
-function setSelected(parent, selectedNodes, newActiveNode, state2, pointerdown = false) {
-  state2.pointerSelection = pointerdown;
-  for (const node of selectedNodes) {
-    node.el.setAttribute("aria-selected", "true");
-    addNodeClass([node.el], parent.data.config.selectedClass, true);
-  }
-  state2.selectedState = {
-    nodes: selectedNodes,
-    parent
-  };
-  setActive(parent, newActiveNode, state2);
-}
-function handleParentFocus(data, state2) {
-  const firstEnabledNode = data.targetData.parent.data.enabledNodes[0];
-  if (!firstEnabledNode)
-    return;
-  if (state2.selectedState && state2.selectedState.parent.el !== data.targetData.parent.el) {
-    setActive(data.targetData.parent, firstEnabledNode, state2);
-  } else if (!state2.selectedState) {
-    setActive(data.targetData.parent, firstEnabledNode, state2);
-  }
-}
-function performTransfer({
-  currentParent,
-  targetParent,
-  initialParent,
-  draggedNodes: draggedNodes2,
-  initialIndex,
-  targetNodes,
-  state: state2
-}) {
-  remapNodes(initialParent.el);
-  const draggedValues = draggedNodes2.map((x) => x.data.value);
-  const currentParentValues = [
-    ...parentValues(currentParent.el, currentParent.data).filter(
-      (x) => !draggedValues.some((y) => eq(x, y))
-    )
-  ];
-  const targetParentValues = parentValues(targetParent.el, targetParent.data);
-  const reset = initialParent.el === targetParent.el && targetParent.data.config.sortable === false;
-  let targetIndex;
-  if (targetNodes.length) {
-    if (reset) {
-      targetIndex = initialIndex;
-    } else if (targetParent.data.config.sortable === false) {
-      targetIndex = targetParent.data.enabledNodes.length;
-    } else {
-      targetIndex = targetNodes[0].data.index;
-    }
-    targetParentValues.splice(targetIndex, 0, ...draggedValues);
-  } else {
-    targetIndex = reset ? initialIndex : targetParent.data.enabledNodes.length;
-    targetParentValues.splice(targetIndex, 0, ...draggedValues);
-  }
-  setParentValues(currentParent.el, currentParent.data, currentParentValues);
-  setParentValues(targetParent.el, targetParent.data, targetParentValues);
-  if (targetParent.data.config.onTransfer) {
-    targetParent.data.config.onTransfer({
-      sourceParent: currentParent,
-      targetParent,
-      initialParent,
-      draggedNodes: draggedNodes2,
-      targetIndex,
-      state: state2,
-      targetNodes
-    });
-  }
-  if (currentParent.data.config.onTransfer) {
-    currentParent.data.config.onTransfer({
-      sourceParent: currentParent,
-      targetParent,
-      initialParent,
-      draggedNodes: draggedNodes2,
-      targetIndex,
-      state: state2,
-      targetNodes: targetNodes ? targetNodes : []
-    });
-  }
-}
-function parentValues(parent, parentData) {
-  return [...parentData.getValues(parent)];
-}
-function setParentValues(parent, parentData, values) {
-  parentData.setValues(values, parent);
-}
-function handleParentDrop(data, state2) {
-  sp(data.e);
-  dropped = true;
-  const handleEnd4 = state2.initialParent.data.config.handleEnd;
-  handleEnd4(state2);
-}
-function tearDown(parent) {
-  const parentData = parents.get(parent);
-  if (!parentData)
-    return;
-  if (parentData.abortControllers.mainParent)
-    parentData.abortControllers.mainParent.abort();
-}
-function isDragState(state2) {
-  return "draggedNode" in state2 && !!state2.draggedNode;
-}
-function isSynthDragState(state2) {
-  return "synthDragging" in state2 && !!state2.synthDragging;
-}
-function setup(parent, parentData) {
-  parentData.abortControllers.mainParent = addEvents(parent, {
-    dragover: parentEventData(parentData.config.handleParentDragover),
-    handleParentPointerover: parentData.config.handleParentPointerover,
-    scroll: parentEventData(parentData.config.handleParentScroll),
-    drop: parentEventData(parentData.config.handleParentDrop),
-    hasNestedParent: (e) => {
-      const parent2 = parents.get(e.target);
-      if (!parent2)
-        return;
-      parent2.nestedParent = e.detail.parent;
-    },
-    focus: parentEventData(parentData.config.handleParentFocus)
-  });
-  if (parentData.config.externalDragHandle && parentData.config.externalDragHandle.el && parentData.config.externalDragHandle.callback) {
-    parentData.abortControllers.externalDragHandle = addEvents(
-      parentData.config.externalDragHandle.el,
-      {
-        pointerdown: (_e) => {
-          if (!parentData.config.externalDragHandle || !parentData.config.externalDragHandle.callback)
-            return;
-          const draggableItem = parentData.config.externalDragHandle.callback();
-          if (!isNode(draggableItem)) {
-            console.warn(
-              "No draggable item found from external drag handle callback"
-            );
-            return;
-          }
-          const nodeData = nodes.get(draggableItem);
-          if (!nodeData)
-            return;
-          const parentNode = draggableItem.parentNode;
-          if (!(parentNode instanceof HTMLElement))
-            return;
-          const parent2 = parents.get(parentNode);
-          if (!parent2)
-            return;
-          state.pointerDown = {
-            parent: {
-              el: parentNode,
-              data: parent2
-            },
-            node: {
-              el: draggableItem,
-              data: nodeData
-            },
-            validated: true
-          };
-          draggableItem.draggable = true;
-        }
-      }
-    );
-  }
-}
-function setupNode(data) {
-  var _a;
-  const config = data.parent.data.config;
-  data.node.data.abortControllers.mainNode = addEvents(data.node.el, {
-    keydown: nodeEventData(config.handleNodeKeydown),
-    dragstart: nodeEventData(config.handleDragstart),
-    dragover: nodeEventData(config.handleNodeDragover),
-    dragenter: nodeEventData(config.handleNodeDragenter),
-    dragleave: nodeEventData(config.handleNodeDragleave),
-    dragend: nodeEventData(config.handleDragend),
-    drop: nodeEventData(config.handleNodeDrop),
-    focus: nodeEventData(config.handleNodeFocus),
-    blur: nodeEventData(config.handleNodeBlur),
-    pointerup: nodeEventData(config.handleNodePointerup),
-    pointercancel: nodeEventData(config.handlePointercancel),
-    pointerdown: nodeEventData(config.handleNodePointerdown),
-    handleNodePointerover: config.handleNodePointerover,
-    touchmove: (e) => {
-      if (isDragState(state) && e.cancelable)
-        pd(e);
-    },
-    contextmenu: (e) => {
-      if (isSynthDragState(state))
-        pd(e);
-    }
-  });
-  data.node.el.draggable = true;
-  config.reapplyDragClasses(data.node.el, data.parent.data);
-  (_a = data.parent.data.config.plugins) == null ? void 0 : _a.forEach((plugin) => {
-    var _a2, _b;
-    (_b = (_a2 = plugin(data.parent.el)) == null ? void 0 : _a2.setupNode) == null ? void 0 : _b.call(_a2, data);
-  });
-}
-function setupNodeRemap(data) {
-  var _a;
-  nodes.set(data.node.el, data.node.data);
-  (_a = data.parent.data.config.plugins) == null ? void 0 : _a.forEach((plugin) => {
-    var _a2, _b;
-    (_b = (_a2 = plugin(data.parent.el)) == null ? void 0 : _a2.setupNodeRemap) == null ? void 0 : _b.call(_a2, data);
-  });
-}
-function reapplyDragClasses(node, parentData) {
-  if (!isDragState(state))
-    return;
-  const dropZoneClass = isSynthDragState(state) ? parentData.config.synthDropZoneClass : parentData.config.dropZoneClass;
-  if (state.draggedNode.el !== node)
-    return;
-  addNodeClass([node], dropZoneClass, true);
-}
-function tearDownNodeRemap(data) {
-  var _a;
-  (_a = data.parent.data.config.plugins) == null ? void 0 : _a.forEach((plugin) => {
-    var _a2, _b;
-    (_b = (_a2 = plugin(data.parent.el)) == null ? void 0 : _a2.tearDownNodeRemap) == null ? void 0 : _b.call(_a2, data);
-  });
-}
-function tearDownNode(data) {
-  var _a, _b, _c, _d, _e;
-  (_a = data.parent.data.config.plugins) == null ? void 0 : _a.forEach((plugin) => {
-    var _a2, _b2;
-    (_b2 = (_a2 = plugin(data.parent.el)) == null ? void 0 : _a2.tearDownNode) == null ? void 0 : _b2.call(_a2, data);
-  });
-  data.node.el.draggable = false;
-  if ((_c = (_b = data.node.data) == null ? void 0 : _b.abortControllers) == null ? void 0 : _c.mainNode)
-    (_e = (_d = data.node.data) == null ? void 0 : _d.abortControllers) == null ? void 0 : _e.mainNode.abort();
-}
-function nodesMutated(mutationList) {
-  if (mutationList.length === 1 && mutationList[0].addedNodes.length === 1 && !(mutationList[0].addedNodes[0] instanceof HTMLElement))
-    return;
-  const parentEl = mutationList[0].target;
-  if (!(parentEl instanceof HTMLElement))
-    return;
-  const parentData = parents.get(parentEl);
-  if (!parentData)
-    return;
-  remapNodes(parentEl);
-}
-function remapNodes(parent, force) {
-  var _a;
-  const parentData = parents.get(parent);
-  if (!parentData)
-    return;
-  parentData.privateClasses = Array.from(parent.classList);
-  const enabledNodes = [];
-  const config = parentData.config;
-  for (let x = 0; x < parent.children.length; x++) {
-    const node = parent.children[x];
-    if (!isNode(node) || node.id === "dnd-dragged-node-clone")
-      continue;
-    const nodeData = nodes.get(node);
-    if (force || !nodeData)
-      config.tearDownNode({
-        parent: {
-          el: parent,
-          data: parentData
-        },
-        node: {
-          el: node,
-          data: nodeData
-        }
-      });
-    if (config.disabled)
-      continue;
-    if (!config.draggable || config.draggable && config.draggable(node)) {
-      enabledNodes.push(node);
-    }
-  }
-  if (enabledNodes.length !== parentData.getValues(parent).length && !config.disabled) {
-    console.warn(
-      "The number of draggable items defined in the parent element does not match the number of values. This may cause unexpected behavior."
-    );
-    return;
-  }
-  const values = parentData.getValues(parent);
-  const enabledNodeRecords = [];
-  for (let x = 0; x < enabledNodes.length; x++) {
-    const node = enabledNodes[x];
-    const prevNodeData = nodes.get(node);
-    if (config.draggableValue && !config.draggableValue(values[x]))
-      continue;
-    const nodeData = Object.assign(
-      prevNodeData != null ? prevNodeData : {
-        privateClasses: [],
-        abortControllers: {}
-      },
-      {
-        value: values[x],
-        index: x
-      }
-    );
-    if (!isDragState(state) && state.activeState && eq(state.activeState.node.data.value, nodeData.value)) {
-      setActive(
-        {
-          data: parentData,
-          el: parent
-        },
-        {
-          el: node,
-          data: nodeData
-        },
-        state
-      );
-    }
-    if (isDragState(state) && eq(state.draggedNode.data.value, nodeData.value)) {
-      state.draggedNode.data = nodeData;
-      state.draggedNode.el = node;
-      const draggedNode = state.draggedNodes.find(
-        (x2) => x2.data.value === nodeData.value
-      );
-      if (draggedNode)
-        draggedNode.el = node;
-    }
-    enabledNodeRecords.push({
-      el: node,
-      data: nodeData
-    });
-    if (force || !prevNodeData)
-      config.setupNode({
-        parent: {
-          el: parent,
-          data: parentData
-        },
-        node: {
-          el: node,
-          data: nodeData
-        }
-      });
-    setupNodeRemap({
-      parent: {
-        el: parent,
-        data: parentData
-      },
-      node: {
-        el: node,
-        data: nodeData
-      }
-    });
-  }
-  parents.set(parent, { ...parentData, enabledNodes: enabledNodeRecords });
-  config.remapFinished(parentData);
-  (_a = parentData.config.plugins) == null ? void 0 : _a.forEach((plugin) => {
-    var _a2, _b;
-    (_b = (_a2 = plugin(parent)) == null ? void 0 : _a2.remapFinished) == null ? void 0 : _b.call(_a2);
-  });
-}
-function remapFinished() {
-  state.remapJustFinished = true;
-  if ("draggedNode" in state)
-    state.affectedNodes = [];
-}
-function validateDragstart(data) {
-  return !!data.targetData.parent.data.config.nativeDrag;
-}
-function draggedNodes(pointerDown) {
-  var _a;
-  if (!pointerDown.parent.data.config.multiDrag) {
-    return [pointerDown.node];
-  } else if (state.selectedState) {
-    return [
-      pointerDown.node,
-      ...(_a = state.selectedState) == null ? void 0 : _a.nodes.filter(
-        (x) => x.el !== pointerDown.node.el
-      )
-    ];
-  }
-  return [];
-}
-function handleParentScroll(_data) {
-  if (!isDragState(state))
-    return;
-  state.emit("scrollStarted", state);
-  if (isSynthDragState(state))
-    return;
-  state.preventEnter = true;
-  if (scrollTimeout)
-    clearTimeout(scrollTimeout);
-  scrollTimeout = setTimeout(() => {
-    state.preventEnter = false;
-    state.emit("scrollEnded", state);
-  }, 100);
-}
-function handleDragstart(data, _state) {
-  const config = data.targetData.parent.data.config;
-  if (!config.nativeDrag || !validateDragstart(data) || !validateDragHandle({
-    x: data.e.clientX,
-    y: data.e.clientY,
-    node: data.targetData.node,
-    config
-  })) {
-    pd(data.e);
-    return;
-  }
-  let nodes2 = config.draggedNodes({
-    parent: data.targetData.parent,
-    node: data.targetData.node
-  });
-  if (nodes2.length === 0) {
-    nodes2 = [data.targetData.node];
-  }
-  config.dragstartClasses(data.targetData.node, nodes2, config);
-  const dragState = initDrag(data, nodes2);
-  if (config.onDragstart) {
-    const dragstartData = {
-      parent: data.targetData.parent,
-      values: parentValues(
-        data.targetData.parent.el,
-        data.targetData.parent.data
-      ),
-      draggedNode: dragState.draggedNode,
-      draggedNodes: dragState.draggedNodes,
-      position: dragState.initialIndex,
-      state: dragState
-    };
-    config.onDragstart(dragstartData);
-  }
-}
-function handleNodePointerdown(data, state2) {
-  var _a, _b;
-  sp(data.e);
-  state2.pointerDown = {
-    parent: data.targetData.parent,
-    node: data.targetData.node,
-    validated: false
-  };
-  if (!validateDragHandle({
-    x: data.e.clientX,
-    y: data.e.clientY,
-    node: data.targetData.node,
-    config: data.targetData.parent.data.config
-  }))
-    return;
-  state2.pointerDown.validated = true;
-  handleLongPress(data, state2, data.targetData.node);
-  const parentData = data.targetData.parent.data;
-  let selectedNodes = [data.targetData.node];
-  const commandKey = data.e.ctrlKey || data.e.metaKey;
-  const shiftKey = data.e.shiftKey;
-  const targetNode = data.targetData.node;
-  if (commandKey && parentData.config.multiDrag) {
-    if (state2.selectedState) {
-      const idx = state2.selectedState.nodes.findIndex(
-        (x) => x.el === targetNode.el
-      );
-      if (idx === -1) {
-        selectedNodes = [...state2.selectedState.nodes, targetNode];
-      } else {
-        selectedNodes = state2.selectedState.nodes.filter(
-          (x) => x.el !== targetNode.el
-        );
-      }
-    } else {
-      selectedNodes = [targetNode];
-    }
-    setSelected(
-      data.targetData.parent,
-      selectedNodes,
-      data.targetData.node,
-      state2,
-      true
-    );
-    return;
-  }
-  if (shiftKey && parentData.config.multiDrag) {
-    const nodes2 = data.targetData.parent.data.enabledNodes;
-    if (state2.selectedState && state2.activeState) {
-      if (state2.selectedState.parent.el !== data.targetData.parent.el) {
-        deselect(state2.selectedState.nodes, state2.selectedState.parent, state2);
-        state2.selectedState = void 0;
-        for (let x = 0; x <= targetNode.data.index; x++)
-          selectedNodes.push(nodes2[x]);
-      } else {
-        const [minIndex, maxIndex] = state2.activeState.node.data.index < data.targetData.node.data.index ? [
-          state2.activeState.node.data.index,
-          data.targetData.node.data.index
-        ] : [
-          data.targetData.node.data.index,
-          state2.activeState.node.data.index
-        ];
-        selectedNodes = nodes2.slice(minIndex, maxIndex + 1);
-      }
-    } else {
-      for (let x = 0; x <= targetNode.data.index; x++)
-        selectedNodes.push(nodes2[x]);
-    }
-    setSelected(
-      data.targetData.parent,
-      selectedNodes,
-      data.targetData.node,
-      state2,
-      true
-    );
-    return;
-  }
-  if ((_b = (_a = state2.selectedState) == null ? void 0 : _a.nodes) == null ? void 0 : _b.length) {
-    const idx = state2.selectedState.nodes.findIndex(
-      (x) => x.el === data.targetData.node.el
-    );
-    if (idx === -1) {
-      if (state2.selectedState.parent.el !== data.targetData.parent.el) {
-        deselect(state2.selectedState.nodes, data.targetData.parent, state2);
-      } else if (parentData.config.multiDrag && isMobilePlatform()) {
-        selectedNodes.push(...state2.selectedState.nodes);
-      } else {
-        deselect(state2.selectedState.nodes, data.targetData.parent, state2);
-      }
-      setSelected(
-        data.targetData.parent,
-        selectedNodes,
-        data.targetData.node,
-        state2,
-        true
-      );
-    }
-  } else {
-    setSelected(
-      data.targetData.parent,
-      [data.targetData.node],
-      data.targetData.node,
-      state2,
-      true
-    );
-  }
-}
-function dragstartClasses(_node, nodes2, config, isSynth = false) {
-  addNodeClass(
-    nodes2.map((x) => x.el),
-    isSynth ? config.synthDraggingClass : config.draggingClass
-  );
-  setTimeout(() => {
-    removeClass(
-      nodes2.map((x) => x.el),
-      isSynth ? config.synthDraggingClass : config.draggingClass
-    );
-    addNodeClass(
-      nodes2.map((x) => x.el),
-      isSynth ? config.synthDragPlaceholderClass : config.dragPlaceholderClass
-    );
-    addNodeClass(
-      nodes2.map((x) => x.el),
-      isSynth ? config.synthDropZoneClass : config.dropZoneClass
-    );
-    removeClass(
-      nodes2.map((x) => x.el),
-      config.selectedClass
-    );
-  });
-}
-function initDrag(data, draggedNodes2) {
-  sp(data.e);
-  const dragState = setDragState(
-    dragStateProps(
-      data.targetData.node,
-      data.targetData.parent,
-      data.e,
-      draggedNodes2
-    )
-  );
-  if (data.e.dataTransfer) {
-    const config = data.targetData.parent.data.config;
-    data.e.dataTransfer.dropEffect = config.dragDropEffect;
-    data.e.dataTransfer.effectAllowed = config.dragEffectAllowed;
-    let dragImage;
-    data.e.dataTransfer.setData("text/plain", "");
-    if (config.dragImage) {
-      dragImage = config.dragImage(data, draggedNodes2);
-    } else {
-      if (!config.multiDrag || draggedNodes2.length === 1) {
-        data.targetData.node.el.style.zIndex = "9999";
-        data.targetData.node.el.style.boxSizing = "border-box";
-        data.e.dataTransfer.setDragImage(
-          data.targetData.node.el,
-          data.e.offsetX,
-          data.e.offsetY
-        );
-        dragState.originalZIndex = data.targetData.node.el.style.zIndex;
-        return dragState;
-      } else {
-        const wrapper = document.createElement("div");
-        wrapper.setAttribute("id", "dnd-dragged-node-clone");
-        wrapper.setAttribute("popover", "manual");
-        for (const node of draggedNodes2) {
-          const clone = node.el.cloneNode(true);
-          clone.id = node.el.id + "-clone";
-          clone.style.pointerEvents = "none";
-          wrapper.appendChild(clone);
-        }
-        const { width } = draggedNodes2[0].el.getBoundingClientRect();
-        Object.assign(wrapper.style, {
-          display: "flex",
-          flexDirection: "column",
-          width: `${width}px`,
-          position: "absolute",
-          pointerEvents: "none",
-          zIndex: "9999",
-          left: "-9999px",
-          boxSizing: "border-box",
-          background: "transparent",
-          overflow: "hidden"
-        });
-        data.targetData.parent.el.appendChild(wrapper);
-        wrapper.showPopover();
-        wrapper.getBoundingClientRect();
-        dragImage = wrapper;
-        data.e.dataTransfer.setDragImage(
-          dragImage,
-          data.e.offsetX,
-          data.e.offsetY
-        );
-      }
-    }
-    setTimeout(() => {
-      dragImage == null ? void 0 : dragImage.remove();
-    });
-  }
-  return dragState;
-}
-function validateDragHandle({
-  x,
-  y,
-  node,
-  config
-}) {
-  if (config.externalDragHandle)
-    return false;
-  if (!config.dragHandle)
-    return true;
-  const dragHandles = node.el.querySelectorAll(config.dragHandle);
-  if (!dragHandles)
-    return false;
-  const elFromPoint = config.root.elementFromPoint(x, y);
-  if (!elFromPoint)
-    return false;
-  for (const handle of Array.from(dragHandles))
-    if (elFromPoint === handle || handle.contains(elFromPoint))
-      return true;
-  return false;
-}
-function handleNodeKeydown(_data) {
-}
-function handleNodePointerover2(e) {
-  if (e.detail.targetData.parent.el === e.detail.state.currentParent.el)
-    sort(e.detail, e.detail.state);
-  else
-    transfer(e.detail, e.detail.state);
-}
-function handleNodeDrop(data, state2) {
-  const config = data.targetData.parent.data.config;
-  if (!config.nativeDrag)
-    return;
-  sp(data.e);
-  dropped = true;
-  config.handleEnd(state2);
-}
-function handleNodeFocus(data) {
-  if (data.e.target === data.e.currentTarget)
-    return;
-  if (state.pointerDown)
-    state.pointerDown.node.el.draggable = false;
-}
-function handleNodeBlur(data) {
-  if (data.e.target === data.e.currentTarget)
-    return;
-  if (state.pointerDown)
-    state.pointerDown.node.el.draggable = true;
-}
-function handleDragend(data, state2) {
-  const config = data.targetData.parent.data.config;
-  if (!config.nativeDrag)
-    return;
-  pd(data.e);
-  sp(data.e);
-  if (dropped) {
-    dropped = false;
-    return;
-  }
-  config.handleEnd(state2);
-}
-function handlePointercancel(data, state2) {
-  var _a;
-  if (!isSynthDragState(state2))
-    return;
-  pd(data.e);
-  if (dropped) {
-    dropped = false;
-    return;
-  }
-  const config = (_a = parents.get(state2.initialParent.el)) == null ? void 0 : _a.config;
-  if (config == null ? void 0 : config.onDragend) {
-    config.onDragend({
-      parent: state2.currentParent,
-      values: parentValues(state2.currentParent.el, state2.currentParent.data),
-      draggedNode: state2.draggedNode,
-      draggedNodes: state2.draggedNodes,
-      state: state2
-    });
-  }
-  config == null ? void 0 : config.handleEnd(state2);
-}
-function handleEnd3(state2) {
-  var _a, _b, _c, _d, _e;
-  if (state2.draggedNode)
-    state2.draggedNode.el.draggable = true;
-  const nodesToClean = state2.draggedNodes.map((x) => x.el);
-  const initialParentData = state2.initialParent.data;
-  const isSynth = isSynthDragState(state2);
-  const config = (_a = parents.get(state2.initialParent.el)) == null ? void 0 : _a.config;
-  const dropZoneClass = isSynth ? config == null ? void 0 : config.synthDropZoneClass : config == null ? void 0 : config.dropZoneClass;
-  const longPressClass = (_b = initialParentData == null ? void 0 : initialParentData.config) == null ? void 0 : _b.longPressClass;
-  const placeholderClass = isSynth ? (_c = initialParentData == null ? void 0 : initialParentData.config) == null ? void 0 : _c.synthDragPlaceholderClass : (_d = initialParentData == null ? void 0 : initialParentData.config) == null ? void 0 : _d.dragPlaceholderClass;
-  const originalZIndex = state2.originalZIndex;
-  if (isSynthDragState(state2)) {
-    if (state2.clonedDraggedNode) {
-      state2.clonedDraggedNode.remove();
-    }
-    if (state2.longPressTimeout) {
-      clearTimeout(state2.longPressTimeout);
-    }
-  }
-  cancelSynthScroll(state2);
-  state2.lastScrollDirectionX = void 0;
-  state2.lastScrollDirectionY = void 0;
-  state2.preventEnter = false;
-  if (state2.scrollDebounceTimeout) {
-    clearTimeout(state2.scrollDebounceTimeout);
-    state2.scrollDebounceTimeout = void 0;
-  }
-  if (originalZIndex !== void 0 && state2.draggedNode) {
-    state2.draggedNode.el.style.zIndex = originalZIndex;
-  }
-  requestAnimationFrame(() => {
-    removeClass(nodesToClean, dropZoneClass);
-    removeClass(nodesToClean, longPressClass);
-    removeClass(nodesToClean, placeholderClass);
-  });
-  deselect(state2.draggedNodes, state2.currentParent, state2);
-  setActive(state2.currentParent, void 0, state2);
-  const finalStateForCallback = { ...state2 };
-  (_e = config == null ? void 0 : config.onDragend) == null ? void 0 : _e.call(config, {
-    parent: finalStateForCallback.currentParent,
-    values: parentValues(
-      finalStateForCallback.currentParent.el,
-      finalStateForCallback.currentParent.data
-    ),
-    draggedNode: finalStateForCallback.draggedNode,
-    draggedNodes: finalStateForCallback.draggedNodes,
-    state: finalStateForCallback
-  });
-  state2.emit("dragEnded", finalStateForCallback);
-  resetState();
-}
-function handleNodePointerup(data, state2) {
-  sp(data.e);
-  if (!state2.pointerSelection && state2.selectedState)
-    deselect(state2.selectedState.nodes, data.targetData.parent, state2);
-  const config = data.targetData.parent.data.config;
-  state2.pointerSelection = false;
-  if ("longPressTimeout" in state2 && state2.longPressTimeout)
-    clearTimeout(state2.longPressTimeout);
-  state2.longPress = false;
-  removeClass(
-    data.targetData.parent.data.enabledNodes.map((x) => x.el),
-    config.longPressClass
-  );
-  if (!isDragState(state2))
-    return;
-  config.handleEnd(state2);
-}
-function initSynthDrag(node, parent, e, _state, draggedNodes2, rect) {
-  var _a, _b;
-  const config = parent.data.config;
-  let dragImage;
-  let result;
-  const criticalStyleProps = [
-    "display",
-    "flexDirection",
-    "alignItems",
-    "justifyContent",
-    "padding",
-    "paddingTop",
-    "margin",
-    "marginTop",
-    "marginBottom",
-    "marginLeft",
-    "marginRight",
-    "paddingBottom",
-    "paddingLeft",
-    "paddingRight",
-    "border",
-    "borderRadius",
-    "background",
-    "backgroundColor",
-    "boxShadow",
-    "font",
-    "color",
-    "lineHeight",
-    "gap",
-    "width",
-    "height",
-    "boxSizing",
-    "overflow"
-  ];
-  const copyCriticalStyles = (src, dest) => {
-    const computed = window.getComputedStyle(src);
-    criticalStyleProps.forEach((prop) => {
-      dest.style[prop] = computed[prop];
-    });
-  };
-  const applyBaseStyles = (el, extraStyles = {}) => {
-    Object.assign(el.style, {
-      position: "absolute",
-      zIndex: "9999",
-      pointerEvents: "none",
-      willChange: "transform",
-      boxSizing: "border-box",
-      opacity: "0",
-      overflow: "hidden",
-      width: `${rect.width}px`,
-      height: `${rect.height}px`,
-      ...extraStyles
-    });
-  };
-  if (config.synthDragImage) {
-    result = config.synthDragImage(node, parent, e, draggedNodes2);
-    dragImage = result.dragImage;
-    dragImage.setAttribute("popover", "manual");
-    applyBaseStyles(dragImage);
-  } else if (!config.multiDrag || draggedNodes2.length === 1) {
-    dragImage = node.el.cloneNode(true);
-    copyCriticalStyles(node.el, dragImage);
-    dragImage.setAttribute("popover", "manual");
-    applyBaseStyles(dragImage);
-  } else {
-    const wrapper = document.createElement("div");
-    wrapper.setAttribute("popover", "manual");
-    draggedNodes2.forEach((dragged) => {
-      const clone = dragged.el.cloneNode(true);
-      copyCriticalStyles(dragged.el, clone);
-      clone.style.pointerEvents = "none";
-      clone.style.margin = "0";
-      wrapper.append(clone);
-    });
-    wrapper.style.display = "flex";
-    wrapper.style.flexDirection = "column";
-    wrapper.style.padding = "0";
-    wrapper.style.margin = "0";
-    wrapper.style.position = "absolute";
-    wrapper.style.zIndex = "9999";
-    wrapper.style.pointerEvents = "none";
-    dragImage = wrapper;
-  }
-  dragImage.id = "dnd-dragged-node-clone";
-  parent.el.appendChild(dragImage);
-  dragImage.showPopover();
-  const synthDragStateProps = {
-    clonedDraggedEls: [],
-    clonedDraggedNode: dragImage,
-    synthDragScrolling: false,
-    synthDragging: true,
-    rootScrollWidth: (_a = document.scrollingElement) == null ? void 0 : _a.scrollWidth,
-    rootScrollHeight: (_b = document.scrollingElement) == null ? void 0 : _b.scrollHeight
-  };
-  const synthDragState = setDragState({
-    ...dragStateProps(
-      node,
-      parent,
-      e,
-      draggedNodes2,
-      result == null ? void 0 : result.offsetX,
-      result == null ? void 0 : result.offsetY
-    ),
-    ...synthDragStateProps
-  });
-  return synthDragState;
-}
-function handleLongPress(data, state2, node) {
-  const config = data.targetData.parent.data.config;
-  state2.longPressTimeout = setTimeout(() => {
-    if (!state2)
-      return;
-    state2.longPress = true;
-    if (config.longPressClass && data.e.cancelable)
-      addNodeClass([node.el], config.longPressClass);
-    pd(data.e);
-  }, config.longPressDuration || 1e3);
-}
-function cancelSynthScroll(state2, cancelX = true, cancelY = true) {
-  if (cancelX) {
-    if (state2.frameIdX !== void 0) {
-      cancelAnimationFrame(state2.frameIdX);
-      state2.frameIdX = void 0;
-    }
-    state2.lastScrollDirectionX = void 0;
-  }
-  if (cancelY) {
-    if (state2.frameIdY !== void 0) {
-      cancelAnimationFrame(state2.frameIdY);
-      state2.frameIdY = void 0;
-    }
-    state2.lastScrollDirectionY = void 0;
-  }
-  if (!state2.frameIdX && !state2.frameIdY) {
-    state2.preventEnter = false;
-  }
-}
-function moveNode(state2, justStarted = false) {
-  var _a, _b, _c, _d, _e;
-  const { x, y } = state2.coordinates;
-  const startLeft = (_a = state2.startLeft) != null ? _a : 0;
-  const startTop = (_b = state2.startTop) != null ? _b : 0;
-  const currentScrollX = (_c = window.scrollX) != null ? _c : 0;
-  const currentScrollY = (_d = window.scrollY) != null ? _d : 0;
-  const translateX = x - startLeft + currentScrollX;
-  const translateY = y - startTop + currentScrollY;
-  state2.clonedDraggedNode.style.transform = `translate3d(${translateX}px, ${translateY}px, 0px)`;
-  if (justStarted) {
-    state2.clonedDraggedNode.style.opacity = "1";
-    removeClass(
-      state2.draggedNodes.map((x2) => x2.el),
-      (_e = state2.initialParent.data.config) == null ? void 0 : _e.longPressClass
-    );
-  }
-}
-function synthMove(e, state2, justStarted = false) {
-  const coordinates = eventCoordinates(e);
-  state2.coordinates.x = coordinates.x;
-  state2.coordinates.y = coordinates.y;
-  moveNode(state2, justStarted);
-  if (state2.scrollDebounceTimeout) {
-    clearTimeout(state2.scrollDebounceTimeout);
-    state2.scrollDebounceTimeout = void 0;
-  }
-  state2.scrollDebounceTimeout = setTimeout(() => {
-    if (isSynthDragState(state2)) {
-      handleSynthScroll(state2.coordinates, e, state2);
-    }
-  }, 16);
-  const elFromPoint = getElFromPoint(coordinates);
-  if (!elFromPoint) {
-    document.dispatchEvent(
-      new CustomEvent("handleRootPointerover", {
-        detail: {
-          e,
-          state: state2
-        }
-      })
-    );
-    return;
-  }
-  const pointerMoveEventData = {
-    e,
-    targetData: elFromPoint,
-    state: state2
-  };
-  if ("node" in elFromPoint) {
-    elFromPoint.node.el.dispatchEvent(
-      new CustomEvent("handleNodePointerover", {
-        detail: pointerMoveEventData
-      })
-    );
-  } else {
-    elFromPoint.parent.el.dispatchEvent(
-      new CustomEvent("handleParentPointerover", {
-        detail: pointerMoveEventData
-      })
-    );
-  }
-}
-function handleNodeDragover3(data, state2) {
-  var _a;
-  const config = data.targetData.parent.data.config;
-  if (!config.nativeDrag)
-    return;
-  const { x, y } = eventCoordinates(data.e);
-  state2.coordinates.y = y;
-  state2.coordinates.x = x;
-  pd(data.e);
-  sp(data.e);
-  if (isDragState(state2)) {
-    handleSynthScroll({ x, y }, data.e, state2);
-  }
-  data.targetData.parent.el === ((_a = state2.currentParent) == null ? void 0 : _a.el) ? sort(data, state2) : transfer(data, state2);
-}
-function handleParentDragover3(data, state2) {
-  const config = data.targetData.parent.data.config;
-  if (!config.nativeDrag)
-    return;
-  pd(data.e);
-  sp(data.e);
-  const { x, y } = eventCoordinates(data.e);
-  if (isDragState(state2)) {
-    handleSynthScroll({ x, y }, data.e, state2);
-  }
-  transfer(data, state2);
-}
-function handleParentPointerover2(e) {
-  if (e.detail.targetData.parent.el !== e.detail.state.currentParent.el)
-    transfer(e.detail, e.detail.state);
-}
-function validateTransfer({
-  currentParent,
-  targetParent,
-  initialParent,
-  draggedNodes: draggedNodes2,
-  state: state2
-}) {
-  if (targetParent.el === currentParent.el)
-    return false;
-  const targetConfig = targetParent.data.config;
-  if (draggedNodes2[0].el.contains(targetParent.el))
-    return false;
-  if (targetConfig.dropZone === false)
-    return false;
-  const initialParentConfig = initialParent.data.config;
-  if (targetConfig.accepts) {
-    return targetConfig.accepts(
-      targetParent,
-      initialParent,
-      currentParent,
-      state2
-    );
-  } else if (!targetConfig.group || targetConfig.group !== initialParentConfig.group) {
-    return false;
-  }
-  return true;
-}
-function handleNodeDragenter(data, _state) {
-  pd(data.e);
-}
-function handleNodeDragleave(data, _state) {
-  pd(data.e);
-}
-function validateSort(data, state2, x, y) {
-  var _a;
-  if (state2.affectedNodes.map((x2) => x2.data.value).includes(data.targetData.node.data.value)) {
-    return false;
-  }
-  if (state2.remapJustFinished) {
-    state2.remapJustFinished = false;
-    if (data.targetData.node.data.value === state2.currentTargetValue || state2.draggedNodes.map((x2) => x2.el).includes(data.targetData.node.el)) {
-      state2.currentTargetValue = data.targetData.node.data.value;
-    }
-    return false;
-  }
-  if (state2.preventEnter)
-    return false;
-  if (state2.draggedNodes.map((x2) => x2.el).includes(data.targetData.node.el)) {
-    state2.currentTargetValue = void 0;
-    return false;
-  }
-  if (data.targetData.node.data.value === state2.currentTargetValue)
-    return false;
-  if (data.targetData.parent.el !== ((_a = state2.currentParent) == null ? void 0 : _a.el) || data.targetData.parent.data.config.sortable === false)
-    return false;
-  if (data.targetData.node.el.contains(state2.draggedNodes[0].el))
-    return false;
-  const targetRect = data.targetData.node.el.getBoundingClientRect();
-  const dragRect = state2.draggedNode.el.getBoundingClientRect();
-  const yDiff = targetRect.y - dragRect.y;
-  const xDiff = targetRect.x - dragRect.x;
-  let incomingDirection;
-  if (Math.abs(yDiff) > Math.abs(xDiff)) {
-    incomingDirection = yDiff > 0 ? "above" : "below";
-  } else {
-    incomingDirection = xDiff > 0 ? "left" : "right";
-  }
-  const threshold = state2.currentParent.data.config.threshold;
-  switch (incomingDirection) {
-    case "left":
-      if (x > targetRect.x + targetRect.width * threshold.horizontal) {
-        state2.incomingDirection = "left";
-        return true;
-      }
-      break;
-    case "right":
-      if (x < targetRect.x + targetRect.width * (1 - threshold.horizontal)) {
-        state2.incomingDirection = "right";
-        return true;
-      }
-      break;
-    case "above":
-      if (y > targetRect.y + targetRect.height * threshold.vertical) {
-        state2.incomingDirection = "above";
-        return true;
-      }
-      break;
-    case "below":
-      if (y < targetRect.y + targetRect.height * (1 - threshold.vertical)) {
-        state2.incomingDirection = "below";
-        return true;
-      }
-      break;
-    default:
-      break;
-  }
-  return false;
-}
-function sort(data, state2) {
-  const { x, y } = eventCoordinates(data.e);
-  if (!validateSort(data, state2, x, y)) {
-    return;
-  }
-  const range = state2.draggedNode.data.index > data.targetData.node.data.index ? [data.targetData.node.data.index, state2.draggedNode.data.index] : [state2.draggedNode.data.index, data.targetData.node.data.index];
-  state2.targetIndex = data.targetData.node.data.index;
-  state2.affectedNodes = data.targetData.parent.data.enabledNodes.filter(
-    (node) => {
-      return range[0] <= node.data.index && node.data.index <= range[1] && node.el !== state2.draggedNode.el;
-    }
-  );
-  data.targetData.parent.data.config.performSort({
-    parent: data.targetData.parent,
-    draggedNodes: state2.draggedNodes,
-    targetNodes: [data.targetData.node]
-  });
-}
-function nodeEventData(callback) {
-  function nodeTargetData(node) {
-    const nodeData = nodes.get(node);
-    if (!nodeData)
-      return;
-    const parentData = parents.get(node.parentNode);
-    if (!parentData)
-      return;
-    return {
-      node: {
-        el: node,
-        data: nodeData
-      },
-      parent: {
-        el: node.parentNode,
-        data: parentData
-      }
-    };
-  }
-  return (e) => {
-    const targetData = nodeTargetData(e.currentTarget);
-    if (!targetData)
-      return;
-    return callback(
-      {
-        e,
-        targetData
-      },
-      state
-    );
-  };
-}
-function transfer(data, state2) {
-  pd(data.e);
-  if (!validateTransfer({
-    currentParent: state2.currentParent,
-    targetParent: data.targetData.parent,
-    initialParent: state2.initialParent,
-    draggedNodes: state2.draggedNodes,
-    state: state2
-  }))
-    return;
-  data.targetData.parent.data.config.performTransfer({
-    currentParent: state2.currentParent,
-    targetParent: data.targetData.parent,
-    initialParent: state2.initialParent,
-    draggedNodes: state2.draggedNodes,
-    initialIndex: state2.initialIndex,
-    state: state2,
-    targetNodes: "node" in data.targetData ? [data.targetData.node] : []
-  });
-  state2.currentParent = data.targetData.parent;
-  state2.transferred = true;
-}
-function parentEventData(callback) {
-  function parentTargetData(parent) {
-    const parentData = parents.get(parent);
-    if (!parentData)
-      return;
-    return {
-      parent: {
-        el: parent,
-        data: parentData
-      }
-    };
-  }
-  return (e) => {
-    const targetData = parentTargetData(e.currentTarget);
-    if (!targetData)
-      return;
-    return callback(
-      {
-        e,
-        targetData
-      },
-      state
-    );
-  };
-}
-function addNodeClass(els, className, omitAppendPrivateClass = false) {
-  function nodeSetter(node, nodeData) {
-    nodes.set(node, nodeData);
-  }
-  for (const el of els) {
-    const nodeData = nodes.get(el);
-    const newData = addClass(el, className, nodeData, omitAppendPrivateClass);
-    if (!newData)
-      continue;
-    nodeSetter(el, newData);
-  }
-}
-function addParentClass(els, className, omitAppendPrivateClass = false) {
-  function parentSetter(parent, parentData) {
-    parents.set(parent, parentData);
-  }
-  for (const el of els) {
-    const parentData = parents.get(el);
-    const newData = addClass(el, className, parentData, omitAppendPrivateClass);
-    if (!newData)
-      continue;
-    parentSetter(el, newData);
-  }
-}
-function addClass(el, className, data, omitAppendPrivateClass = false) {
-  if (!className)
-    return;
-  const classNames = splitClass(className);
-  if (!classNames.length)
-    return;
-  if (!data) {
-    el.classList.add(...classNames);
-    return;
-  }
-  const privateClasses = [];
-  for (const currentClassName of classNames) {
-    if (!el.classList.contains(currentClassName)) {
-      el.classList.add(currentClassName);
-    } else if (
-      // Only add to privateClasses if the element already had the class
-      // AND omitAppendPrivateClass is specifically false for THIS call.
-      el.classList.contains(currentClassName) && omitAppendPrivateClass === false
-    ) {
-      privateClasses.push(currentClassName);
-    }
-  }
-  data.privateClasses = privateClasses;
-  return data;
-}
-function removeClass(els, className) {
-  if (!className)
-    return;
-  const classNames = splitClass(className);
-  if (!classNames.length)
-    return;
-  for (const node of els) {
-    if (!isNode(node)) {
-      node.classList.remove(...classNames);
-      continue;
-    }
-    const nodeData = nodes.get(node) || parents.get(node);
-    if (!nodeData)
-      continue;
-    for (const className2 of classNames) {
-      if (!nodeData.privateClasses.includes(className2)) {
-        node.classList.remove(className2);
-      }
-    }
-  }
-}
-function getScrollDirection(el, e, style, rect, opts) {
-  const threshold = 0.075;
-  const isX = opts.axis === "x";
-  const isRoot = el === document.scrollingElement;
-  const scrollProp = isX ? "scrollLeft" : "scrollTop";
-  const sizeProp = isX ? "clientWidth" : "clientHeight";
-  const offsetProp = isX ? "offsetWidth" : "offsetHeight";
-  const scrollSizeProp = isX ? "scrollWidth" : "scrollHeight";
-  const clientCoord = isX ? e.clientX : e.clientY;
-  const rectStart = isX ? rect.left : rect.top;
-  const overflow = isX ? style.overflowX : style.overflowY;
-  if (isRoot) {
-    const scrollPos = el[scrollProp];
-    const clientSize = el[sizeProp];
-    const canScrollBefore = scrollPos > 0;
-    const canScrollAfter = scrollPos + clientSize < (isX ? opts.state.rootScrollWidth || 0 : el[scrollSizeProp]);
-    return isX ? {
-      left: canScrollBefore && clientCoord < clientSize * threshold,
-      right: canScrollAfter && clientCoord > clientSize * (1 - threshold)
-    } : {
-      up: canScrollBefore && clientCoord < clientSize * threshold,
-      down: canScrollAfter && clientCoord > clientSize * (1 - threshold)
-    };
-  }
-  if ((overflow === "auto" || overflow === "scroll") && el !== document.body && el !== document.documentElement) {
-    const scrollSize = el[scrollSizeProp];
-    const offsetSize = el[offsetProp];
-    const scrollPos = el[scrollProp];
-    const canScrollBefore = scrollPos > 0;
-    const canScrollAfter = scrollPos < scrollSize - offsetSize;
-    return isX ? {
-      left: canScrollBefore && clientCoord < rectStart + offsetSize * threshold,
-      right: canScrollAfter && clientCoord > rectStart + offsetSize * (1 - threshold)
-    } : {
-      up: canScrollBefore && clientCoord < rectStart + offsetSize * threshold,
-      down: canScrollAfter && clientCoord > rectStart + offsetSize * (1 - threshold)
-    };
-  }
-  return isX ? { left: false, right: false } : { up: false, down: false };
-}
-function scrollAxis(el, _e, state2, options) {
-  if (!isDragState(state2) || !state2.draggedNode) {
-    return;
-  }
-  state2.preventEnter = true;
-  const isX = options.axis === "x";
-  const dirFactor = options.direction === "positive" ? 1 : -1;
-  const speed = 20;
-  const key = isX ? "lastScrollDirectionX" : "lastScrollDirectionY";
-  const idKey = isX ? "frameIdX" : "frameIdY";
-  if (state2[idKey] !== void 0) {
-    cancelAnimationFrame(state2[idKey]);
-    state2[idKey] = void 0;
-  }
-  state2[key] = options.direction;
-  const scrollLoop = () => {
-    if (!isDragState(state2) || !state2.draggedNode) {
-      if (state2[idKey] !== void 0) {
-        cancelAnimationFrame(state2[idKey]);
-        state2[idKey] = void 0;
-      }
-      return;
-    }
-    const scrollProp = isX ? "scrollLeft" : "scrollTop";
-    const sizeProp = isX ? "clientWidth" : "clientHeight";
-    const scrollSizeProp = isX ? "scrollWidth" : "scrollHeight";
-    const scrollPos = el[scrollProp];
-    const clientSize = el[sizeProp];
-    const scrollSize = el[scrollSizeProp];
-    const canScroll = dirFactor > 0 ? scrollPos + clientSize < scrollSize : scrollPos > 0;
-    if (!canScroll) {
-      state2[idKey] = void 0;
-      state2[key] = void 0;
-      return;
-    }
-    el[scrollProp] += speed * dirFactor;
-    if (isSynthDragState(state2)) {
-      moveNode(state2);
-    }
-    state2[idKey] = requestAnimationFrame(scrollLoop);
-  };
-  state2[idKey] = requestAnimationFrame(scrollLoop);
-}
-function isPointerInside(el, x, y) {
-  const rect = el.getBoundingClientRect();
-  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-}
-function handleSynthScroll(coordinates, e, state2) {
-  if (!isDragState(state2) || !state2.draggedNode) {
-    return;
-  }
-  cancelSynthScroll(state2);
-  const { x, y } = coordinates;
-  let scrolled = false;
-  const attemptScroll = (axis, direction, container) => {
-    scrollAxis(container, e, state2, { axis, direction });
-    scrolled = true;
-  };
-  const checkAndScroll = (el) => {
-    const style = window.getComputedStyle(el);
-    const rect = el.getBoundingClientRect();
-    const xResult = getScrollDirection(el, e, style, rect, {
-      axis: "x",
-      state: state2
-    });
-    const yResult = getScrollDirection(el, e, style, rect, { axis: "y" });
-    if (xResult.left || xResult.right) {
-      state2.lastScrollContainerX = el;
-      attemptScroll("x", xResult.right ? "positive" : "negative", el);
-    }
-    if (yResult.up || yResult.down) {
-      state2.lastScrollContainerY = el;
-      attemptScroll("y", yResult.down ? "positive" : "negative", el);
-    }
-  };
-  if (state2.lastScrollContainerX && isPointerInside(state2.lastScrollContainerX, x, y)) {
-    checkAndScroll(state2.lastScrollContainerX);
-  }
-  if (!scrolled && state2.lastScrollContainerY && isPointerInside(state2.lastScrollContainerY, x, y)) {
-    checkAndScroll(state2.lastScrollContainerY);
-  }
-  if (!scrolled) {
-    let el = document.elementFromPoint(x, y);
-    while (el && !(scrolled && state2.lastScrollContainerX && state2.lastScrollContainerY)) {
-      if (el instanceof HTMLElement) {
-        checkAndScroll(el);
-      }
-      el = el.parentElement;
-    }
-  }
-  if (!scrolled) {
-    const root = document.scrollingElement;
-    if (root instanceof HTMLElement) {
-      checkAndScroll(root);
-    }
-  }
-  if (!scrolled)
-    cancelSynthScroll(state2);
-}
-function getElFromPoint(coordinates) {
-  let target = document.elementFromPoint(coordinates.x, coordinates.y);
-  if (!isNode(target))
-    return;
-  let isParent;
-  let invalidEl = true;
-  while (target && invalidEl) {
-    if (nodes.has(target) || parents.has(target)) {
-      invalidEl = false;
-      isParent = parents.has(target);
-      break;
-    }
-    target = target.parentNode;
-  }
-  if (!isParent) {
-    const targetNodeData = nodes.get(target);
-    if (!targetNodeData)
-      return;
-    const targetParentData = parents.get(target.parentNode);
-    if (!targetParentData)
-      return;
-    return {
-      node: {
-        el: target,
-        data: targetNodeData
-      },
-      parent: {
-        el: target.parentNode,
-        data: targetParentData
-      }
-    };
-  } else {
-    const parentData = parents.get(target);
-    if (!parentData)
-      return;
-    return {
-      parent: {
-        el: target,
-        data: parentData
-      }
-    };
-  }
-}
-function isNode(el) {
-  return el instanceof HTMLElement && el.parentNode instanceof HTMLElement;
-}
-function addEvents(el, events) {
-  const abortController = new AbortController();
-  for (const eventName in events) {
-    const handler = events[eventName];
-    el.addEventListener(eventName, handler, {
-      signal: abortController.signal,
-      passive: false,
-      capture: eventName === "focus" || eventName === "blur"
-    });
-  }
-  return abortController;
-}
-
-// node_modules/@formkit/drag-and-drop/react/index.mjs
-function getEl(parent) {
-  if (parent instanceof HTMLElement)
-    return parent;
-  else if ("current" in parent && parent.current instanceof HTMLElement)
-    return parent.current;
-  else {
-    console.warn("Invalid parent element", parent);
-    return;
-  }
-}
-function handleReactElements(element, cb) {
-  const el = getEl(element);
-  if (el)
-    cb(el);
-}
-var parentValues2 = /* @__PURE__ */ new WeakMap();
-function getValues(parent) {
-  const values = parentValues2.get(parent);
-  if (!values) {
-    console.warn("No values found for parent element");
-    return [];
-  }
-  return values[0];
-}
-function setValues(newValues, parent) {
-  const values = parentValues2.get(parent);
-  if (values)
-    values[1](newValues);
-  parentValues2.set(parent, [newValues, values[1]]);
-}
-function handleParent(config, values) {
-  return (el) => {
-    parentValues2.set(el, values);
-    dragAndDrop({ parent: el, getValues, setValues, config });
-  };
-}
-function dragAndDrop2(data) {
-  if (!isBrowser)
-    return;
-  if (!Array.isArray(data))
-    data = [data];
-  data.forEach((dnd) => {
-    const { parent, state: state2, ...rest } = dnd;
-    handleReactElements(parent, handleParent(rest, state2));
-  });
-}
-function useDragAndDrop(list, options = {}) {
-  const parent = (0, import_react.useRef)(null);
-  const [values, setValues2] = (0, import_react.useState)(list);
-  function updateConfig(config = {}) {
-    dragAndDrop2({ parent, state: [values, setValues2], ...config });
-  }
-  (0, import_react.useEffect)(() => {
-    dragAndDrop2({ parent, state: [values, setValues2], ...options });
-  }, [values]);
-  (0, import_react.useEffect)(() => {
-    return () => {
-      if (parent.current)
-        tearDown(parent.current);
-    };
-  }, []);
-  return [parent, values, setValues2, updateConfig];
-}
-
-// src/components/KanbanColumn.tsx
-var KanbanColumn = ({
-  id,
-  title,
-  items,
-  getColumnConfig,
-  getItemKey,
-  renderItem,
-  dropTargetClassName,
-  dropTargetParentClassName,
-  insertIndicatorClassName,
-  className
-}) => {
-  const dndConfig = React.useMemo(
-    () => getColumnConfig(id),
-    [getColumnConfig, id]
-  );
-  const [parent, list, setList] = useDragAndDrop(
-    items,
-    dndConfig
-  );
-  React.useLayoutEffect(() => {
-    setList(items);
-  }, [items, setList]);
-  const cleanupIndicators = React.useCallback(
-    (parentEl) => {
-      parentEl.classList.remove(dropTargetClassName);
-      parentEl.classList.remove(dropTargetParentClassName);
-      document.querySelectorAll(`.${insertIndicatorClassName}`).forEach((node) => {
-        if (node instanceof HTMLElement) {
-          node.style.display = "none";
-        }
-      });
-    },
-    [
-      dropTargetClassName,
-      dropTargetParentClassName,
-      insertIndicatorClassName
-    ]
-  );
-  const handleDragLeave = React.useCallback(
-    (event) => {
-      const parentEl = event.currentTarget;
-      const rect = parentEl.getBoundingClientRect();
-      const isOutside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
-      if (!isOutside)
-        return;
-      cleanupIndicators(parentEl);
-    },
-    [cleanupIndicators]
-  );
-  const handleDrop = React.useCallback(
-    (event) => {
-      cleanupIndicators(event.currentTarget);
-    },
-    [cleanupIndicators]
-  );
-  return /* @__PURE__ */ React.createElement("div", { className: `organiser-column ${className != null ? className : ""}` }, /* @__PURE__ */ React.createElement("h3", null, title), /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      ref: parent,
-      className: "column-content",
-      "data-column-id": id,
-      onDragLeave: handleDragLeave,
-      onDrop: handleDrop
-    },
-    list.map((item) => /* @__PURE__ */ React.createElement(React.Fragment, { key: getItemKey(item) }, renderItem(item)))
-  ));
-};
-
-// src/hooks/useKanbanDragAndDropFactory.ts
-var React2 = __toESM(require_react());
-var DEFAULT_ANIMATION_CONFIG = { duration: 180, yScale: 16, xScale: 16 };
-var DEFAULT_CLASSNAME_PREFIX = "kanban";
-var buildClassNames = (prefix) => ({
-  dragging: `${prefix}-dragging`,
-  placeholder: `${prefix}-drag-placeholder`,
-  dropTarget: `${prefix}-drop-target`,
-  dropTargetParent: `${prefix}-dragged-over`,
-  insertIndicator: `${prefix}-drop-indicator`
-});
-var createInvisibleDragImage = () => {
-  const dragImage = document.createElement("div");
-  dragImage.style.width = "1px";
-  dragImage.style.height = "1px";
-  dragImage.style.opacity = "0";
-  dragImage.style.position = "fixed";
-  dragImage.style.left = "-9999px";
-  dragImage.style.top = "-9999px";
-  dragImage.style.pointerEvents = "none";
-  return dragImage;
-};
-var useKanbanDragAndDropFactory = ({
-  scopeRef,
-  group,
-  onSort,
-  onTransfer,
-  classNamePrefix = DEFAULT_CLASSNAME_PREFIX,
-  dragHandleSelector,
-  cardClassName = "kanban-card",
-  animationConfig = DEFAULT_ANIMATION_CONFIG
-}) => {
-  const isDraggingRef = React2.useRef(false);
-  const classNames = React2.useMemo(
-    () => buildClassNames(classNamePrefix),
-    [classNamePrefix]
-  );
-  const dragHandleClassName = `${classNamePrefix}-drag-surface`;
-  const resolvedDragHandleSelector = dragHandleSelector != null ? dragHandleSelector : `.${dragHandleClassName}`;
-  const handleDragStart = React2.useCallback(() => {
-    isDraggingRef.current = true;
-  }, []);
-  const handleDragEnd = React2.useCallback(() => {
-    setTimeout(() => {
-      isDraggingRef.current = false;
-    }, 0);
-  }, []);
-  const onTransferRef = React2.useRef(onTransfer);
-  const onSortRef = React2.useRef(onSort);
-  React2.useEffect(() => {
-    onTransferRef.current = onTransfer;
-  }, [onTransfer]);
-  React2.useEffect(() => {
-    onSortRef.current = onSort;
-  }, [onSort]);
-  const createColumnConfig = React2.useCallback(
-    (columnId) => {
-      const columnAnimationPlugin = animations(animationConfig);
-      const columnInsertPlugin = insert({
-        insertPoint: () => {
-          const indicator = document.createElement("div");
-          indicator.className = classNames.insertIndicator;
-          return indicator;
-        },
-        insertEvent: (data) => {
-          var _a, _b, _c, _d, _e, _f;
-          const sourceEl = (_a = data.sourceParent) == null ? void 0 : _a.el;
-          const targetEl = (_b = data.targetParent) == null ? void 0 : _b.el;
-          const sourceColumnId = (_d = (_c = sourceEl == null ? void 0 : sourceEl.dataset) == null ? void 0 : _c.columnId) != null ? _d : "unknown";
-          const targetColumnId = (_f = (_e = targetEl == null ? void 0 : targetEl.dataset) == null ? void 0 : _e.columnId) != null ? _f : "unknown";
-          if (sourceColumnId === "unknown" || targetColumnId === "unknown") {
-            return;
-          }
-          if (sourceEl === targetEl) {
-            const values = data.targetParent.data.getValues(
-              targetEl
-            );
-            onSortRef.current(
-              targetColumnId,
-              { values }
-            );
-            return;
-          }
-          onTransferRef.current({
-            sourceParent: data.sourceParent,
-            targetParent: data.targetParent,
-            initialParent: data.sourceParent,
-            draggedNodes: data.draggedNodes,
-            targetNodes: data.targetNodes,
-            state: data.state
-          });
-        }
-      });
-      return {
-        group,
-        dragHandle: resolvedDragHandleSelector,
-        draggable: (node) => {
-          if (node.classList.contains(classNames.insertIndicator)) {
-            return false;
-          }
-          if (node.classList.contains(cardClassName)) {
-            return true;
-          }
-          return !!node.querySelector(resolvedDragHandleSelector);
-        },
-        draggingClass: classNames.dragging,
-        dragPlaceholderClass: classNames.placeholder,
-        synthDragPlaceholderClass: classNames.placeholder,
-        dropZoneClass: classNames.dropTarget,
-        dropZoneParentClass: classNames.dropTargetParent,
-        dragImage: (data) => {
-          var _a;
-          const dragImage = createInvisibleDragImage();
-          document.body.appendChild(dragImage);
-          (_a = data.e.dataTransfer) == null ? void 0 : _a.setDragImage(dragImage, 0, 0);
-          return dragImage;
-        },
-        synthDragImage: () => {
-          const dragImage = createInvisibleDragImage();
-          return { dragImage, offsetX: 0, offsetY: 0 };
-        },
-        plugins: [columnAnimationPlugin, columnInsertPlugin],
-        onTransfer: (data) => onTransferRef.current(data),
-        onSort: (data) => onSortRef.current(columnId, data),
-        onDragstart: handleDragStart,
-        onDragend: handleDragEnd
-      };
-    },
-    [
-      scopeRef,
-      group,
-      resolvedDragHandleSelector,
-      cardClassName,
-      classNames,
-      animationConfig,
-      handleDragStart,
-      handleDragEnd
-    ]
-  );
-  const configCacheRef = React2.useRef(
-    /* @__PURE__ */ new Map()
-  );
-  const configVersionRef = React2.useRef(0);
-  React2.useEffect(() => {
-    configVersionRef.current += 1;
-    configCacheRef.current.clear();
-  }, [createColumnConfig]);
-  const getColumnConfig = React2.useCallback(
-    (columnId) => {
-      const cached = configCacheRef.current.get(columnId);
-      if (cached)
-        return cached;
-      const config = createColumnConfig(columnId);
-      configCacheRef.current.set(columnId, config);
-      return config;
-    },
-    [createColumnConfig]
-  );
-  return {
-    getColumnConfig,
-    createColumnConfig,
-    // For cases where fresh config is always needed
-    isDraggingRef,
-    dragHandleClassName,
-    classNames
-  };
-};
+var import_obsidian2 = require("obsidian");
+var import_jkanban = __toESM(require_jkanban());
 
 // src/utils/field-manager.ts
 var import_obsidian = require("obsidian");
 var momentFn = import_obsidian.moment;
 var normalizeFieldValue = (value, type, options) => {
   var _a;
-  if (value === null || value === void 0)
-    return void 0;
+  if (value === null || value === void 0) return void 0;
   switch (type) {
     case "date": {
       const format = (_a = options == null ? void 0 : options.dateFormat) != null ? _a : "YYYY-MM-DD";
@@ -26620,10 +25019,8 @@ var normalizeFieldValue = (value, type, options) => {
       return String(value);
     }
     case "boolean": {
-      if (typeof value === "boolean")
-        return value;
-      if (value === "true" || value === "yes" || value === 1)
-        return true;
+      if (typeof value === "boolean") return value;
+      if (value === "true" || value === "yes" || value === 1) return true;
       if (value === "false" || value === "no" || value === 0)
         return false;
       return Boolean(value);
@@ -26657,8 +25054,7 @@ var getItemColumn = (frontmatter, columns, mapping) => {
     const isDefault = defaultValue === true || defaultValue === "true" || defaultValue === "yes";
     if (isDefault && fieldValue === void 0) {
       const defaultColumn = columns.find((c) => c.isDefault);
-      if (defaultColumn)
-        return defaultColumn.id;
+      if (defaultColumn) return defaultColumn.id;
     }
   }
   return void 0;
@@ -26696,335 +25092,23 @@ var FieldManager = class {
    */
   async readField(file, mapping) {
     const cache = this.app.metadataCache.getFileCache(file);
-    if (!(cache == null ? void 0 : cache.frontmatter))
-      return void 0;
+    if (!(cache == null ? void 0 : cache.frontmatter)) return void 0;
     return readFieldValue(cache.frontmatter, mapping);
   }
 };
 
-// src/components/KanbanBoard.tsx
-var getColumnIdFromElement = (parent) => {
-  var _a, _b;
-  return (_b = (_a = parent == null ? void 0 : parent.el) == null ? void 0 : _a.dataset) == null ? void 0 : _b.columnId;
-};
-var areColumnsEqual = (prev, next, getKey) => {
-  var _a, _b;
-  const prevKeys = Object.keys(prev);
-  const nextKeys = Object.keys(next);
-  if (prevKeys.length !== nextKeys.length)
-    return false;
-  for (const key of nextKeys) {
-    if (!Object.prototype.hasOwnProperty.call(prev, key))
-      return false;
-    const prevItems = (_a = prev[key]) != null ? _a : [];
-    const nextItems = (_b = next[key]) != null ? _b : [];
-    if (prevItems.length !== nextItems.length)
-      return false;
-    for (let i = 0; i < nextItems.length; i++) {
-      if (getKey(prevItems[i]) !== getKey(nextItems[i]))
-        return false;
-    }
-  }
-  return true;
-};
-var KanbanBoard = ({
-  app,
-  config,
-  renderItem,
-  header,
-  getItemKey = (item) => item.id,
-  onItemClick,
-  className,
-  cardClassName = "kanban-card"
-}) => {
-  var _a;
-  const [columnItems, setColumnItems] = React3.useState(
-    {}
-  );
-  const columnItemsRef = React3.useRef({});
-  const boardRef = React3.useRef(null);
-  const lastTransferRef = React3.useRef(null);
-  const fieldManager = React3.useMemo(() => new FieldManager(app), [app]);
-  const hasLoadedData = Object.keys(columnItems).length > 0;
-  React3.useEffect(() => {
-    columnItemsRef.current = columnItems;
-  }, [columnItems]);
-  const refreshItems = React3.useCallback(() => {
-    var _a2, _b;
-    const files = app.vault.getMarkdownFiles();
-    const itemsByColumn = {};
-    for (const column of config.columns) {
-      itemsByColumn[column.id] = [];
-    }
-    for (const file of files) {
-      const cache = app.metadataCache.getFileCache(file);
-      if (!cache)
-        continue;
-      const frontmatter = cache.frontmatter || {};
-      if (config.itemFilter) {
-        const {
-          pathPattern,
-          requiredTags,
-          requiredFields,
-          customFilter
-        } = config.itemFilter;
-        if (pathPattern && !pathPattern.test(file.path))
-          continue;
-        if (requiredTags) {
-          const fileTags = (_a2 = (0, import_obsidian2.getAllTags)(cache)) != null ? _a2 : [];
-          const hasTags = requiredTags.some(
-            (tag) => fileTags.includes(tag)
-          );
-          if (!hasTags)
-            continue;
-        }
-        if (requiredFields) {
-          const hasFields = requiredFields.every(
-            (field) => frontmatter[field] !== void 0
-          );
-          if (!hasFields)
-            continue;
-        }
-        if (customFilter && !customFilter(file, frontmatter))
-          continue;
-      }
-      const item = config.itemTransformer ? config.itemTransformer(file, frontmatter) : {
-        id: file.path,
-        title: frontmatter.title || file.basename,
-        path: file.path
-      };
-      const columnId = getItemColumn(
-        frontmatter,
-        config.columns,
-        config.fieldMapping
-      );
-      if (columnId && itemsByColumn[columnId]) {
-        itemsByColumn[columnId].push(item);
-      }
-    }
-    const previous = columnItemsRef.current;
-    const newColumns = {};
-    for (const columnId of Object.keys(itemsByColumn)) {
-      const newItems = itemsByColumn[columnId];
-      const prevItems = (_b = previous[columnId]) != null ? _b : [];
-      const prevIds = prevItems.map(getItemKey);
-      const newIds = new Set(newItems.map(getItemKey));
-      const orderedIds = prevIds.filter((id) => newIds.has(id));
-      const addedIds = newItems.filter((item) => !orderedIds.includes(getItemKey(item))).map(getItemKey);
-      const allIds = [...orderedIds, ...addedIds];
-      const itemMap = new Map(
-        newItems.map((item) => [getItemKey(item), item])
-      );
-      newColumns[columnId] = allIds.map((id) => itemMap.get(id)).filter((item) => item !== void 0);
-    }
-    if (!areColumnsEqual(previous, newColumns, getItemKey)) {
-      setColumnItems(newColumns);
-    }
-  }, [app, config, getItemKey]);
-  React3.useEffect(() => {
-    refreshItems();
-    const ref = app.metadataCache.on("changed", refreshItems);
-    return () => app.metadataCache.offref(ref);
-  }, [app, refreshItems]);
-  const handleSort = React3.useCallback(
-    (columnId, data) => {
-      setColumnItems((prev) => ({
-        ...prev,
-        [columnId]: data.values
-      }));
-    },
-    []
-  );
-  const handleTransfer = React3.useCallback(
-    (data) => {
-      var _a2;
-      const draggedItem = (_a2 = data.draggedNodes[0]) == null ? void 0 : _a2.data.value;
-      const targetColumnId = getColumnIdFromElement(data.targetParent);
-      const sourceColumnId = getColumnIdFromElement(data.sourceParent);
-      if (!draggedItem || !targetColumnId) {
-        return;
-      }
-      const transferKey = `${getItemKey(draggedItem)}:${targetColumnId}`;
-      if (lastTransferRef.current === transferKey)
-        return;
-      lastTransferRef.current = transferKey;
-      setTimeout(() => {
-        if (lastTransferRef.current === transferKey) {
-          lastTransferRef.current = null;
-        }
-      }, 0);
-      const targetColumn = config.columns.find(
-        (c) => c.id === targetColumnId
-      );
-      if (!targetColumn) {
-        return;
-      }
-      const file = app.vault.getAbstractFileByPath(draggedItem.id);
-      if (file instanceof import_obsidian2.TFile) {
-        fieldManager.updateFieldForColumn(
-          file,
-          targetColumn,
-          config.fieldMapping
-        ).catch((error) => {
-          console.error(
-            "[KanbanBoard] Failed to update frontmatter",
-            error
-          );
-        });
-      }
-      setColumnItems((prev) => {
-        const next = { ...prev };
-        const targetItems = data.targetParent.data.getValues(
-          data.targetParent.el
-        );
-        next[targetColumnId] = targetItems;
-        if (sourceColumnId && sourceColumnId !== targetColumnId) {
-          const sourceItems = data.sourceParent.data.getValues(
-            data.sourceParent.el
-          );
-          next[sourceColumnId] = sourceItems;
-        }
-        return next;
-      });
-    },
-    [app, config, fieldManager, getItemKey]
-  );
-  const { getColumnConfig, isDraggingRef, dragHandleClassName, classNames } = useKanbanDragAndDropFactory({
-    scopeRef: boardRef,
-    group: (_a = config.dragGroup) != null ? _a : config.id,
-    onSort: handleSort,
-    onTransfer: handleTransfer,
-    cardClassName
-  });
-  const renderItemWithHandler = React3.useCallback(
-    (item) => {
-      return renderItem(item, dragHandleClassName);
-    },
-    [renderItem, dragHandleClassName]
-  );
-  if (!hasLoadedData) {
-    return /* @__PURE__ */ React3.createElement("div", { className: className != null ? className : "" }, /* @__PURE__ */ React3.createElement("div", { className: "organiser-layout organiser-loading" }, "Loading..."));
-  }
-  return /* @__PURE__ */ React3.createElement("div", { ref: boardRef, className: className != null ? className : "" }, header, /* @__PURE__ */ React3.createElement("div", { className: "organiser-layout" }, config.columns.map((column) => {
-    var _a2;
-    return /* @__PURE__ */ React3.createElement(
-      KanbanColumn,
-      {
-        key: column.id,
-        id: column.id,
-        title: column.title,
-        items: (_a2 = columnItems[column.id]) != null ? _a2 : [],
-        getColumnConfig,
-        getItemKey,
-        renderItem: renderItemWithHandler,
-        dropTargetClassName: classNames.dropTarget,
-        dropTargetParentClassName: classNames.dropTargetParent,
-        insertIndicatorClassName: classNames.insertIndicator,
-        className: column.className
-      }
-    );
-  })));
-};
-
-// src/components/Card.tsx
-var React4 = __toESM(require_react());
-
-// node_modules/lucide-react/dist/esm/createLucideIcon.js
-var import_react3 = __toESM(require_react());
-
-// node_modules/lucide-react/dist/esm/defaultAttributes.js
-var defaultAttributes = {
-  xmlns: "http://www.w3.org/2000/svg",
-  width: 24,
-  height: 24,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 2,
-  strokeLinecap: "round",
-  strokeLinejoin: "round"
-};
-
-// node_modules/lucide-react/dist/esm/createLucideIcon.js
-var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-var createLucideIcon = (iconName, iconNode) => {
-  const Component = (0, import_react3.forwardRef)(
-    ({ color = "currentColor", size = 24, strokeWidth = 2, absoluteStrokeWidth, children, ...rest }, ref) => (0, import_react3.createElement)(
-      "svg",
-      {
-        ref,
-        ...defaultAttributes,
-        width: size,
-        height: size,
-        stroke: color,
-        strokeWidth: absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
-        className: `lucide lucide-${toKebabCase(iconName)}`,
-        ...rest
-      },
-      [
-        ...iconNode.map(([tag, attrs]) => (0, import_react3.createElement)(tag, attrs)),
-        ...(Array.isArray(children) ? children : [children]) || []
-      ]
-    )
-  );
-  Component.displayName = `${iconName}`;
-  return Component;
-};
-
-// node_modules/lucide-react/dist/esm/icons/dumbbell.js
-var Dumbbell = createLucideIcon("Dumbbell", [
-  ["path", { d: "m6.5 6.5 11 11", key: "f7oqzb" }],
-  ["path", { d: "m21 21-1-1", key: "cpc6if" }],
-  ["path", { d: "m3 3 1 1", key: "d3rpuf" }],
-  ["path", { d: "m18 22 4-4", key: "1e32o6" }],
-  ["path", { d: "m2 6 4-4", key: "189tqz" }],
-  ["path", { d: "m3 10 7-7", key: "1bxui2" }],
-  ["path", { d: "m14 21 7-7", key: "16x78n" }]
-]);
-
-// node_modules/lucide-react/dist/esm/icons/utensils.js
-var Utensils = createLucideIcon("Utensils", [
-  ["path", { d: "M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2", key: "cjf0a3" }],
-  ["path", { d: "M7 2v20", key: "1473qp" }],
-  [
-    "path",
-    { d: "M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7", key: "1ogz0v" }
-  ]
-]);
-
-// src/components/Card.tsx
-var Card = ({ item, onImageClick, onPointerDown, dragSurfaceClassName }) => {
-  return /* @__PURE__ */ React4.createElement("div", { className: "organiser-card" }, /* @__PURE__ */ React4.createElement("div", { className: dragSurfaceClassName, onPointerDown }, item.coverImage && /* @__PURE__ */ React4.createElement(
-    "div",
-    {
-      className: "card-cover",
-      onPointerDown: (e) => {
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      },
-      onClick: (e) => {
-        if (!e.ctrlKey && !e.metaKey)
-          return;
-        e.preventDefault();
-        e.stopPropagation();
-        onImageClick == null ? void 0 : onImageClick(e, item);
-      }
-    },
-    /* @__PURE__ */ React4.createElement("img", { src: item.coverImage, alt: item.title, draggable: false })
-  ), /* @__PURE__ */ React4.createElement(
-    "div",
-    {
-      className: "card-header"
-    },
-    item.type === "recipe" ? /* @__PURE__ */ React4.createElement(Utensils, { size: 14 }) : /* @__PURE__ */ React4.createElement(Dumbbell, { size: 14 }),
-    /* @__PURE__ */ React4.createElement("div", { className: "card-title" }, item.title)
-  )));
-};
-
 // src/components/WeeklyOrganiserBoard.tsx
-var momentFn2 = import_obsidian3.moment;
+var momentFn2 = import_obsidian2.moment;
+var resolveKanbanConstructor = () => {
+  var _a;
+  const moduleAny = import_jkanban.default;
+  const globalAny = globalThis;
+  const candidate = typeof moduleAny.default === "function" && moduleAny.default || typeof ((_a = moduleAny.default) == null ? void 0 : _a.jKanban) === "function" && moduleAny.default.jKanban || typeof moduleAny.jKanban === "function" && moduleAny.jKanban || typeof import_jkanban.default === "function" && import_jkanban.default || typeof globalAny.jKanban === "function" && globalAny.jKanban || typeof window.jKanban === "function" && window.jKanban;
+  if (typeof candidate !== "function") {
+    throw new Error("jKanban constructor not available");
+  }
+  return candidate;
+};
 var generateWeekColumns = (weekOffset) => {
   const startOfWeek = momentFn2().add(weekOffset, "weeks").startOf("isoWeek");
   const markedColumn = {
@@ -27044,13 +25128,58 @@ var generateWeekColumns = (weekOffset) => {
   }
   return [markedColumn, ...dayColumns];
 };
+var escapeHtml = (value) => value.replace(/[&<>"']/g, (char) => {
+  switch (char) {
+    case "&":
+      return "&amp;";
+    case "<":
+      return "&lt;";
+    case ">":
+      return "&gt;";
+    case '"':
+      return "&quot;";
+    case "'":
+      return "&#39;";
+    default:
+      return char;
+  }
+});
+var toSafeString = (value) => {
+  if (value === null || value === void 0) return "";
+  return typeof value === "string" ? value : String(value);
+};
+var renderCardHTML = (item) => {
+  const isRecipe = item.type === "recipe";
+  const icon = isRecipe ? `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>` : `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>`;
+  const title = escapeHtml(toSafeString(item.title));
+  const coverImage = typeof item.coverImage === "string" ? escapeHtml(item.coverImage) : "";
+  const imageHTML = coverImage ? `<div class="card-cover"><img src="${coverImage}" alt="${title}" draggable="false" /></div>` : "";
+  return `
+		<div class="organiser-card-content">
+			${imageHTML}
+			<div class="card-header">
+				${icon}
+				<div class="card-title">${title}</div>
+			</div>
+		</div>
+	`;
+};
 var WeeklyOrganiserBoard = ({ app }) => {
-  const [weekOffset, setWeekOffset] = React5.useState(0);
-  const columns = React5.useMemo(
+  const containerRef = React.useRef(null);
+  const kanbanInstanceRef = React.useRef(null);
+  const isInternalUpdateRef = React.useRef(false);
+  const lastDragTimeRef = React.useRef(0);
+  const [weekOffset, setWeekOffset] = React.useState(0);
+  const boardId = React.useMemo(
+    () => `weekly-organiser-board-${Math.random().toString(36).slice(2, 11)}`,
+    []
+  );
+  const fieldManager = React.useMemo(() => new FieldManager(app), [app]);
+  const columns = React.useMemo(
     () => generateWeekColumns(weekOffset),
     [weekOffset]
   );
-  const config = React5.useMemo(
+  const config = React.useMemo(
     () => ({
       id: "weekly-organiser",
       name: "Weekly Organiser",
@@ -27062,8 +25191,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
         defaultField: "marked"
       },
       itemFilter: {
-        // Match files in recipe or exercise paths, OR with those tags
-        customFilter: (file, frontmatter) => {
+        customFilter: (file, _frontmatter) => {
           const isRecipePath = file.path.toLowerCase().includes("recipe");
           const isExercisePath = file.path.toLowerCase().includes("exercise");
           return isRecipePath || isExercisePath;
@@ -27084,60 +25212,191 @@ var WeeklyOrganiserBoard = ({ app }) => {
     }),
     [columns]
   );
-  const handleItemClick = React5.useCallback(
-    (item) => {
-      const file = app.vault.getAbstractFileByPath(item.id);
-      if (file instanceof import_obsidian3.TFile) {
-        const leaf = app.workspace.getLeaf("split", "vertical");
-        leaf.openFile(file);
+  const buildBoardsData = React.useCallback(() => {
+    var _a;
+    const files = app.vault.getMarkdownFiles();
+    const boardsData = config.columns.map((col) => ({
+      id: col.id,
+      title: col.title,
+      item: []
+    }));
+    const boardMap = new Map(boardsData.map((board) => [board.id, board]));
+    for (const file of files) {
+      const cache = app.metadataCache.getFileCache(file);
+      if (!cache) continue;
+      const frontmatter = cache.frontmatter || {};
+      if (config.itemFilter) {
+        const {
+          pathPattern,
+          requiredTags,
+          requiredFields,
+          customFilter
+        } = config.itemFilter;
+        if (pathPattern && !pathPattern.test(file.path)) continue;
+        if (requiredTags) {
+          const fileTags = (_a = (0, import_obsidian2.getAllTags)(cache)) != null ? _a : [];
+          const hasTags = requiredTags.some(
+            (tag) => fileTags.includes(tag)
+          );
+          if (!hasTags) continue;
+        }
+        if (requiredFields) {
+          const hasFields = requiredFields.every(
+            (field) => frontmatter[field] !== void 0
+          );
+          if (!hasFields) continue;
+        }
+        if (customFilter && !customFilter(file, frontmatter)) continue;
       }
+      let item;
+      try {
+        item = config.itemTransformer ? config.itemTransformer(file, frontmatter) : {
+          id: file.path,
+          title: frontmatter.title || file.basename,
+          path: file.path
+        };
+      } catch (e) {
+        continue;
+      }
+      const columnId = getItemColumn(
+        frontmatter,
+        config.columns,
+        config.fieldMapping
+      );
+      if (columnId) {
+        const board = boardMap.get(columnId);
+        if (board) {
+          board.item.push({
+            id: item.id,
+            title: renderCardHTML(item),
+            class: "organiser-card"
+          });
+        }
+      }
+    }
+    return boardsData;
+  }, [app, config]);
+  const initKanban = React.useCallback(
+    (initialBoards = []) => {
+      if (!containerRef.current) return;
+      containerRef.current.innerHTML = "";
+      try {
+        const KanbanCtor = resolveKanbanConstructor();
+        const kanban = new KanbanCtor({
+          element: `#${boardId}`,
+          gutter: "0px",
+          widthBoard: "100%",
+          dragBoards: false,
+          boards: initialBoards,
+          dragEl: (el) => {
+            el.classList.add("is-dragging");
+          },
+          dragendEl: (el) => {
+            el.classList.remove("is-dragging");
+            lastDragTimeRef.current = Date.now();
+          },
+          dropEl: (el, target, _source, _sibling) => {
+            var _a;
+            const itemId = el.dataset.eid;
+            const targetBoardId = (_a = target.parentElement) == null ? void 0 : _a.dataset.id;
+            isInternalUpdateRef.current = true;
+            if (itemId && targetBoardId) {
+              const file = app.vault.getAbstractFileByPath(
+                itemId
+              );
+              const targetColumn = config.columns.find(
+                (c) => c.id === targetBoardId
+              );
+              if (file instanceof import_obsidian2.TFile && targetColumn) {
+                fieldManager.updateFieldForColumn(
+                  file,
+                  targetColumn,
+                  config.fieldMapping
+                );
+              }
+            }
+          }
+        });
+        kanbanInstanceRef.current = kanban;
+      } catch (err) {
+        console.error(
+          "[WeeklyOrganiser] Error initializing jKanban",
+          err
+        );
+      }
+    },
+    [app, boardId, config, fieldManager]
+  );
+  const refreshBoard = React.useCallback(() => {
+    if (!kanbanInstanceRef.current) return;
+    if (isInternalUpdateRef.current) {
+      isInternalUpdateRef.current = false;
+      return;
+    }
+    const boards = buildBoardsData();
+    initKanban(boards);
+  }, [buildBoardsData, initKanban]);
+  const handleCardClick = React.useCallback(
+    (event) => {
+      const target = event.target;
+      if (!target) return;
+      const itemEl = target.closest(".kanban-item");
+      if (!itemEl) return;
+      const timeSinceDrag = Date.now() - lastDragTimeRef.current;
+      if (timeSinceDrag < 250 || itemEl.classList.contains("is-dragging") || itemEl.classList.contains("is-moving")) {
+        return;
+      }
+      const itemId = itemEl.dataset.eid;
+      if (!itemId) return;
+      const file = app.vault.getAbstractFileByPath(itemId);
+      if (!(file instanceof import_obsidian2.TFile)) return;
+      const isCtrlClick = event.ctrlKey || event.metaKey;
+      const isImageClick = !!target.closest(".card-cover");
+      if (isCtrlClick && isImageClick) {
+        const leaf2 = app.workspace.getLeaf("split", "vertical");
+        leaf2.openFile(file, { active: true });
+        return;
+      }
+      const leaf = app.workspace.getLeaf("split", "vertical");
+      leaf.openFile(file, { active: true });
     },
     [app]
   );
-  const handleImageClick = React5.useCallback(
-    (e, item) => {
-      const file = app.vault.getAbstractFileByPath(item.id);
-      if (file instanceof import_obsidian3.TFile) {
-        const leaf = app.workspace.getLeaf("split", "vertical");
-        leaf.openFile(file);
-      }
-    },
-    [app]
-  );
+  React.useEffect(() => {
+    const initialBoards = buildBoardsData();
+    initKanban(initialBoards);
+    const ref = app.metadataCache.on("changed", refreshBoard);
+    return () => {
+      app.metadataCache.offref(ref);
+      kanbanInstanceRef.current = null;
+    };
+  }, [app, buildBoardsData, initKanban, refreshBoard, weekOffset]);
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const onClick = (event) => handleCardClick(event);
+    container.addEventListener("click", onClick);
+    return () => {
+      container.removeEventListener("click", onClick);
+    };
+  }, [handleCardClick]);
   const startDate = momentFn2().add(weekOffset, "weeks").startOf("isoWeek");
   const endDate = startDate.clone().add(6, "days");
   const weekRangeDisplay = `${startDate.format("MMM Do")} - ${endDate.format("MMM Do, YYYY")}`;
-  const header = /* @__PURE__ */ React5.createElement("div", { className: "organiser-header" }, /* @__PURE__ */ React5.createElement("div", { className: "week-nav" }, /* @__PURE__ */ React5.createElement("button", { onClick: () => setWeekOffset((prev) => prev - 1) }, "<"), /* @__PURE__ */ React5.createElement("button", { onClick: () => setWeekOffset(0) }, "Today"), /* @__PURE__ */ React5.createElement("button", { onClick: () => setWeekOffset((prev) => prev + 1) }, ">")), /* @__PURE__ */ React5.createElement("h2", null, weekRangeDisplay));
-  const renderCard = React5.useCallback(
-    (item, dragHandleClassName) => /* @__PURE__ */ React5.createElement(
-      Card,
-      {
-        item,
-        onImageClick: handleImageClick,
-        onPointerDown: () => {
-        },
-        dragSurfaceClassName: dragHandleClassName
-      }
-    ),
-    [handleImageClick]
-  );
-  return /* @__PURE__ */ React5.createElement(
-    KanbanBoard,
+  return /* @__PURE__ */ React.createElement("div", { className: "weekly-organiser-container" }, /* @__PURE__ */ React.createElement("div", { className: "organiser-header" }, /* @__PURE__ */ React.createElement("div", { className: "week-nav" }, /* @__PURE__ */ React.createElement("button", { onClick: () => setWeekOffset((prev) => prev - 1) }, "<"), /* @__PURE__ */ React.createElement("button", { onClick: () => setWeekOffset(0) }, "Today"), /* @__PURE__ */ React.createElement("button", { onClick: () => setWeekOffset((prev) => prev + 1) }, ">")), /* @__PURE__ */ React.createElement("h2", null, weekRangeDisplay)), /* @__PURE__ */ React.createElement(
+    "div",
     {
-      app,
-      config,
-      renderItem: renderCard,
-      header,
-      onItemClick: handleItemClick,
-      className: "weekly-organiser-container",
-      cardClassName: "organiser-card"
+      id: boardId,
+      ref: containerRef,
+      className: "weekly-organiser-kanban",
+      style: { overflowX: "auto", height: "calc(100% - 70px)" }
     }
-  );
+  ));
 };
 
 // src/view.tsx
 var VIEW_TYPE_WEEKLY_ORGANISER = "weekly-organiser-view";
-var WeeklyOrganiserView = class extends import_obsidian4.ItemView {
+var WeeklyOrganiserView = class extends import_obsidian3.ItemView {
   constructor(leaf) {
     super(leaf);
     this.root = null;
@@ -27154,7 +25413,7 @@ var WeeklyOrganiserView = class extends import_obsidian4.ItemView {
   async onOpen() {
     this.root = (0, import_client.createRoot)(this.containerEl.children[1]);
     this.root.render(
-      /* @__PURE__ */ React6.createElement(React6.StrictMode, null, /* @__PURE__ */ React6.createElement("div", { className: "weekly-organiser-view-container" }, /* @__PURE__ */ React6.createElement(WeeklyOrganiserBoard, { app: this.app })))
+      /* @__PURE__ */ React2.createElement(React2.StrictMode, null, /* @__PURE__ */ React2.createElement("div", { className: "weekly-organiser-view-container" }, /* @__PURE__ */ React2.createElement(WeeklyOrganiserBoard, { app: this.app })))
     );
   }
   async onClose() {
@@ -27164,7 +25423,7 @@ var WeeklyOrganiserView = class extends import_obsidian4.ItemView {
 };
 
 // src/main.ts
-var WeeklyOrganiserPlugin = class extends import_obsidian5.Plugin {
+var WeeklyOrganiserPlugin = class extends import_obsidian4.Plugin {
   async onload() {
     this.registerView(
       VIEW_TYPE_WEEKLY_ORGANISER,

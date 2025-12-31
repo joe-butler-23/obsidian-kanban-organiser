@@ -1,9 +1,9 @@
 import * as React from "react";
-import { App, TFile, moment } from "obsidian";
+import { App, TFile, getAllTags, moment } from "obsidian";
+import jKanbanModule from "jkanban";
 import { BoardConfig, ColumnDefinition } from "../types/kanban-config";
 import { OrganiserItem } from "../types";
-import { KanbanBoard } from "./KanbanBoard";
-import { Card } from "./Card";
+import { FieldManager, getItemColumn } from "../utils/field-manager";
 
 // Type cast for moment (Obsidian re-exports it)
 const momentFn: any = moment;
@@ -11,6 +11,33 @@ const momentFn: any = moment;
 interface WeeklyOrganiserBoardProps {
 	app: App;
 }
+
+type JKanbanCtor = new (options: any) => any;
+
+const resolveKanbanConstructor = (): JKanbanCtor => {
+	const moduleAny = jKanbanModule as unknown as {
+		default?: unknown;
+		jKanban?: unknown;
+	};
+	const globalAny = globalThis as { jKanban?: unknown };
+
+	const candidate =
+		(typeof moduleAny.default === "function" && moduleAny.default) ||
+		(typeof (moduleAny.default as { jKanban?: unknown })?.jKanban ===
+			"function" &&
+			(moduleAny.default as { jKanban?: unknown }).jKanban) ||
+		(typeof moduleAny.jKanban === "function" && moduleAny.jKanban) ||
+		(typeof jKanbanModule === "function" && jKanbanModule) ||
+		(typeof globalAny.jKanban === "function" && globalAny.jKanban) ||
+		(typeof (window as { jKanban?: unknown }).jKanban === "function" &&
+			(window as { jKanban?: unknown }).jKanban);
+
+	if (typeof candidate !== "function") {
+		throw new Error("jKanban constructor not available");
+	}
+
+	return candidate as JKanbanCtor;
+};
 
 /**
  * Generates column definitions for a week starting from Monday
@@ -40,12 +67,72 @@ const generateWeekColumns = (weekOffset: number): ColumnDefinition[] => {
 	return [markedColumn, ...dayColumns];
 };
 
+const escapeHtml = (value: string) =>
+	value.replace(/[&<>"']/g, (char) => {
+		switch (char) {
+			case "&":
+				return "&amp;";
+			case "<":
+				return "&lt;";
+			case ">":
+				return "&gt;";
+			case '"':
+				return "&quot;";
+			case "'":
+				return "&#39;";
+			default:
+				return char;
+		}
+	});
+
+const toSafeString = (value: unknown): string => {
+	if (value === null || value === undefined) return "";
+	return typeof value === "string" ? value : String(value);
+};
+
+const renderCardHTML = (item: OrganiserItem): string => {
+	const isRecipe = item.type === "recipe";
+	const icon = isRecipe
+		? `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`
+		: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>`;
+
+	const title = escapeHtml(toSafeString(item.title));
+	const coverImage =
+		typeof item.coverImage === "string"
+			? escapeHtml(item.coverImage)
+			: "";
+
+	const imageHTML = coverImage
+		? `<div class="card-cover"><img src="${coverImage}" alt="${title}" draggable="false" /></div>`
+		: "";
+
+	return `
+		<div class="organiser-card-content">
+			${imageHTML}
+			<div class="card-header">
+				${icon}
+				<div class="card-title">${title}</div>
+			</div>
+		</div>
+	`;
+};
+
 /**
- * Weekly Organiser Board - a thin wrapper around the generic KanbanBoard
- * configured for weekly scheduling of recipes and exercises.
+ * Weekly Organiser Board - jKanban implementation
  */
 export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
+	const containerRef = React.useRef<HTMLDivElement>(null);
+	const kanbanInstanceRef = React.useRef<any>(null);
+	const isInternalUpdateRef = React.useRef(false);
+	const lastDragTimeRef = React.useRef(0);
 	const [weekOffset, setWeekOffset] = React.useState(0);
+
+	const boardId = React.useMemo(
+		() => `weekly-organiser-board-${Math.random().toString(36).slice(2, 11)}`,
+		[]
+	);
+
+	const fieldManager = React.useMemo(() => new FieldManager(app), [app]);
 
 	// Generate columns based on current week offset
 	const columns = React.useMemo(
@@ -66,8 +153,7 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 				defaultField: "marked",
 			},
 			itemFilter: {
-				// Match files in recipe or exercise paths, OR with those tags
-				customFilter: (file, frontmatter) => {
+				customFilter: (file, _frontmatter) => {
 					const isRecipePath = file.path
 						.toLowerCase()
 						.includes("recipe");
@@ -94,29 +180,219 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 		[columns]
 	);
 
-	// Handle item click - open file in split view
-	const handleItemClick = React.useCallback(
-		(item: OrganiserItem) => {
-			const file = app.vault.getAbstractFileByPath(item.id);
-			if (file instanceof TFile) {
-				const leaf = app.workspace.getLeaf("split", "vertical");
-				leaf.openFile(file);
+	const buildBoardsData = React.useCallback(() => {
+		const files = app.vault.getMarkdownFiles();
+		const boardsData = config.columns.map((col) => ({
+			id: col.id,
+			title: col.title,
+			item: [] as { id: string; title: string; class: string }[],
+		}));
+		const boardMap = new Map(boardsData.map((board) => [board.id, board]));
+
+		for (const file of files) {
+			const cache = app.metadataCache.getFileCache(file);
+			if (!cache) continue;
+			const frontmatter = cache.frontmatter || {};
+
+			if (config.itemFilter) {
+				const {
+					pathPattern,
+					requiredTags,
+					requiredFields,
+					customFilter,
+				} = config.itemFilter;
+
+				if (pathPattern && !pathPattern.test(file.path)) continue;
+
+				if (requiredTags) {
+					const fileTags = getAllTags(cache) ?? [];
+					const hasTags = requiredTags.some((tag) =>
+						fileTags.includes(tag)
+					);
+					if (!hasTags) continue;
+				}
+
+				if (requiredFields) {
+					const hasFields = requiredFields.every(
+						(field) => frontmatter[field] !== undefined
+					);
+					if (!hasFields) continue;
+				}
+
+				if (customFilter && !customFilter(file, frontmatter)) continue;
 			}
+
+			let item: OrganiserItem;
+			try {
+				item = config.itemTransformer
+					? config.itemTransformer(file, frontmatter)
+					: (({
+							id: file.path,
+							title:
+								(frontmatter.title as string) ||
+								file.basename,
+							path: file.path,
+						} as OrganiserItem));
+			} catch {
+				continue;
+			}
+
+			const columnId = getItemColumn(
+				frontmatter,
+				config.columns,
+				config.fieldMapping
+			);
+
+			if (columnId) {
+				const board = boardMap.get(columnId);
+				if (board) {
+					board.item.push({
+						id: item.id,
+						title: renderCardHTML(item),
+						class: "organiser-card",
+					});
+				}
+			}
+		}
+
+		return boardsData;
+	}, [app, config]);
+
+	const initKanban = React.useCallback(
+		(initialBoards: any[] = []) => {
+			if (!containerRef.current) return;
+
+			containerRef.current.innerHTML = "";
+
+			try {
+				const KanbanCtor = resolveKanbanConstructor();
+				const kanban = new KanbanCtor({
+					element: `#${boardId}`,
+					gutter: "0px",
+					widthBoard: "100%",
+					dragBoards: false,
+					boards: initialBoards,
+					dragEl: (el: HTMLElement) => {
+						el.classList.add("is-dragging");
+					},
+					dragendEl: (el: HTMLElement) => {
+						el.classList.remove("is-dragging");
+						lastDragTimeRef.current = Date.now();
+					},
+					dropEl: (
+						el: HTMLElement,
+						target: HTMLElement,
+						_source: HTMLElement,
+						_sibling: HTMLElement
+					) => {
+						const itemId = el.dataset.eid;
+						const targetBoardId =
+							target.parentElement?.dataset.id;
+
+						isInternalUpdateRef.current = true;
+
+						if (itemId && targetBoardId) {
+							const file = app.vault.getAbstractFileByPath(
+								itemId
+							);
+							const targetColumn = config.columns.find(
+								(c) => c.id === targetBoardId
+							);
+
+							if (file instanceof TFile && targetColumn) {
+								fieldManager.updateFieldForColumn(
+									file,
+									targetColumn,
+									config.fieldMapping
+								);
+							}
+						}
+					},
+				});
+
+				kanbanInstanceRef.current = kanban;
+			} catch (err) {
+				console.error(
+					"[WeeklyOrganiser] Error initializing jKanban",
+					err
+				);
+			}
+		},
+		[app, boardId, config, fieldManager]
+	);
+
+	const refreshBoard = React.useCallback(() => {
+		if (!kanbanInstanceRef.current) return;
+		if (isInternalUpdateRef.current) {
+			isInternalUpdateRef.current = false;
+			return;
+		}
+
+		const boards = buildBoardsData();
+		initKanban(boards);
+	}, [buildBoardsData, initKanban]);
+
+	const handleCardClick = React.useCallback(
+		(event: MouseEvent) => {
+			const target = event.target as HTMLElement | null;
+			if (!target) return;
+
+			const itemEl = target.closest(".kanban-item") as HTMLElement | null;
+			if (!itemEl) return;
+
+			const timeSinceDrag = Date.now() - lastDragTimeRef.current;
+			if (
+				timeSinceDrag < 250 ||
+				itemEl.classList.contains("is-dragging") ||
+				itemEl.classList.contains("is-moving")
+			) {
+				return;
+			}
+
+			const itemId = itemEl.dataset.eid;
+			if (!itemId) return;
+
+			const file = app.vault.getAbstractFileByPath(itemId);
+			if (!(file instanceof TFile)) return;
+
+			const isCtrlClick = event.ctrlKey || event.metaKey;
+			const isImageClick = !!target.closest(".card-cover");
+
+			if (isCtrlClick && isImageClick) {
+				const leaf = app.workspace.getLeaf("split", "vertical");
+				leaf.openFile(file, { active: true });
+				return;
+			}
+
+			const leaf = app.workspace.getLeaf("split", "vertical");
+			leaf.openFile(file, { active: true });
 		},
 		[app]
 	);
 
-	// Handle image click (ctrl/cmd + click)
-	const handleImageClick = React.useCallback(
-		(e: React.MouseEvent, item: OrganiserItem) => {
-			const file = app.vault.getAbstractFileByPath(item.id);
-			if (file instanceof TFile) {
-				const leaf = app.workspace.getLeaf("split", "vertical");
-				leaf.openFile(file);
-			}
-		},
-		[app]
-	);
+	React.useEffect(() => {
+		const initialBoards = buildBoardsData();
+		initKanban(initialBoards);
+
+		const ref = app.metadataCache.on("changed", refreshBoard);
+
+		return () => {
+			app.metadataCache.offref(ref);
+			kanbanInstanceRef.current = null;
+		};
+	}, [app, buildBoardsData, initKanban, refreshBoard, weekOffset]);
+
+	React.useEffect(() => {
+		const container = containerRef.current;
+		if (!container) return;
+
+		const onClick = (event: MouseEvent) => handleCardClick(event);
+		container.addEventListener("click", onClick);
+
+		return () => {
+			container.removeEventListener("click", onClick);
+		};
+	}, [handleCardClick]);
 
 	// Week navigation
 	const startDate = momentFn()
@@ -125,44 +401,26 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 	const endDate = startDate.clone().add(6, "days");
 	const weekRangeDisplay = `${startDate.format("MMM Do")} - ${endDate.format("MMM Do, YYYY")}`;
 
-	// Header with week navigation
-	const header = (
-		<div className="organiser-header">
-			<div className="week-nav">
-				<button onClick={() => setWeekOffset((prev) => prev - 1)}>
-					&lt;
-				</button>
-				<button onClick={() => setWeekOffset(0)}>Today</button>
-				<button onClick={() => setWeekOffset((prev) => prev + 1)}>
-					&gt;
-				</button>
-			</div>
-			<h2>{weekRangeDisplay}</h2>
-		</div>
-	);
-
-	// Render card using the existing Card component
-	const renderCard = React.useCallback(
-		(item: OrganiserItem, dragHandleClassName: string) => (
-			<Card
-				item={item}
-				onImageClick={handleImageClick}
-				onPointerDown={() => {}}
-				dragSurfaceClassName={dragHandleClassName}
-			/>
-		),
-		[handleImageClick]
-	);
-
 	return (
-		<KanbanBoard
-			app={app}
-			config={config}
-			renderItem={renderCard}
-			header={header}
-			onItemClick={handleItemClick}
-			className="weekly-organiser-container"
-			cardClassName="organiser-card"
-		/>
+		<div className="weekly-organiser-container">
+			<div className="organiser-header">
+				<div className="week-nav">
+					<button onClick={() => setWeekOffset((prev) => prev - 1)}>
+						&lt;
+					</button>
+					<button onClick={() => setWeekOffset(0)}>Today</button>
+					<button onClick={() => setWeekOffset((prev) => prev + 1)}>
+						&gt;
+					</button>
+				</div>
+				<h2>{weekRangeDisplay}</h2>
+			</div>
+			<div
+				id={boardId}
+				ref={containerRef}
+				className="weekly-organiser-kanban"
+				style={{ overflowX: "auto", height: "calc(100% - 70px)" }}
+			/>
+		</div>
 	);
 };

@@ -1,3 +1,7 @@
+.weekly-organiser-view-container {
+	height: 100%;
+}
+
 .weekly-organiser-container {
 	height: 100%;
 	width: 100%;
@@ -41,7 +45,6 @@
 	border-radius: 8px;
 	padding: 4px 10px;
 	color: var(--text-normal);
-	transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .week-nav button:hover {
@@ -49,23 +52,28 @@
 	border-color: var(--background-modifier-border-hover, var(--background-modifier-border));
 }
 
-.organiser-layout {
-	display: grid;
-	grid-template-columns: repeat(5, 294px); /* 1.4x larger width */
-	grid-template-rows: repeat(2, 420px); /* Slightly taller rows for larger square images */
+.weekly-organiser-kanban {
+	overflow-x: auto;
+	height: calc(100% - 70px);
+}
+
+.kanban-container {
+	position: relative;
+	box-sizing: border-box;
+	display: grid !important;
+	grid-template-columns: repeat(5, 294px);
+	grid-template-rows: repeat(2, 420px);
 	gap: 16px;
-	height: auto;
+	padding-bottom: 40px;
 	align-items: stretch;
 	justify-content: start;
-	padding-bottom: 40px;
 }
 
-/* First child is the Marked column - make it span 2 rows (~760px + gap) */
-.organiser-layout > :first-child {
-	grid-row: span 2;
+.kanban-container * {
+	box-sizing: border-box;
 }
 
-.organiser-column {
+.kanban-board {
 	background-color: var(--background-secondary);
 	border: 1px solid var(--background-modifier-border);
 	border-radius: 12px;
@@ -73,28 +81,30 @@
 	flex-direction: column;
 	padding: 8px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-	transition: background-color 0.2s ease, border-color 0.2s ease,
-		box-shadow 0.2s ease;
 	min-width: 0;
-	max-height: 100%; /* Constraints it to the grid cell height */
+	max-height: 100%;
 }
 
-.organiser-column h3 {
+.kanban-board[data-id="marked"] {
+	grid-row: span 2;
+}
+
+.kanban-board header {
 	margin: 6px 8px 10px;
 	font-size: 0.8em;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var(--text-muted);
 	flex-shrink: 0;
+	border: none;
+	padding: 0;
 }
 
-.organiser-column.kanban-dragged-over {
-	background-color: var(--background-modifier-hover);
-	border-color: var(--interactive-accent);
-	box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+.kanban-board header .kanban-title-board {
+	font-weight: 600;
 }
 
-.column-content {
+.kanban-board .kanban-drag {
 	flex-grow: 1;
 	min-height: 50px;
 	padding: 4px;
@@ -102,40 +112,25 @@
 	flex-direction: column;
 	gap: 8px;
 	border-radius: 10px;
-	transition: background-color 0.2s ease;
 	position: relative;
-	overflow-y: auto; /* Enable scrolling */
+	overflow-y: auto;
 	overflow-x: hidden;
 }
 
-/* Innocuous scrollbar */
-.column-content::-webkit-scrollbar {
+.kanban-board .kanban-drag::-webkit-scrollbar {
 	width: 4px;
 }
 
-.column-content::-webkit-scrollbar-thumb {
+.kanban-board .kanban-drag::-webkit-scrollbar-thumb {
 	background-color: transparent;
 	border-radius: 4px;
 }
 
-.column-content:hover::-webkit-scrollbar-thumb {
+.kanban-board .kanban-drag:hover::-webkit-scrollbar-thumb {
 	background-color: var(--background-modifier-border-hover);
 }
 
-.column-content.kanban-drop-target:empty::before {
-	content: "";
-	position: absolute;
-	left: 6px;
-	right: 6px;
-	top: 14px;
-	height: 3px;
-	border-radius: 999px;
-	background-color: var(--interactive-accent);
-	box-shadow: 0 0 6px
-		color-mix(in srgb, var(--interactive-accent), transparent 40%);
-	pointer-events: none;
-}
-
+.kanban-item,
 .organiser-card {
 	background-color: var(--background-primary);
 	border: 1px solid var(--background-modifier-border);
@@ -143,47 +138,33 @@
 	padding: 0;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 	cursor: grab;
-	transition: transform 0.12s ease, box-shadow 0.12s ease,
-		border-color 0.12s ease, background-color 0.12s ease;
 	user-select: none;
-	flex-shrink: 0; /* Prevent cards from shrinking */
+	flex-shrink: 0;
+	transition: none;
 }
 
+.kanban-item:active,
 .organiser-card:active {
 	cursor: grabbing;
 }
 
-.organiser-card:hover {
-	transform: translateY(-1px);
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-color: var(--background-modifier-border-hover, var(--background-modifier-border));
-}
-
-.organiser-card.kanban-dragging {
+.kanban-item.is-dragging,
+.organiser-card.is-dragging {
 	opacity: 0.7;
 	background-color: var(--background-modifier-hover);
-	transform: rotate(1deg) scale(1.02);
-	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
-}
-
-.organiser-card.kanban-drag-placeholder {
-	opacity: 0.45;
-	background: var(--background-modifier-hover);
-	border-style: dashed;
-	box-shadow: none;
 	transform: none;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
 }
 
-.organiser-card.kanban-drop-target {
-	border-color: var(--interactive-accent);
-	box-shadow: 0 0 0 1px var(--interactive-accent);
+.organiser-card-content {
+	padding: 6px 8px;
 }
 
 .card-cover {
 	margin-bottom: 6px;
 	border-radius: 6px;
 	overflow: hidden;
-	aspect-ratio: 1 / 1; /* Square images */
+	aspect-ratio: 1 / 1;
 	background-color: var(--background-secondary);
 }
 
@@ -202,39 +183,14 @@
 	color: var(--text-normal);
 }
 
-.kanban-drag-surface {
-	/* display: block; Removed to preserve flex */
-	padding: 6px 8px;
-	cursor: grab;
-}
-
-.card-handle {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--text-muted);
-	opacity: 0.6;
-	cursor: grab;
-	transition: opacity 0.2s ease, color 0.2s ease;
-}
-
-.organiser-card:hover .card-handle {
-	opacity: 0.9;
-	color: var(--text-normal);
-}
-
-.card-handle:active {
-	cursor: grabbing;
-}
-
 .card-title {
 	font-weight: 600;
 	font-size: 0.9em;
-	line-height: 1.2; /* Tighten line height for alignment */
+	line-height: 1.2;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	padding-top: 5px; /* Micro-adjustment for visual center vs icon */
+	padding-top: 5px;
 }
 
 .card-badge {
@@ -246,31 +202,22 @@
 	display: inline-block;
 }
 
-.kanban-drop-indicator {
-	height: 3px;
-	background-color: var(--interactive-accent);
-	position: absolute;
-	pointer-events: none;
-	z-index: 10;
-	border-radius: 999px;
-	box-shadow: 0 0 6px color-mix(in srgb, var(--interactive-accent), transparent 40%);
-}
-
-#dnd-dragged-node-clone {
-	opacity: 0 !important;
-	width: 0 !important;
-	height: 0 !important;
+.gu-mirror {
+	position: fixed !important;
+	margin: 0 !important;
+	z-index: 9999 !important;
+	opacity: 0.85;
 	pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.organiser-card,
-	.organiser-column,
-	.week-nav button {
-		transition: none;
-	}
+.gu-hide {
+	display: none !important;
+}
 
-	.organiser-card:hover {
-		transform: none;
-	}
+.gu-unselectable {
+	user-select: none !important;
+}
+
+.gu-transit {
+	opacity: 0.2 !important;
 }
