@@ -3,11 +3,13 @@ export * from "./kanban-config";
 
 import { BaseKanbanItem } from "./kanban-config";
 
+export type OrganiserItemType = "recipe" | "exercise" | "task" | "unknown";
+
 /**
  * Extended item for the Weekly Organiser (backward compatible)
  */
 export interface OrganiserItem extends BaseKanbanItem {
-	type: "recipe" | "exercise";
+	type: OrganiserItemType;
 	coverImage?: string;
 	date?: string; // YYYY-MM-DD
 	marked?: boolean;

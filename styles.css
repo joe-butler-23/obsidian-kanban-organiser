@@ -5,7 +5,11 @@
 .weekly-organiser-container {
 	height: 100%;
 	width: 100%;
-	padding: 16px;
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-height: 0;
 	overflow: auto;
 	background: linear-gradient(
 		180deg,
@@ -14,65 +18,159 @@
 	);
 }
 
-.organiser-header {
+.organiser-topbar {
 	position: sticky;
 	top: 0;
-	z-index: 2;
+	z-index: 10;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	margin-bottom: 16px;
-	padding: 8px 10px 12px;
+	gap: 6px;
+	padding: 0 8px 6px;
 	background: var(--background-primary);
 	border-bottom: 1px solid var(--background-modifier-border);
+	flex-shrink: 0;
 }
 
-.week-range {
-	margin-left: 12px;
-	font-size: 0.95em;
+.topbar-select {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	padding: 3px 6px;
+	color: var(--text-normal);
+	font-size: 0.8em;
+	min-width: 120px;
+	cursor: pointer;
+}
+
+.topbar-input {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	padding: 3px 8px;
+	color: var(--text-normal);
+	font-size: 0.8em;
+	flex: 1 1 160px;
+	min-width: 100px;
+	max-width: 240px;
+}
+
+.topbar-input::placeholder {
 	color: var(--text-muted);
+}
+
+.topbar-actions {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	margin-left: auto;
+}
+
+.topbar-action {
+	position: relative;
+}
+
+.topbar-icon-btn {
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	border-radius: 4px;
+	padding: 4px;
+	color: var(--text-muted);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.topbar-icon-btn:hover {
+	background: var(--background-modifier-hover);
+	color: var(--text-normal);
+}
+
+.topbar-icon-btn.is-active {
+	background: var(--background-modifier-hover);
+	color: var(--text-normal);
+}
+
+.topbar-popover {
+	position: absolute;
+	top: calc(100% + 6px);
+	right: 0;
+	z-index: 10;
+	min-width: 160px;
+	padding: 6px;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.topbar-option {
+	all: unset;
+	cursor: pointer;
+	display: block;
+	width: 100%;
+	padding: 6px 8px;
+	border-radius: 6px;
+	color: var(--text-normal);
+	font-size: 0.9em;
+}
+
+.topbar-option:hover {
+	background: var(--background-modifier-hover);
+}
+
+.topbar-option.is-active {
+	font-weight: 600;
+	background: var(--background-modifier-hover);
+}
+
+.topbar-toggle {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.85em;
+	color: var(--text-normal);
+	cursor: pointer;
 }
 
 .week-nav {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 4px;
 }
 
-.week-nav button {
+.week-nav-btn {
 	cursor: pointer;
-	background: var(--background-secondary);
-	border: 1px solid var(--background-modifier-border);
-	border-radius: 8px;
-	padding: 4px 10px;
+	background: transparent;
+	border: none;
+	border-radius: 4px;
+	padding: 3px 6px;
+	color: var(--text-muted);
+	font-size: 0.75em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.week-nav-btn:hover {
+	background: var(--background-modifier-hover);
 	color: var(--text-normal);
 }
 
-.week-nav button:hover {
-	background: var(--background-modifier-hover);
-	border-color: var(--background-modifier-border-hover, var(--background-modifier-border));
+.week-range {
+	margin-left: 4px;
+	font-size: 0.8em;
+	color: var(--text-muted);
 }
 
 .week-nav-calendar {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
-}
-
-.calendar-toggle {
-	cursor: pointer;
-	background: var(--background-secondary);
-	border: 1px solid var(--background-modifier-border);
-	border-radius: 8px;
-	padding: 4px 8px;
-	color: var(--text-normal);
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.calendar-toggle:hover {
-	background: var(--background-modifier-hover);
-	border-color: var(--background-modifier-border-hover, var(--background-modifier-border));
 }
 
 .calendar-popover {
@@ -307,17 +405,18 @@
 }
 
 .weekly-organiser-kanban {
+	flex: 1 1 auto;
+	min-height: 0;
 	overflow-x: auto;
-	height: calc(100% - 70px);
 }
 
 .kanban-container {
 	position: relative;
 	box-sizing: border-box;
 	display: grid !important;
-	grid-template-columns: repeat(5, 294px);
-	grid-template-rows: repeat(2, 420px);
-	gap: 16px;
+	grid-template-columns: 240px repeat(4, 300px);
+	grid-template-rows: repeat(2, 400px);
+	gap: 12px;
 	padding-bottom: 40px;
 	align-items: stretch;
 	justify-content: start;
@@ -358,6 +457,10 @@
 	font-weight: 600;
 }
 
+.kanban-board.is-today {
+	border: 1px solid var(--interactive-accent);
+}
+
 .kanban-board .kanban-drag {
 	flex-grow: 1;
 	min-height: 50px;
@@ -382,6 +485,23 @@
 
 .kanban-board .kanban-drag:hover::-webkit-scrollbar-thumb {
 	background-color: var(--background-modifier-border-hover);
+}
+
+.kanban-item.kanban-group-header {
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	padding: 2px 6px;
+	font-size: 0.65em;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	cursor: default;
+	pointer-events: none;
+}
+
+.kanban-item.kanban-group-header .kanban-group-label {
+	display: block;
 }
 
 .kanban-item,

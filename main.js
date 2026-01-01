@@ -28978,28 +28978,28 @@ var require_pikaday = __commonJS({
   "node_modules/pikaday/pikaday.js"(exports, module2) {
     (function(root, factory) {
       "use strict";
-      var moment4;
+      var moment5;
       if (typeof exports === "object") {
         try {
-          moment4 = require_moment();
+          moment5 = require_moment();
         } catch (e) {
         }
-        module2.exports = factory(moment4);
+        module2.exports = factory(moment5);
       } else if (typeof define === "function" && define.amd) {
         define(function(req) {
           var id = "moment";
           try {
-            moment4 = req(id);
+            moment5 = req(id);
           } catch (e) {
           }
-          return factory(moment4);
+          return factory(moment5);
         });
       } else {
         root.Pikaday = factory(root.moment);
       }
-    })(exports, function(moment4) {
+    })(exports, function(moment5) {
       "use strict";
-      var hasMoment = typeof moment4 === "function", hasEventListeners = !!window.addEventListener, document2 = window.document, sto = window.setTimeout, addEvent = function(el, e, callback, capture) {
+      var hasMoment = typeof moment5 === "function", hasEventListeners = !!window.addEventListener, document2 = window.document, sto = window.setTimeout, addEvent = function(el, e, callback, capture) {
         if (hasEventListeners) {
           el.addEventListener(e, callback, !!capture);
         } else {
@@ -29214,7 +29214,7 @@ var require_pikaday = __commonJS({
         var jan4th = new Date(date.getFullYear(), 0, dayInFirstWeek), msPerDay = 24 * 60 * 60 * 1e3, daysBetween = (date.getTime() - jan4th.getTime()) / msPerDay, weekNum = 1 + Math.round((daysBetween - dayShift + prevWeekDay(jan4th.getDay())) / daysPerWeek);
         return weekNum;
       }, renderWeek = function(d, m, y, firstWeekOfYearMinDays) {
-        var date = new Date(y, m, d), week = hasMoment ? moment4(date).isoWeek() : isoWeek(date, firstWeekOfYearMinDays);
+        var date = new Date(y, m, d), week = hasMoment ? moment5(date).isoWeek() : isoWeek(date, firstWeekOfYearMinDays);
         return '<td class="pika-week">' + week + "</td>";
       }, renderRow = function(days, isRTL, pickWholeWeek, isRowSelected) {
         return '<tr class="pika-row' + (pickWholeWeek ? " pick-whole-week" : "") + (isRowSelected ? " is-selected" : "") + '">' + (isRTL ? days.reverse() : days).join("") + "</tr>";
@@ -29352,7 +29352,7 @@ var require_pikaday = __commonJS({
           if (opts.parse) {
             return opts.parse(opts.field.value, opts.format);
           } else if (hasMoment) {
-            var date = moment4(opts.field.value, opts.format, opts.formatStrict);
+            var date = moment5(opts.field.value, opts.format, opts.formatStrict);
             return date && date.isValid() ? date.toDate() : null;
           } else {
             return new Date(Date.parse(opts.field.value));
@@ -29511,7 +29511,7 @@ var require_pikaday = __commonJS({
             return this._o.toString(this._d, format);
           }
           if (hasMoment) {
-            return moment4(this._d).format(format);
+            return moment5(this._d).format(format);
           }
           return this._d.toDateString();
         },
@@ -29519,13 +29519,13 @@ var require_pikaday = __commonJS({
          * return a Moment.js object of the current selection (if available)
          */
         getMoment: function() {
-          return hasMoment ? moment4(this._d) : null;
+          return hasMoment ? moment5(this._d) : null;
         },
         /**
          * set the current selection from a Moment.js object (if available)
          */
         setMoment: function(date, preventOnSelect) {
-          if (hasMoment && moment4.isMoment(date)) {
+          if (hasMoment && moment5.isMoment(date)) {
             this.setDate(date.toDate(), preventOnSelect);
           }
         },
@@ -29904,20 +29904,36 @@ __export(main_exports, {
   default: () => WeeklyOrganiserPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian6 = require("obsidian");
+var import_obsidian7 = require("obsidian");
 
 // src/view.tsx
-var import_obsidian5 = require("obsidian");
+var import_obsidian6 = require("obsidian");
 var React4 = __toESM(require_react());
 var import_client = __toESM(require_client());
 
 // src/components/WeeklyOrganiserBoard.tsx
 var React3 = __toESM(require_react());
-var import_obsidian4 = require("obsidian");
+var import_obsidian5 = require("obsidian");
 
 // src/boards/weeklyOrganiserConfig.ts
 var import_obsidian = require("obsidian");
 var momentFn = import_obsidian.moment;
+var normalizeTypeValue = (value) => {
+  if (value === null || value === void 0) return void 0;
+  const normalized = String(value).trim().toLowerCase();
+  return normalized.length > 0 ? normalized : void 0;
+};
+var normalizeTypeList = (value) => {
+  if (Array.isArray(value)) {
+    return value.map((entry) => normalizeTypeValue(entry)).filter((entry) => Boolean(entry));
+  }
+  const single = normalizeTypeValue(value);
+  return single ? [single] : [];
+};
+var getAllowedTypes = (preset) => {
+  const allowed = preset.typeFilter.map((value) => normalizeTypeValue(value)).filter((value) => Boolean(value));
+  return new Set(allowed);
+};
 var generateWeekColumns = (weekOffset) => {
   const startOfWeek = momentFn().add(weekOffset, "weeks").startOf("isoWeek");
   const markedColumn = {
@@ -29929,44 +29945,52 @@ var generateWeekColumns = (weekOffset) => {
   const dayColumns = [];
   for (let i = 0; i < 7; i++) {
     const date = startOfWeek.clone().add(i, "days");
+    const dateId = date.format("YYYY-MM-DD");
     dayColumns.push({
-      id: date.format("YYYY-MM-DD"),
+      id: dateId,
       title: date.format("ddd Do MMM"),
-      fieldValue: date.format("YYYY-MM-DD")
+      fieldValue: dateId
     });
   }
   return [markedColumn, ...dayColumns];
 };
-var createWeeklyOrganiserConfig = (weekOffset) => ({
-  id: "weekly-organiser",
-  name: "Weekly Organiser",
-  columns: generateWeekColumns(weekOffset),
-  fieldMapping: {
-    field: "scheduled",
-    type: "date",
-    fallbackField: "date",
-    defaultField: "marked"
-  },
-  itemFilter: {
-    customFilter: (file) => {
-      const isRecipePath = file.path.toLowerCase().includes("recipe");
-      const isExercisePath = file.path.toLowerCase().includes("exercise");
-      return isRecipePath || isExercisePath;
+var createWeeklyOrganiserConfig = (weekOffset, preset) => {
+  const allowedTypes = getAllowedTypes(preset);
+  const resolveType = (frontmatter) => {
+    const typeValues = normalizeTypeList(frontmatter.type);
+    const match = typeValues.find((value) => allowedTypes.has(value));
+    return match ? match : void 0;
+  };
+  return {
+    id: "weekly-organiser",
+    name: preset.label,
+    columns: generateWeekColumns(weekOffset),
+    fieldMapping: {
+      field: "scheduled",
+      type: "date",
+      fallbackField: "date",
+      defaultField: "marked"
+    },
+    itemFilter: {
+      customFilter: (_file, frontmatter) => {
+        return Boolean(resolveType(frontmatter));
+      }
+    },
+    itemTransformer: (file, frontmatter) => {
+      var _a;
+      const resolvedType = (_a = resolveType(frontmatter)) != null ? _a : "unknown";
+      return {
+        id: file.path,
+        title: frontmatter.title || file.basename,
+        path: file.path,
+        type: resolvedType,
+        coverImage: frontmatter.cover || frontmatter.image,
+        date: frontmatter.scheduled,
+        marked: frontmatter.marked === true
+      };
     }
-  },
-  itemTransformer: (file, frontmatter) => {
-    const isRecipe = file.path.toLowerCase().includes("recipe");
-    return {
-      id: file.path,
-      title: frontmatter.title || file.basename,
-      path: file.path,
-      type: isRecipe ? "recipe" : "exercise",
-      coverImage: frontmatter.cover || frontmatter.image,
-      date: frontmatter.scheduled,
-      marked: frontmatter.marked === true
-    };
-  }
-});
+  };
+};
 
 // src/boards/weeklyOrganiserCard.ts
 var escapeHtml = (value) => value.replace(/[&<>"']/g, (char) => {
@@ -29990,8 +30014,13 @@ var toSafeString = (value) => {
   return typeof value === "string" ? value : String(value);
 };
 var renderWeeklyOrganiserCard = (item) => {
-  const isRecipe = item.type === "recipe";
-  const icon = isRecipe ? `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>` : `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>`;
+  var _a;
+  const iconByType = {
+    recipe: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`,
+    exercise: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>`,
+    task: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="m9 12 2 2 4-4"/></svg>`
+  };
+  const icon = (_a = iconByType[item.type]) != null ? _a : iconByType.task;
   const title = escapeHtml(toSafeString(item.title));
   const coverImage = typeof item.coverImage === "string" ? escapeHtml(item.coverImage) : "";
   const imageHTML = coverImage ? `<div class="card-cover"><img src="${coverImage}" alt="${title}" draggable="false" /></div>` : "";
@@ -30008,6 +30037,7 @@ var renderWeeklyOrganiserCard = (item) => {
 
 // src/hooks/useKanbanBoard.ts
 var React = __toESM(require_react());
+var import_obsidian4 = require("obsidian");
 
 // src/utils/field-manager.ts
 var import_obsidian2 = require("obsidian");
@@ -30140,15 +30170,26 @@ var matchesItemFilter = (file, cache, filter) => {
 
 // src/kanban/buildBoardsData.ts
 var buildBoardsData = (app, config, renderItem, options = {}) => {
-  var _a;
+  var _a, _b;
+  const {
+    itemClassName,
+    runtimeFilter,
+    runtimeSort,
+    groupBy,
+    groupLabel,
+    groupOrder
+  } = options;
   const files = app.vault.getMarkdownFiles();
   const boardsData = config.columns.map((col) => ({
     id: col.id,
     title: col.title,
     item: []
   }));
-  const boardMap = new Map(boardsData.map((board) => [board.id, board]));
-  const itemClassName = (_a = options.itemClassName) != null ? _a : "";
+  const boardEntries = /* @__PURE__ */ new Map();
+  const resolvedClassName = itemClassName != null ? itemClassName : "";
+  for (const board of boardsData) {
+    boardEntries.set(board.id, []);
+  }
   for (const file of files) {
     const cache = app.metadataCache.getFileCache(file);
     if (!cache) continue;
@@ -30170,12 +30211,63 @@ var buildBoardsData = (app, config, renderItem, options = {}) => {
       config.fieldMapping
     );
     if (columnId) {
-      const board = boardMap.get(columnId);
-      if (board) {
+      const entries = boardEntries.get(columnId);
+      if (entries) {
+        entries.push({ item, frontmatter });
+      }
+    }
+  }
+  const resolveGroupId = (value) => value && value.trim().length > 0 ? value : "Ungrouped";
+  for (const board of boardsData) {
+    const entries = (_a = boardEntries.get(board.id)) != null ? _a : [];
+    const filteredEntries = runtimeFilter ? entries.filter(
+      ({ item, frontmatter }) => runtimeFilter(item, frontmatter)
+    ) : entries;
+    const sortedEntries = runtimeSort ? [...filteredEntries].sort(
+      (a, b) => runtimeSort(a.item, b.item)
+    ) : filteredEntries;
+    if (!groupBy) {
+      for (const entry of sortedEntries) {
         board.item.push({
-          id: item.id,
-          title: renderItem(item),
-          class: itemClassName
+          id: entry.item.id,
+          title: renderItem(entry.item),
+          class: resolvedClassName
+        });
+      }
+      continue;
+    }
+    const grouped = /* @__PURE__ */ new Map();
+    for (const entry of sortedEntries) {
+      const rawGroup = groupBy(entry.item, entry.frontmatter);
+      const groupId = resolveGroupId(
+        rawGroup ? String(rawGroup) : void 0
+      );
+      const bucket = grouped.get(groupId);
+      if (bucket) {
+        bucket.push(entry);
+      } else {
+        grouped.set(groupId, [entry]);
+      }
+    }
+    const groupIds = Array.from(grouped.keys());
+    if (groupOrder) {
+      groupIds.sort(groupOrder);
+    } else {
+      groupIds.sort((a, b) => a.localeCompare(b));
+    }
+    for (const groupId of groupIds) {
+      const label = groupLabel ? groupLabel(groupId) : groupId;
+      board.item.push({
+        id: `__group:${board.id}:${groupId}`,
+        title: `<div class="kanban-group-label">${label}</div>`,
+        class: "kanban-group-header"
+      });
+      const groupEntries = (_b = grouped.get(groupId)) != null ? _b : [];
+      for (const entry of groupEntries) {
+        board.item.push({
+          id: entry.item.id,
+          title: renderItem(entry.item),
+          class: resolvedClassName
         });
       }
     }
@@ -30197,6 +30289,7 @@ var resolveKanbanConstructor = () => {
 };
 
 // src/hooks/useKanbanBoard.ts
+var momentFn3 = import_obsidian4.moment;
 var useKanbanBoard = (options) => {
   const {
     app,
@@ -30204,6 +30297,11 @@ var useKanbanBoard = (options) => {
     config,
     renderItem,
     itemClassName,
+    runtimeFilter,
+    runtimeSort,
+    groupBy,
+    groupLabel,
+    groupOrder,
     onDropItem,
     onCardClick,
     refreshDelayMs = 50,
@@ -30218,11 +30316,27 @@ var useKanbanBoard = (options) => {
   const refreshTimerRef = React.useRef(null);
   const buildBoards = React.useCallback(() => {
     return buildBoardsData(app, config, renderItem, {
-      itemClassName
+      itemClassName,
+      runtimeFilter,
+      runtimeSort,
+      groupBy,
+      groupLabel,
+      groupOrder
     });
-  }, [app, config, itemClassName, renderItem]);
+  }, [
+    app,
+    config,
+    itemClassName,
+    renderItem,
+    runtimeFilter,
+    runtimeSort,
+    groupBy,
+    groupLabel,
+    groupOrder
+  ]);
   const initKanban = React.useCallback(
     (initialBoards = []) => {
+      var _a;
       if (!containerRef.current) return;
       containerRef.current.innerHTML = "";
       try {
@@ -30234,13 +30348,16 @@ var useKanbanBoard = (options) => {
           dragBoards: false,
           boards: initialBoards,
           dragEl: (el) => {
+            if (el.classList.contains("kanban-group-header")) return;
             el.classList.add("is-dragging");
           },
           dragendEl: (el) => {
+            if (el.classList.contains("kanban-group-header")) return;
             el.classList.remove("is-dragging");
             lastDragTimeRef.current = Date.now();
           },
           dropEl: (el, target, _source, _sibling) => {
+            if (el.classList.contains("kanban-group-header")) return;
             if (!onDropItem) return;
             const itemId = el.dataset.eid;
             const targetBoardEl = target.closest(
@@ -30261,6 +30378,13 @@ var useKanbanBoard = (options) => {
           }
         });
         kanbanInstanceRef.current = kanban;
+        const today = momentFn3().format("YYYY-MM-DD");
+        const todayBoard = (_a = containerRef.current) == null ? void 0 : _a.querySelector(
+          `.kanban-board[data-id="${today}"]`
+        );
+        if (todayBoard) {
+          todayBoard.classList.add("is-today");
+        }
       } catch (err) {
         console.error(
           `[${logPrefix}] Error initializing jKanban`,
@@ -30318,6 +30442,7 @@ var useKanbanBoard = (options) => {
       if (!target) return;
       const itemEl = target.closest(".kanban-item");
       if (!itemEl) return;
+      if (itemEl.classList.contains("kanban-group-header")) return;
       const timeSinceDrag = Date.now() - lastDragTimeRef.current;
       if (timeSinceDrag < clickBlockMs || itemEl.classList.contains("is-dragging") || itemEl.classList.contains("is-moving")) {
         return;
@@ -30392,22 +30517,87 @@ var usePikadayDatePicker = (options) => {
   return { gotoToday, clear };
 };
 
+// src/presets/organiserPresets.ts
+var baseFields = () => [
+  {
+    key: "type",
+    label: "Type",
+    type: "enum",
+    groupable: true,
+    sortable: true
+  }
+];
+var ORGANISER_PRESETS = [
+  {
+    id: "weekly",
+    label: "Weekly Planner",
+    description: "All scheduled items for the week.",
+    isTimeBased: true,
+    typeFilter: ["recipe", "exercise", "task"],
+    fields: baseFields()
+  },
+  {
+    id: "meal",
+    label: "Meal Planner",
+    description: "Plan recipes across the week.",
+    isTimeBased: true,
+    typeFilter: ["recipe"],
+    fields: baseFields()
+  },
+  {
+    id: "exercise",
+    label: "Exercise Planner",
+    description: "Schedule workouts for the week.",
+    isTimeBased: true,
+    typeFilter: ["exercise"],
+    fields: baseFields()
+  },
+  {
+    id: "task",
+    label: "Task Planner",
+    description: "Track tasks across the week.",
+    isTimeBased: true,
+    typeFilter: ["task"],
+    fields: baseFields()
+  }
+];
+var findPresetById = (id) => {
+  const match = ORGANISER_PRESETS.find((preset) => preset.id === id);
+  return match != null ? match : ORGANISER_PRESETS[0];
+};
+
 // src/components/WeeklyOrganiserBoard.tsx
-var momentFn3 = import_obsidian4.moment;
+var momentFn4 = import_obsidian5.moment;
 var WeeklyOrganiserBoard = ({ app }) => {
+  const [activePresetId, setActivePresetId] = React3.useState(ORGANISER_PRESETS[0].id);
+  const [searchQuery, setSearchQuery] = React3.useState("");
+  const [activePopover, setActivePopover] = React3.useState(null);
+  const [groupBy, setGroupBy] = React3.useState("none");
+  const [sortBy, setSortBy] = React3.useState("default");
+  const [showTimeControls, setShowTimeControls] = React3.useState(true);
   const [weekOffset, setWeekOffset] = React3.useState(0);
   const [isCalendarOpen, setIsCalendarOpen] = React3.useState(false);
   const calendarInputRef = React3.useRef(null);
   const calendarPopoverRef = React3.useRef(null);
   const calendarToggleRef = React3.useRef(null);
+  const filterButtonRef = React3.useRef(null);
+  const filterPopoverRef = React3.useRef(null);
+  const groupButtonRef = React3.useRef(null);
+  const groupPopoverRef = React3.useRef(null);
+  const sortButtonRef = React3.useRef(null);
+  const sortPopoverRef = React3.useRef(null);
   const boardId = React3.useMemo(
     () => `weekly-organiser-board-${Math.random().toString(36).slice(2, 11)}`,
     []
   );
+  const activePreset = React3.useMemo(
+    () => findPresetById(activePresetId),
+    [activePresetId]
+  );
   const fieldManager = React3.useMemo(() => new FieldManager(app), [app]);
   const config = React3.useMemo(
-    () => createWeeklyOrganiserConfig(weekOffset),
-    [weekOffset]
+    () => createWeeklyOrganiserConfig(weekOffset, activePreset),
+    [weekOffset, activePreset]
   );
   const handleDrop = React3.useCallback(
     async (itemId, targetColumnId) => {
@@ -30415,7 +30605,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
       const targetColumn = config.columns.find(
         (c) => c.id === targetColumnId
       );
-      if (file instanceof import_obsidian4.TFile && targetColumn) {
+      if (file instanceof import_obsidian5.TFile && targetColumn) {
         await fieldManager.updateFieldForColumn(
           file,
           targetColumn,
@@ -30430,7 +30620,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
       const target = event.target;
       if (!target) return;
       const file = app.vault.getAbstractFileByPath(itemId);
-      if (!(file instanceof import_obsidian4.TFile)) return;
+      if (!(file instanceof import_obsidian5.TFile)) return;
       const isCtrlClick = event.ctrlKey || event.metaKey;
       const isImageClick = !!target.closest(".card-cover");
       if (isCtrlClick && isImageClick) {
@@ -30443,6 +30633,92 @@ var WeeklyOrganiserBoard = ({ app }) => {
     },
     [app]
   );
+  const normalizedSearch = React3.useMemo(
+    () => searchQuery.trim().toLowerCase(),
+    [searchQuery]
+  );
+  const runtimeFilter = React3.useCallback(
+    (item) => {
+      if (!normalizedSearch) return true;
+      return item.title.toLowerCase().includes(normalizedSearch) || item.path.toLowerCase().includes(normalizedSearch);
+    },
+    [normalizedSearch]
+  );
+  const runtimeSort = React3.useMemo(() => {
+    if (sortBy === "title-asc") {
+      return (a, b) => a.title.localeCompare(b.title);
+    }
+    if (sortBy === "title-desc") {
+      return (a, b) => b.title.localeCompare(a.title);
+    }
+    return void 0;
+  }, [sortBy]);
+  const groupByFn = React3.useMemo(() => {
+    if (groupBy === "type") {
+      return (item) => item.type;
+    }
+    return void 0;
+  }, [groupBy]);
+  const groupLabel = React3.useCallback((groupId) => {
+    switch (groupId) {
+      case "recipe":
+        return "Recipes";
+      case "exercise":
+        return "Exercise";
+      case "task":
+        return "Tasks";
+      case "Ungrouped":
+        return "Other";
+      default:
+        return groupId.split("-").map(
+          (part) => part ? part[0].toUpperCase() + part.slice(1) : ""
+        ).join(" ");
+    }
+  }, []);
+  const groupOrder = React3.useMemo(() => {
+    if (groupBy !== "type") return void 0;
+    const ordered = activePreset.typeFilter.map(
+      (value) => value.toLowerCase()
+    );
+    return (a, b) => {
+      const aIndex = ordered.indexOf(a.toLowerCase());
+      const bIndex = ordered.indexOf(b.toLowerCase());
+      if (aIndex === -1 && bIndex === -1) {
+        return a.localeCompare(b);
+      }
+      if (aIndex === -1) return 1;
+      if (bIndex === -1) return -1;
+      return aIndex - bIndex;
+    };
+  }, [activePreset.typeFilter, groupBy]);
+  const groupOptions = React3.useMemo(() => {
+    const options = [{ id: "none", label: "None" }];
+    for (const field of activePreset.fields) {
+      if (field.groupable) {
+        options.push({ id: field.key, label: field.label });
+      }
+    }
+    return options;
+  }, [activePreset.fields]);
+  const sortOptions = React3.useMemo(
+    () => [
+      { id: "default", label: "Default" },
+      { id: "title-asc", label: "Title A-Z" },
+      { id: "title-desc", label: "Title Z-A" }
+    ],
+    []
+  );
+  React3.useEffect(() => {
+    if (!groupOptions.some((option) => option.id === groupBy)) {
+      setGroupBy("none");
+    }
+  }, [groupBy, groupOptions]);
+  const isTimeRowVisible = activePreset.isTimeBased && showTimeControls;
+  React3.useEffect(() => {
+    if (!isTimeRowVisible && isCalendarOpen) {
+      setIsCalendarOpen(false);
+    }
+  }, [isCalendarOpen, isTimeRowVisible]);
   const { containerRef } = useKanbanBoard({
     app,
     boardId,
@@ -30451,17 +30727,22 @@ var WeeklyOrganiserBoard = ({ app }) => {
     itemClassName: "organiser-card",
     logPrefix: "WeeklyOrganiser",
     onDropItem: handleDrop,
-    onCardClick: handleCardClick
+    onCardClick: handleCardClick,
+    runtimeFilter,
+    runtimeSort,
+    groupBy: groupByFn,
+    groupLabel,
+    groupOrder
   });
-  const startDate = momentFn3().add(weekOffset, "weeks").startOf("isoWeek");
+  const startDate = momentFn4().add(weekOffset, "weeks").startOf("isoWeek");
   const endDate = startDate.clone().add(6, "days");
   const weekRangeDisplay = `${startDate.format("MMM Do")} - ${endDate.format("MMM Do, YYYY")}`;
   const startDateValue = startDate.format("YYYY-MM-DD");
   const handleCalendarSelect = React3.useCallback((date) => {
     if (!date) return;
-    const selected = momentFn3(date);
+    const selected = momentFn4(date);
     if (!selected.isValid()) return;
-    const offset = selected.startOf("isoWeek").diff(momentFn3().startOf("isoWeek"), "weeks");
+    const offset = selected.startOf("isoWeek").diff(momentFn4().startOf("isoWeek"), "weeks");
     setWeekOffset(offset);
     setIsCalendarOpen(false);
   }, []);
@@ -30497,81 +30778,193 @@ var WeeklyOrganiserBoard = ({ app }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isCalendarOpen]);
-  return /* @__PURE__ */ React3.createElement("div", { className: "weekly-organiser-container" }, /* @__PURE__ */ React3.createElement("div", { className: "organiser-header" }, /* @__PURE__ */ React3.createElement("div", { className: "week-nav" }, /* @__PURE__ */ React3.createElement("button", { onClick: () => setWeekOffset((prev) => prev - 1) }, "<"), /* @__PURE__ */ React3.createElement("button", { onClick: () => setWeekOffset(0) }, "Today"), /* @__PURE__ */ React3.createElement("div", { className: "week-nav-calendar" }, /* @__PURE__ */ React3.createElement(
+  React3.useEffect(() => {
+    if (!activePopover) return;
+    const handleClickOutside = (event) => {
+      const target = event.target;
+      const isInside = (ref) => {
+        var _a;
+        return Boolean((_a = ref.current) == null ? void 0 : _a.contains(target));
+      };
+      const popoverRefs = {
+        filter: {
+          button: filterButtonRef,
+          panel: filterPopoverRef
+        },
+        group: {
+          button: groupButtonRef,
+          panel: groupPopoverRef
+        },
+        sort: {
+          button: sortButtonRef,
+          panel: sortPopoverRef
+        }
+      };
+      const activeRefs = popoverRefs[activePopover];
+      if (isInside(activeRefs.button) || isInside(activeRefs.panel)) {
+        return;
+      }
+      setActivePopover(null);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [activePopover]);
+  const togglePopover = React3.useCallback(
+    (name) => {
+      setActivePopover((prev) => prev === name ? null : name);
+    },
+    []
+  );
+  const isFilterActive = !showTimeControls && activePreset.isTimeBased;
+  const isGroupActive = groupBy !== "none";
+  const isSortActive = sortBy !== "default";
+  return /* @__PURE__ */ React3.createElement("div", { className: "weekly-organiser-container" }, /* @__PURE__ */ React3.createElement("div", { className: "organiser-topbar" }, /* @__PURE__ */ React3.createElement(
+    "select",
+    {
+      id: "preset-select",
+      className: "topbar-select",
+      value: activePresetId,
+      onChange: (event) => setActivePresetId(
+        event.target.value
+      )
+    },
+    ORGANISER_PRESETS.map((preset) => /* @__PURE__ */ React3.createElement("option", { key: preset.id, value: preset.id }, preset.label))
+  ), /* @__PURE__ */ React3.createElement(
+    "input",
+    {
+      id: "board-search",
+      className: "topbar-input",
+      type: "search",
+      placeholder: "Search...",
+      value: searchQuery,
+      onChange: (event) => setSearchQuery(event.target.value)
+    }
+  ), isTimeRowVisible && /* @__PURE__ */ React3.createElement("div", { className: "week-nav" }, /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      type: "button",
+      className: "week-nav-btn",
+      onClick: () => setWeekOffset((prev) => prev - 1),
+      "aria-label": "Previous week"
+    },
+    /* @__PURE__ */ React3.createElement("svg", { viewBox: "0 0 24 24", width: "14", height: "14", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React3.createElement("polyline", { points: "15 18 9 12 15 6" }))
+  ), /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      type: "button",
+      className: "week-nav-btn",
+      onClick: () => setWeekOffset(0)
+    },
+    "Today"
+  ), /* @__PURE__ */ React3.createElement("div", { className: "week-nav-calendar" }, /* @__PURE__ */ React3.createElement(
     "button",
     {
       ref: calendarToggleRef,
-      className: "calendar-toggle",
+      className: "week-nav-btn",
       "aria-label": "Choose week",
       onClick: () => setIsCalendarOpen((prev) => !prev),
       type: "button"
     },
-    /* @__PURE__ */ React3.createElement(
-      "svg",
-      {
-        "aria-hidden": "true",
-        viewBox: "0 0 24 24",
-        width: "16",
-        height: "16",
-        fill: "none",
-        stroke: "currentColor",
-        strokeWidth: "2",
-        strokeLinecap: "round",
-        strokeLinejoin: "round"
-      },
-      /* @__PURE__ */ React3.createElement("rect", { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }),
-      /* @__PURE__ */ React3.createElement("line", { x1: "16", y1: "2", x2: "16", y2: "6" }),
-      /* @__PURE__ */ React3.createElement("line", { x1: "8", y1: "2", x2: "8", y2: "6" }),
-      /* @__PURE__ */ React3.createElement("line", { x1: "3", y1: "10", x2: "21", y2: "10" })
-    )
-  ), isCalendarOpen && /* @__PURE__ */ React3.createElement(
-    "div",
+    /* @__PURE__ */ React3.createElement("svg", { viewBox: "0 0 24 24", width: "14", height: "14", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React3.createElement("rect", { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }), /* @__PURE__ */ React3.createElement("line", { x1: "16", y1: "2", x2: "16", y2: "6" }), /* @__PURE__ */ React3.createElement("line", { x1: "8", y1: "2", x2: "8", y2: "6" }), /* @__PURE__ */ React3.createElement("line", { x1: "3", y1: "10", x2: "21", y2: "10" }))
+  ), isCalendarOpen && /* @__PURE__ */ React3.createElement("div", { className: "calendar-popover", ref: calendarPopoverRef }, /* @__PURE__ */ React3.createElement(
+    "input",
     {
-      className: "calendar-popover",
-      ref: calendarPopoverRef
+      ref: calendarInputRef,
+      className: "calendar-input",
+      type: "text",
+      "aria-label": "Choose week",
+      value: startDateValue,
+      readOnly: true
+    }
+  ), /* @__PURE__ */ React3.createElement("div", { className: "pika-footer" }, /* @__PURE__ */ React3.createElement("button", { type: "button", className: "pika-footer-btn", onClick: gotoToday }, "Today"), /* @__PURE__ */ React3.createElement("button", { type: "button", className: "pika-footer-btn", onClick: clear }, "Clear")))), /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      type: "button",
+      className: "week-nav-btn",
+      onClick: () => setWeekOffset((prev) => prev + 1),
+      "aria-label": "Next week"
     },
-    /* @__PURE__ */ React3.createElement(
-      "input",
-      {
-        ref: calendarInputRef,
-        className: "calendar-input",
-        type: "text",
-        "aria-label": "Choose week",
-        value: startDateValue,
-        readOnly: true
+    /* @__PURE__ */ React3.createElement("svg", { viewBox: "0 0 24 24", width: "14", height: "14", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React3.createElement("polyline", { points: "9 18 15 12 9 6" }))
+  ), /* @__PURE__ */ React3.createElement("span", { className: "week-range" }, weekRangeDisplay)), /* @__PURE__ */ React3.createElement("div", { className: "topbar-actions" }, /* @__PURE__ */ React3.createElement("div", { className: "topbar-action" }, /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      ref: filterButtonRef,
+      className: `topbar-icon-btn${isFilterActive ? " is-active" : ""}`,
+      type: "button",
+      title: "Filter",
+      "aria-label": "Filter",
+      "aria-expanded": activePopover === "filter",
+      onClick: () => togglePopover("filter")
+    },
+    /* @__PURE__ */ React3.createElement("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React3.createElement("line", { x1: "21", x2: "14", y1: "4", y2: "4" }), /* @__PURE__ */ React3.createElement("line", { x1: "10", x2: "3", y1: "4", y2: "4" }), /* @__PURE__ */ React3.createElement("line", { x1: "21", x2: "12", y1: "12", y2: "12" }), /* @__PURE__ */ React3.createElement("line", { x1: "8", x2: "3", y1: "12", y2: "12" }), /* @__PURE__ */ React3.createElement("line", { x1: "21", x2: "16", y1: "20", y2: "20" }), /* @__PURE__ */ React3.createElement("line", { x1: "12", x2: "3", y1: "20", y2: "20" }), /* @__PURE__ */ React3.createElement("circle", { cx: "12", cy: "4", r: "2" }), /* @__PURE__ */ React3.createElement("circle", { cx: "10", cy: "12", r: "2" }), /* @__PURE__ */ React3.createElement("circle", { cx: "14", cy: "20", r: "2" }))
+  ), activePopover === "filter" && /* @__PURE__ */ React3.createElement("div", { ref: filterPopoverRef, className: "topbar-popover" }, activePreset.isTimeBased && /* @__PURE__ */ React3.createElement("label", { className: "topbar-toggle" }, /* @__PURE__ */ React3.createElement(
+    "input",
+    {
+      type: "checkbox",
+      checked: showTimeControls,
+      onChange: (event) => setShowTimeControls(event.target.checked)
+    }
+  ), /* @__PURE__ */ React3.createElement("span", null, "Show date row")))), /* @__PURE__ */ React3.createElement("div", { className: "topbar-action" }, /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      ref: groupButtonRef,
+      className: `topbar-icon-btn${isGroupActive ? " is-active" : ""}`,
+      type: "button",
+      title: "Group",
+      "aria-label": "Group",
+      "aria-expanded": activePopover === "group",
+      onClick: () => togglePopover("group")
+    },
+    /* @__PURE__ */ React3.createElement("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React3.createElement("polygon", { points: "12 2 2 7 12 12 22 7 12 2" }), /* @__PURE__ */ React3.createElement("polyline", { points: "2 17 12 22 22 17" }), /* @__PURE__ */ React3.createElement("polyline", { points: "2 12 12 17 22 12" }))
+  ), activePopover === "group" && /* @__PURE__ */ React3.createElement("div", { ref: groupPopoverRef, className: "topbar-popover" }, groupOptions.map((option) => /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      key: option.id,
+      type: "button",
+      className: `topbar-option${groupBy === option.id ? " is-active" : ""}`,
+      onClick: () => {
+        setGroupBy(option.id);
+        setActivePopover(null);
       }
-    ),
-    /* @__PURE__ */ React3.createElement("div", { className: "pika-footer" }, /* @__PURE__ */ React3.createElement(
-      "button",
-      {
-        type: "button",
-        className: "pika-footer-btn",
-        onClick: gotoToday
-      },
-      "Today"
-    ), /* @__PURE__ */ React3.createElement(
-      "button",
-      {
-        type: "button",
-        className: "pika-footer-btn",
-        onClick: clear
-      },
-      "Clear"
-    ))
-  )), /* @__PURE__ */ React3.createElement("button", { onClick: () => setWeekOffset((prev) => prev + 1) }, ">"), /* @__PURE__ */ React3.createElement("span", { className: "week-range" }, weekRangeDisplay))), /* @__PURE__ */ React3.createElement(
+    },
+    option.label
+  )))), /* @__PURE__ */ React3.createElement("div", { className: "topbar-action" }, /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      ref: sortButtonRef,
+      className: `topbar-icon-btn${isSortActive ? " is-active" : ""}`,
+      type: "button",
+      title: "Sort",
+      "aria-label": "Sort",
+      "aria-expanded": activePopover === "sort",
+      onClick: () => togglePopover("sort")
+    },
+    /* @__PURE__ */ React3.createElement("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React3.createElement("path", { d: "m21 16-4 4-4-4" }), /* @__PURE__ */ React3.createElement("path", { d: "M17 20V4" }), /* @__PURE__ */ React3.createElement("path", { d: "m3 8 4-4 4 4" }), /* @__PURE__ */ React3.createElement("path", { d: "M7 4v16" }))
+  ), activePopover === "sort" && /* @__PURE__ */ React3.createElement("div", { ref: sortPopoverRef, className: "topbar-popover" }, sortOptions.map((option) => /* @__PURE__ */ React3.createElement(
+    "button",
+    {
+      key: option.id,
+      type: "button",
+      className: `topbar-option${sortBy === option.id ? " is-active" : ""}`,
+      onClick: () => {
+        setSortBy(option.id);
+        setActivePopover(null);
+      }
+    },
+    option.label
+  )))))), /* @__PURE__ */ React3.createElement(
     "div",
     {
       id: boardId,
       ref: containerRef,
-      className: "weekly-organiser-kanban",
-      style: { overflowX: "auto", height: "calc(100% - 70px)" }
+      className: "weekly-organiser-kanban"
     }
   ));
 };
 
 // src/view.tsx
 var VIEW_TYPE_WEEKLY_ORGANISER = "weekly-organiser-view";
-var WeeklyOrganiserView = class extends import_obsidian5.ItemView {
+var WeeklyOrganiserView = class extends import_obsidian6.ItemView {
   constructor(leaf) {
     super(leaf);
     this.root = null;
@@ -30598,7 +30991,7 @@ var WeeklyOrganiserView = class extends import_obsidian5.ItemView {
 };
 
 // src/main.ts
-var WeeklyOrganiserPlugin = class extends import_obsidian6.Plugin {
+var WeeklyOrganiserPlugin = class extends import_obsidian7.Plugin {
   async onload() {
     this.registerView(
       VIEW_TYPE_WEEKLY_ORGANISER,
