@@ -2,11 +2,14 @@ import * as React from "react";
 import { App, TFile, moment } from "obsidian";
 import { BaseKanbanItem, BoardConfig } from "../types/kanban-config";
 import {
-	buildBoardsData,
+	BoardEntry,
 	KanbanBoardData,
+	buildBoardEntries,
+	buildBoardsFromEntries,
+	resolveBoardEntryForFile,
 } from "../kanban/buildBoardsData";
-import { matchesItemFilter } from "../kanban/itemFilter";
 import { resolveKanbanConstructor } from "../kanban/resolveKanbanConstructor";
+import { ColumnLookup } from "../utils/field-manager";
 
 const momentFn = moment as any;
 
@@ -31,6 +34,7 @@ interface UseKanbanBoardOptions<T extends BaseKanbanItem> {
 	clickBlockMs?: number;
 	internalUpdateDelayMs?: number;
 	logPrefix?: string;
+	logItemErrors?: boolean;
 	onDropItem?: (itemId: string, targetColumnId: string) => Promise<void> | void;
 	onCardClick?: (
 		event: MouseEvent,
@@ -64,6 +68,7 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 		clickBlockMs = 250,
 		internalUpdateDelayMs = 250,
 		logPrefix = "KanbanBoard",
+		logItemErrors = false,
 	} = options;
 
 	const containerRef = React.useRef<HTMLDivElement>(null);
@@ -71,27 +76,76 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 	const lastDragTimeRef = React.useRef(0);
 	const lastInternalUpdateRef = React.useRef(0);
 	const refreshTimerRef = React.useRef<number | null>(null);
-
-	const buildBoards = React.useCallback((): KanbanBoardData[] => {
-		return buildBoardsData(app, config, renderItem, {
-			itemClassName,
-			runtimeFilter,
-			runtimeSort,
-			groupBy,
-			groupLabel,
-			groupOrder,
-		});
-	}, [
-		app,
-		config,
+	const entriesByColumnRef = React.useRef<Map<string, BoardEntry<T>[]>>(
+		new Map()
+	);
+	const entriesByFileRef = React.useRef<Map<string, BoardEntry<T>>>(
+		new Map()
+	);
+	const columnLookupRef = React.useRef<ColumnLookup | null>(null);
+	const pendingRefreshRef = React.useRef<{
+		all: boolean;
+		columns: Set<string>;
+	}>({
+		all: false,
+		columns: new Set(),
+	});
+	const configRef = React.useRef(config);
+	const optionsRef = React.useRef({
 		itemClassName,
-		renderItem,
 		runtimeFilter,
 		runtimeSort,
 		groupBy,
 		groupLabel,
 		groupOrder,
-	]);
+		renderItem,
+	});
+
+	configRef.current = config;
+	optionsRef.current = {
+		itemClassName,
+		runtimeFilter,
+		runtimeSort,
+		groupBy,
+		groupLabel,
+		groupOrder,
+		renderItem,
+	};
+
+	const buildBoardsFromCache = React.useCallback(
+		(columnIds?: Iterable<string>) => {
+			const currentConfig = configRef.current;
+			const currentOptions = optionsRef.current;
+			const entriesByColumn = entriesByColumnRef.current;
+			const columnIdSet = columnIds ? new Set(columnIds) : null;
+			const columns = columnIdSet
+				? currentConfig.columns.filter((column) =>
+						columnIdSet.has(column.id)
+					)
+				: currentConfig.columns;
+
+			for (const column of columns) {
+				if (!entriesByColumn.has(column.id)) {
+					entriesByColumn.set(column.id, []);
+				}
+			}
+
+			return buildBoardsFromEntries(
+				columns,
+				entriesByColumn,
+				currentOptions.renderItem,
+				{
+					itemClassName: currentOptions.itemClassName,
+					runtimeFilter: currentOptions.runtimeFilter,
+					runtimeSort: currentOptions.runtimeSort,
+					groupBy: currentOptions.groupBy,
+					groupLabel: currentOptions.groupLabel,
+					groupOrder: currentOptions.groupOrder,
+				}
+			);
+		},
+		[]
+	);
 
 	const initKanban = React.useCallback(
 		(initialBoards: KanbanBoardData[] = []) => {
@@ -165,52 +219,369 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 		[boardId, logPrefix, onDropItem]
 	);
 
-	const refreshBoard = React.useCallback(() => {
-		if (!kanbanInstanceRef.current) return;
-		if (Date.now() - lastInternalUpdateRef.current < internalUpdateDelayMs) {
-			return;
-		}
-
-		const boards = buildBoards();
-		initKanban(boards);
-	}, [buildBoards, initKanban, internalUpdateDelayMs]);
-
-	const scheduleRefresh = React.useCallback(() => {
+	const rebuild = React.useCallback(() => {
 		if (refreshTimerRef.current !== null) {
 			window.clearTimeout(refreshTimerRef.current);
-		}
-		refreshTimerRef.current = window.setTimeout(() => {
 			refreshTimerRef.current = null;
-			refreshBoard();
-		}, refreshDelayMs);
-	}, [refreshBoard, refreshDelayMs]);
+		}
 
-	const rebuild = React.useCallback(() => {
-		const boards = buildBoards();
+		const currentConfig = configRef.current;
+		const currentOptions = optionsRef.current;
+		const { entriesByColumn, entriesByFile, columnLookup } =
+			buildBoardEntries(app, currentConfig, {
+				logPrefix,
+				logItemErrors,
+			});
+
+		entriesByColumnRef.current = entriesByColumn;
+		entriesByFileRef.current = entriesByFile;
+		columnLookupRef.current = columnLookup;
+
+		const boards = buildBoardsFromEntries(
+			currentConfig.columns,
+			entriesByColumn,
+			currentOptions.renderItem,
+			{
+				itemClassName: currentOptions.itemClassName,
+				runtimeFilter: currentOptions.runtimeFilter,
+				runtimeSort: currentOptions.runtimeSort,
+				groupBy: currentOptions.groupBy,
+				groupLabel: currentOptions.groupLabel,
+				groupOrder: currentOptions.groupOrder,
+			}
+		);
 		initKanban(boards);
-	}, [buildBoards, initKanban]);
+	}, [app, initKanban, logItemErrors, logPrefix]);
+
+	const syncBoardItems = React.useCallback(
+		(board: KanbanBoardData): boolean => {
+			const kanban = kanbanInstanceRef.current;
+			if (!kanban) return false;
+
+			let boardEl = kanban.findBoard(board.id) as HTMLElement | null;
+			if (!boardEl) {
+				try {
+					kanban.addBoards([
+						{ id: board.id, title: board.title, item: [] },
+					]);
+					boardEl = kanban.findBoard(board.id) as HTMLElement | null;
+				} catch (err) {
+					console.error(
+						`[${logPrefix}] Failed to add board ${board.id}`,
+						err
+					);
+					return false;
+				}
+			}
+			if (!boardEl) return false;
+
+			const titleEl = boardEl.querySelector(".kanban-title-board");
+			if (titleEl && titleEl.textContent !== board.title) {
+				titleEl.textContent = board.title;
+			}
+
+			const existingEls = kanban.getBoardElements(
+				board.id
+			) as HTMLElement[];
+			const existingById = new Map<string, HTMLElement>();
+			for (const el of existingEls) {
+				const id = el.dataset.eid;
+				if (id) existingById.set(id, el);
+			}
+
+			const nextIds = new Set<string>();
+			for (const item of board.item) {
+				nextIds.add(item.id);
+			}
+
+			for (const [id] of existingById) {
+				if (!nextIds.has(id)) {
+					kanban.removeElement(id);
+				}
+			}
+
+			for (const item of board.item) {
+				let el = existingById.get(item.id);
+				if (!el) {
+					kanban.addElement(board.id, item);
+					el = kanban.findElement(item.id) as HTMLElement | null;
+				}
+				if (el && el.innerHTML !== item.title) {
+					el.innerHTML = item.title;
+				}
+			}
+
+			const dragEl = boardEl.querySelector(
+				".kanban-drag"
+			) as HTMLElement | null;
+			if (dragEl) {
+				for (const item of board.item) {
+					const el = kanban.findElement(
+						item.id
+					) as HTMLElement | null;
+					if (el) {
+						dragEl.appendChild(el);
+					}
+				}
+			}
+
+			const boards = kanban.options?.boards;
+			if (boards) {
+				const idx = boards.findIndex(
+					(existing: KanbanBoardData) => existing.id === board.id
+				);
+				if (idx >= 0) {
+					boards[idx] = {
+						...boards[idx],
+						title: board.title,
+						item: board.item,
+					};
+				}
+			}
+
+			return true;
+		},
+		[logPrefix]
+	);
+
+	const refreshBoard = React.useCallback(
+		(columnIds?: Iterable<string>) => {
+			if (!kanbanInstanceRef.current) {
+				rebuild();
+				return;
+			}
+			if (
+				Date.now() - lastInternalUpdateRef.current <
+				internalUpdateDelayMs
+			) {
+				return;
+			}
+
+			const boards = buildBoardsFromCache(columnIds);
+			for (const board of boards) {
+				syncBoardItems(board);
+			}
+		},
+		[
+			buildBoardsFromCache,
+			internalUpdateDelayMs,
+			rebuild,
+			syncBoardItems,
+		]
+	);
+
+	const scheduleRefresh = React.useCallback(
+		(columnIds?: Iterable<string> | null, forceAll = false) => {
+			if (forceAll) {
+				pendingRefreshRef.current.all = true;
+				pendingRefreshRef.current.columns.clear();
+			}
+			if (columnIds) {
+				for (const columnId of columnIds) {
+					pendingRefreshRef.current.columns.add(columnId);
+				}
+			}
+
+			if (refreshTimerRef.current !== null) {
+				window.clearTimeout(refreshTimerRef.current);
+			}
+			refreshTimerRef.current = window.setTimeout(() => {
+				refreshTimerRef.current = null;
+				const pending = pendingRefreshRef.current;
+				if (!pending.all && pending.columns.size === 0) {
+					return;
+				}
+				const columns = pending.all ? undefined : pending.columns;
+				pendingRefreshRef.current = {
+					all: false,
+					columns: new Set(),
+				};
+				refreshBoard(columns);
+			}, refreshDelayMs);
+		},
+		[refreshBoard, refreshDelayMs]
+	);
+
+	const removeEntryByPath = React.useCallback((filePath: string) => {
+		const entriesByFile = entriesByFileRef.current;
+		const entriesByColumn = entriesByColumnRef.current;
+		const affectedColumns = new Set<string>();
+		const existingEntry = entriesByFile.get(filePath);
+
+		if (!existingEntry) return affectedColumns;
+
+		const columnEntries = entriesByColumn.get(existingEntry.columnId);
+		if (columnEntries) {
+			const index = columnEntries.findIndex(
+				(entry) => entry.filePath === filePath
+			);
+			if (index !== -1) {
+				columnEntries.splice(index, 1);
+			}
+		}
+
+		entriesByFile.delete(filePath);
+		affectedColumns.add(existingEntry.columnId);
+		return affectedColumns;
+	}, []);
+
+	const updateEntryForFile = React.useCallback(
+		(file: TFile) => {
+			const currentConfig = configRef.current;
+			const columnLookup = columnLookupRef.current;
+			const entriesByFile = entriesByFileRef.current;
+			const entriesByColumn = entriesByColumnRef.current;
+			const affectedColumns = new Set<string>();
+
+			if (!columnLookup) return affectedColumns;
+
+			const nextEntry = resolveBoardEntryForFile(
+				app,
+				file,
+				currentConfig,
+				columnLookup,
+				{
+					logPrefix,
+					logItemErrors,
+				}
+			);
+			const existingEntry = entriesByFile.get(file.path);
+
+			if (!nextEntry) {
+				if (existingEntry) {
+					const removed = removeEntryByPath(file.path);
+					for (const columnId of removed) {
+						affectedColumns.add(columnId);
+					}
+				}
+				return affectedColumns;
+			}
+
+			if (existingEntry) {
+				if (existingEntry.columnId !== nextEntry.columnId) {
+					const previousColumnEntries = entriesByColumn.get(
+						existingEntry.columnId
+					);
+					if (previousColumnEntries) {
+						const index = previousColumnEntries.findIndex(
+							(entry) => entry.filePath === file.path
+						);
+						if (index !== -1) {
+							previousColumnEntries.splice(index, 1);
+						}
+					}
+					const nextColumnEntries =
+						entriesByColumn.get(nextEntry.columnId) ?? [];
+					if (!entriesByColumn.has(nextEntry.columnId)) {
+						entriesByColumn.set(
+							nextEntry.columnId,
+							nextColumnEntries
+						);
+					}
+					nextColumnEntries.push(nextEntry);
+					entriesByFile.set(file.path, nextEntry);
+					affectedColumns.add(existingEntry.columnId);
+					affectedColumns.add(nextEntry.columnId);
+				} else {
+					existingEntry.item = nextEntry.item;
+					existingEntry.frontmatter = nextEntry.frontmatter;
+					existingEntry.columnId = nextEntry.columnId;
+					entriesByFile.set(file.path, existingEntry);
+					affectedColumns.add(existingEntry.columnId);
+				}
+				return affectedColumns;
+			}
+
+			const nextColumnEntries =
+				entriesByColumn.get(nextEntry.columnId) ?? [];
+			if (!entriesByColumn.has(nextEntry.columnId)) {
+				entriesByColumn.set(nextEntry.columnId, nextColumnEntries);
+			}
+			nextColumnEntries.push(nextEntry);
+			entriesByFile.set(file.path, nextEntry);
+			affectedColumns.add(nextEntry.columnId);
+
+			return affectedColumns;
+		},
+		[app, logItemErrors, logPrefix, removeEntryByPath]
+	);
 
 	React.useEffect(() => {
 		rebuild();
+	}, [config, rebuild]);
 
+	React.useEffect(() => {
 		const onMetadataChange = (file: TFile) => {
-			if (!file) return;
-			const cache = app.metadataCache.getFileCache(file);
-			if (!matchesItemFilter(file, cache, config.itemFilter)) return;
-			scheduleRefresh();
+			if (!(file instanceof TFile)) return;
+			const affected = updateEntryForFile(file);
+			if (affected.size > 0) {
+				scheduleRefresh(affected);
+			}
 		};
 
-		const ref = app.metadataCache.on("changed", onMetadataChange);
+		const onCreate = (file: TFile) => {
+			if (!(file instanceof TFile)) return;
+			const affected = updateEntryForFile(file);
+			if (affected.size > 0) {
+				scheduleRefresh(affected);
+			}
+		};
+
+		const onDelete = (file: TFile) => {
+			if (!(file instanceof TFile)) return;
+			const affected = removeEntryByPath(file.path);
+			if (affected.size > 0) {
+				scheduleRefresh(affected);
+			}
+		};
+
+		const onRename = (file: TFile, oldPath: string) => {
+			if (!(file instanceof TFile)) return;
+			const affected = new Set<string>();
+			const removed = removeEntryByPath(oldPath);
+			for (const columnId of removed) {
+				affected.add(columnId);
+			}
+			const updated = updateEntryForFile(file);
+			for (const columnId of updated) {
+				affected.add(columnId);
+			}
+			if (affected.size > 0) {
+				scheduleRefresh(affected);
+			}
+		};
+
+		const metadataRef = app.metadataCache.on("changed", onMetadataChange);
+		const createRef = app.vault.on("create", onCreate);
+		const deleteRef = app.vault.on("delete", onDelete);
+		const renameRef = app.vault.on("rename", onRename);
 
 		return () => {
-			app.metadataCache.offref(ref);
+			app.metadataCache.offref(metadataRef);
+			app.vault.offref(createRef);
+			app.vault.offref(deleteRef);
+			app.vault.offref(renameRef);
 			if (refreshTimerRef.current !== null) {
 				window.clearTimeout(refreshTimerRef.current);
 				refreshTimerRef.current = null;
 			}
 			kanbanInstanceRef.current = null;
 		};
-	}, [app, config.itemFilter, rebuild, scheduleRefresh]);
+	}, [app, removeEntryByPath, scheduleRefresh, updateEntryForFile]);
+
+	React.useEffect(() => {
+		if (!kanbanInstanceRef.current) return;
+		scheduleRefresh(undefined, true);
+	}, [
+		groupBy,
+		groupLabel,
+		groupOrder,
+		itemClassName,
+		renderItem,
+		runtimeFilter,
+		runtimeSort,
+		scheduleRefresh,
+	]);
 
 	React.useEffect(() => {
 		if (!onCardClick) return;

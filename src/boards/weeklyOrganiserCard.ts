@@ -23,6 +23,21 @@ const toSafeString = (value: unknown): string => {
 	return typeof value === "string" ? value : String(value);
 };
 
+const isSafeCoverImage = (value: string): boolean => {
+	const trimmed = value.trim();
+	if (!trimmed) return false;
+
+	const lower = trimmed.toLowerCase();
+	if (lower.startsWith("http://") || lower.startsWith("https://")) {
+		return true;
+	}
+	if (lower.startsWith("//")) return false;
+
+	// Disallow other URI schemes; allow plain vault-relative paths.
+	if (/^[a-z][a-z0-9+.-]*:/.test(lower)) return false;
+	return true;
+};
+
 export const renderWeeklyOrganiserCard = (item: OrganiserItem): string => {
 	const iconByType: Record<string, string> = {
 		recipe: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`,
@@ -32,9 +47,11 @@ export const renderWeeklyOrganiserCard = (item: OrganiserItem): string => {
 	const icon = iconByType[item.type] ?? iconByType.task;
 
 	const title = escapeHtml(toSafeString(item.title));
+	const rawCoverImage =
+		typeof item.coverImage === "string" ? item.coverImage.trim() : "";
 	const coverImage =
-		typeof item.coverImage === "string"
-			? escapeHtml(item.coverImage)
+		rawCoverImage && isSafeCoverImage(rawCoverImage)
+			? escapeHtml(rawCoverImage)
 			: "";
 
 	const imageHTML = coverImage

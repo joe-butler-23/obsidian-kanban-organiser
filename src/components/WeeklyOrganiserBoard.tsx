@@ -80,21 +80,9 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 	);
 
 	const handleCardClick = React.useCallback(
-		(event: MouseEvent, itemId: string, _itemEl: HTMLElement) => {
-			const target = event.target as HTMLElement | null;
-			if (!target) return;
-
+		(_event: MouseEvent, itemId: string, _itemEl: HTMLElement) => {
 			const file = app.vault.getAbstractFileByPath(itemId);
 			if (!(file instanceof TFile)) return;
-
-			const isCtrlClick = event.ctrlKey || event.metaKey;
-			const isImageClick = !!target.closest(".card-cover");
-
-			if (isCtrlClick && isImageClick) {
-				const leaf = app.workspace.getLeaf("split", "vertical");
-				leaf.openFile(file, { active: true });
-				return;
-			}
 
 			const leaf = app.workspace.getLeaf("split", "vertical");
 			leaf.openFile(file, { active: true });
@@ -159,17 +147,18 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 
 	const groupOrder = React.useMemo(() => {
 		if (groupBy !== "type") return undefined;
-		const ordered = activePreset.typeFilter.map((value) =>
-			value.toLowerCase()
-		);
+		const orderMap = new Map<string, number>();
+		activePreset.typeFilter.forEach((value, index) => {
+			orderMap.set(value.toLowerCase(), index);
+		});
 		return (a: string, b: string) => {
-			const aIndex = ordered.indexOf(a.toLowerCase());
-			const bIndex = ordered.indexOf(b.toLowerCase());
-			if (aIndex === -1 && bIndex === -1) {
+			const aIndex = orderMap.get(a.toLowerCase());
+			const bIndex = orderMap.get(b.toLowerCase());
+			if (aIndex === undefined && bIndex === undefined) {
 				return a.localeCompare(b);
 			}
-			if (aIndex === -1) return 1;
-			if (bIndex === -1) return -1;
+			if (aIndex === undefined) return 1;
+			if (bIndex === undefined) return -1;
 			return aIndex - bIndex;
 		};
 	}, [activePreset.typeFilter, groupBy]);
@@ -214,6 +203,7 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 		renderItem: renderWeeklyOrganiserCard,
 		itemClassName: "organiser-card",
 		logPrefix: "WeeklyOrganiser",
+		logItemErrors: true,
 		onDropItem: handleDrop,
 		onCardClick: handleCardClick,
 		runtimeFilter,

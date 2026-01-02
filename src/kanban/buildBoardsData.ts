@@ -1,12 +1,29 @@
-import { App } from "obsidian";
+import { App, TFile } from "obsidian";
 import { BaseKanbanItem, BoardConfig } from "../types/kanban-config";
-import { getItemColumn } from "../utils/field-manager";
+import {
+	ColumnLookup,
+	createColumnLookup,
+	getItemColumn,
+} from "../utils/field-manager";
 import { matchesItemFilter } from "./itemFilter";
 
 export interface KanbanBoardData {
 	id: string;
 	title: string;
 	item: { id: string; title: string; class: string }[];
+}
+
+export interface BoardEntry<T extends BaseKanbanItem> {
+	filePath: string;
+	item: T;
+	frontmatter: Record<string, unknown>;
+	columnId: string;
+}
+
+interface BuildEntriesOptions {
+	logPrefix?: string;
+	logItemErrors?: boolean;
+	columnLookup?: ColumnLookup;
 }
 
 interface BuildBoardsOptions<T extends BaseKanbanItem> {
@@ -22,11 +39,100 @@ interface BuildBoardsOptions<T extends BaseKanbanItem> {
 	) => string | undefined;
 	groupLabel?: (groupId: string) => string;
 	groupOrder?: (a: string, b: string) => number;
+	logPrefix?: string;
+	logItemErrors?: boolean;
 }
 
-export const buildBoardsData = <T extends BaseKanbanItem>(
+export const resolveBoardEntryForFile = <T extends BaseKanbanItem>(
+	app: App,
+	file: TFile,
+	config: BoardConfig<T>,
+	columnLookup: ColumnLookup,
+	options: BuildEntriesOptions = {}
+): BoardEntry<T> | null => {
+	const cache = app.metadataCache.getFileCache(file);
+	if (!cache) return null;
+
+	const frontmatter = cache.frontmatter || {};
+	if (!matchesItemFilter(file, cache, config.itemFilter)) return null;
+
+	let item: T;
+	try {
+		item = config.itemTransformer
+			? config.itemTransformer(file, frontmatter)
+			: (({
+					id: file.path,
+					title: (frontmatter.title as string) || file.basename,
+					path: file.path,
+				} as T));
+	} catch (err) {
+		if (options.logItemErrors) {
+			const prefix = options.logPrefix ? `[${options.logPrefix}] ` : "";
+			console.warn(
+				`${prefix}Item transformer failed for ${file.path}`,
+				err
+			);
+		}
+		return null;
+	}
+
+	const columnId = getItemColumn(
+		frontmatter,
+		config.columns,
+		config.fieldMapping,
+		columnLookup
+	);
+
+	if (!columnId) return null;
+
+	return {
+		filePath: file.path,
+		item,
+		frontmatter,
+		columnId,
+	};
+};
+
+export const buildBoardEntries = <T extends BaseKanbanItem>(
 	app: App,
 	config: BoardConfig<T>,
+	options: BuildEntriesOptions = {}
+): {
+	entriesByColumn: Map<string, BoardEntry<T>[]>;
+	entriesByFile: Map<string, BoardEntry<T>>;
+	columnLookup: ColumnLookup;
+} => {
+	const columnLookup =
+		options.columnLookup ?? createColumnLookup(config.columns);
+	const entriesByColumn = new Map<string, BoardEntry<T>[]>();
+	const entriesByFile = new Map<string, BoardEntry<T>>();
+
+	for (const column of config.columns) {
+		entriesByColumn.set(column.id, []);
+	}
+
+	for (const file of app.vault.getMarkdownFiles()) {
+		const entry = resolveBoardEntryForFile(
+			app,
+			file,
+			config,
+			columnLookup,
+			options
+		);
+		if (!entry) continue;
+		entriesByFile.set(entry.filePath, entry);
+		const entries = entriesByColumn.get(entry.columnId);
+		if (entries) {
+			entries.push(entry);
+		}
+	}
+
+	return { entriesByColumn, entriesByFile, columnLookup };
+};
+
+export const buildBoardsFromEntries = <T extends BaseKanbanItem>(
+	columns: BoardConfig<T>["columns"],
+	boardEntries: Map<string, BoardEntry<T>[]>,
 	renderItem: (item: T) => string,
 	options: BuildBoardsOptions<T> = {}
 ): KanbanBoardData[] => {
@@ -38,54 +144,12 @@ export const buildBoardsData = <T extends BaseKanbanItem>(
 		groupLabel,
 		groupOrder,
 	} = options;
-	const files = app.vault.getMarkdownFiles();
-	const boardsData = config.columns.map((col) => ({
+	const boardsData = columns.map((col) => ({
 		id: col.id,
 		title: col.title,
 		item: [] as { id: string; title: string; class: string }[],
 	}));
-	const boardEntries = new Map<
-		string,
-		{ item: T; frontmatter: Record<string, unknown> }[]
-	>();
 	const resolvedClassName = itemClassName ?? "";
-
-	for (const board of boardsData) {
-		boardEntries.set(board.id, []);
-	}
-
-	for (const file of files) {
-		const cache = app.metadataCache.getFileCache(file);
-		if (!cache) continue;
-		const frontmatter = cache.frontmatter || {};
-		if (!matchesItemFilter(file, cache, config.itemFilter)) continue;
-
-		let item: T;
-		try {
-			item = config.itemTransformer
-				? config.itemTransformer(file, frontmatter)
-				: (({
-						id: file.path,
-						title: (frontmatter.title as string) || file.basename,
-						path: file.path,
-					} as T));
-		} catch {
-			continue;
-		}
-
-		const columnId = getItemColumn(
-			frontmatter,
-			config.columns,
-			config.fieldMapping
-		);
-
-		if (columnId) {
-			const entries = boardEntries.get(columnId);
-			if (entries) {
-				entries.push({ item, frontmatter });
-			}
-		}
-	}
 
 	const resolveGroupId = (value: string | undefined): string =>
 		value && value.trim().length > 0 ? value : "Ungrouped";
@@ -157,4 +221,20 @@ export const buildBoardsData = <T extends BaseKanbanItem>(
 	}
 
 	return boardsData;
+};
+
+export const buildBoardsData = <T extends BaseKanbanItem>(
+	app: App,
+	config: BoardConfig<T>,
+	renderItem: (item: T) => string,
+	options: BuildBoardsOptions<T> = {}
+): KanbanBoardData[] => {
+	const { entriesByColumn } = buildBoardEntries(app, config, options);
+
+	return buildBoardsFromEntries(
+		config.columns,
+		entriesByColumn,
+		renderItem,
+		options
+	);
 };

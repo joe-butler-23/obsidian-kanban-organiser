@@ -30013,6 +30013,17 @@ var toSafeString = (value) => {
   if (value === null || value === void 0) return "";
   return typeof value === "string" ? value : String(value);
 };
+var isSafeCoverImage = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  const lower = trimmed.toLowerCase();
+  if (lower.startsWith("http://") || lower.startsWith("https://")) {
+    return true;
+  }
+  if (lower.startsWith("//")) return false;
+  if (/^[a-z][a-z0-9+.-]*:/.test(lower)) return false;
+  return true;
+};
 var renderWeeklyOrganiserCard = (item) => {
   var _a;
   const iconByType = {
@@ -30022,7 +30033,8 @@ var renderWeeklyOrganiserCard = (item) => {
   };
   const icon = (_a = iconByType[item.type]) != null ? _a : iconByType.task;
   const title = escapeHtml(toSafeString(item.title));
-  const coverImage = typeof item.coverImage === "string" ? escapeHtml(item.coverImage) : "";
+  const rawCoverImage = typeof item.coverImage === "string" ? item.coverImage.trim() : "";
+  const coverImage = rawCoverImage && isSafeCoverImage(rawCoverImage) ? escapeHtml(rawCoverImage) : "";
   const imageHTML = coverImage ? `<div class="card-cover"><img src="${coverImage}" alt="${title}" draggable="false" /></div>` : "";
   return `
 		<div class="organiser-card-content">
@@ -30088,9 +30100,25 @@ var readFieldValue = (frontmatter, mapping) => {
     dateFormat: mapping.dateFormat
   });
 };
-var getItemColumn = (frontmatter, columns, mapping) => {
+var createColumnLookup = (columns) => {
+  const valueToColumnId = /* @__PURE__ */ new Map();
+  let defaultColumnId;
+  for (const column of columns) {
+    if (column.isDefault) {
+      defaultColumnId = column.id;
+    }
+    if (column.fieldValue !== void 0) {
+      valueToColumnId.set(column.fieldValue, column.id);
+    }
+  }
+  return { valueToColumnId, defaultColumnId };
+};
+var getItemColumn = (frontmatter, columns, mapping, lookup) => {
+  var _a, _b;
   const fieldValue = readFieldValue(frontmatter, mapping);
   if (fieldValue !== void 0) {
+    const matchedColumn = lookup == null ? void 0 : lookup.valueToColumnId.get(fieldValue);
+    if (matchedColumn) return matchedColumn;
     for (const column of columns) {
       if (column.fieldValue === fieldValue) {
         return column.id;
@@ -30101,8 +30129,8 @@ var getItemColumn = (frontmatter, columns, mapping) => {
     const defaultValue = frontmatter[mapping.defaultField];
     const isDefault = defaultValue === true || defaultValue === "true" || defaultValue === "yes";
     if (isDefault && fieldValue === void 0) {
-      const defaultColumn = columns.find((c) => c.isDefault);
-      if (defaultColumn) return defaultColumn.id;
+      const defaultColumnId = (_b = lookup == null ? void 0 : lookup.defaultColumnId) != null ? _b : (_a = columns.find((c) => c.isDefault)) == null ? void 0 : _a.id;
+      if (defaultColumnId) return defaultColumnId;
     }
   }
   return void 0;
@@ -30169,7 +30197,68 @@ var matchesItemFilter = (file, cache, filter) => {
 };
 
 // src/kanban/buildBoardsData.ts
-var buildBoardsData = (app, config, renderItem, options = {}) => {
+var resolveBoardEntryForFile = (app, file, config, columnLookup, options = {}) => {
+  const cache = app.metadataCache.getFileCache(file);
+  if (!cache) return null;
+  const frontmatter = cache.frontmatter || {};
+  if (!matchesItemFilter(file, cache, config.itemFilter)) return null;
+  let item;
+  try {
+    item = config.itemTransformer ? config.itemTransformer(file, frontmatter) : {
+      id: file.path,
+      title: frontmatter.title || file.basename,
+      path: file.path
+    };
+  } catch (err) {
+    if (options.logItemErrors) {
+      const prefix = options.logPrefix ? `[${options.logPrefix}] ` : "";
+      console.warn(
+        `${prefix}Item transformer failed for ${file.path}`,
+        err
+      );
+    }
+    return null;
+  }
+  const columnId = getItemColumn(
+    frontmatter,
+    config.columns,
+    config.fieldMapping,
+    columnLookup
+  );
+  if (!columnId) return null;
+  return {
+    filePath: file.path,
+    item,
+    frontmatter,
+    columnId
+  };
+};
+var buildBoardEntries = (app, config, options = {}) => {
+  var _a;
+  const columnLookup = (_a = options.columnLookup) != null ? _a : createColumnLookup(config.columns);
+  const entriesByColumn = /* @__PURE__ */ new Map();
+  const entriesByFile = /* @__PURE__ */ new Map();
+  for (const column of config.columns) {
+    entriesByColumn.set(column.id, []);
+  }
+  for (const file of app.vault.getMarkdownFiles()) {
+    const entry = resolveBoardEntryForFile(
+      app,
+      file,
+      config,
+      columnLookup,
+      options
+    );
+    if (!entry) continue;
+    entriesByFile.set(entry.filePath, entry);
+    const entries = entriesByColumn.get(entry.columnId);
+    if (entries) {
+      entries.push(entry);
+    }
+  }
+  return { entriesByColumn, entriesByFile, columnLookup };
+};
+var buildBoardsFromEntries = (columns, boardEntries, renderItem, options = {}) => {
   var _a, _b;
   const {
     itemClassName,
@@ -30179,44 +30268,12 @@ var buildBoardsData = (app, config, renderItem, options = {}) => {
     groupLabel,
     groupOrder
   } = options;
-  const files = app.vault.getMarkdownFiles();
-  const boardsData = config.columns.map((col) => ({
+  const boardsData = columns.map((col) => ({
     id: col.id,
     title: col.title,
     item: []
   }));
-  const boardEntries = /* @__PURE__ */ new Map();
   const resolvedClassName = itemClassName != null ? itemClassName : "";
-  for (const board of boardsData) {
-    boardEntries.set(board.id, []);
-  }
-  for (const file of files) {
-    const cache = app.metadataCache.getFileCache(file);
-    if (!cache) continue;
-    const frontmatter = cache.frontmatter || {};
-    if (!matchesItemFilter(file, cache, config.itemFilter)) continue;
-    let item;
-    try {
-      item = config.itemTransformer ? config.itemTransformer(file, frontmatter) : {
-        id: file.path,
-        title: frontmatter.title || file.basename,
-        path: file.path
-      };
-    } catch (e) {
-      continue;
-    }
-    const columnId = getItemColumn(
-      frontmatter,
-      config.columns,
-      config.fieldMapping
-    );
-    if (columnId) {
-      const entries = boardEntries.get(columnId);
-      if (entries) {
-        entries.push({ item, frontmatter });
-      }
-    }
-  }
   const resolveGroupId = (value) => value && value.trim().length > 0 ? value : "Ungrouped";
   for (const board of boardsData) {
     const entries = (_a = boardEntries.get(board.id)) != null ? _a : [];
@@ -30307,33 +30364,75 @@ var useKanbanBoard = (options) => {
     refreshDelayMs = 50,
     clickBlockMs = 250,
     internalUpdateDelayMs = 250,
-    logPrefix = "KanbanBoard"
+    logPrefix = "KanbanBoard",
+    logItemErrors = false
   } = options;
   const containerRef = React.useRef(null);
   const kanbanInstanceRef = React.useRef(null);
   const lastDragTimeRef = React.useRef(0);
   const lastInternalUpdateRef = React.useRef(0);
   const refreshTimerRef = React.useRef(null);
-  const buildBoards = React.useCallback(() => {
-    return buildBoardsData(app, config, renderItem, {
-      itemClassName,
-      runtimeFilter,
-      runtimeSort,
-      groupBy,
-      groupLabel,
-      groupOrder
-    });
-  }, [
-    app,
-    config,
+  const entriesByColumnRef = React.useRef(
+    /* @__PURE__ */ new Map()
+  );
+  const entriesByFileRef = React.useRef(
+    /* @__PURE__ */ new Map()
+  );
+  const columnLookupRef = React.useRef(null);
+  const pendingRefreshRef = React.useRef({
+    all: false,
+    columns: /* @__PURE__ */ new Set()
+  });
+  const configRef = React.useRef(config);
+  const optionsRef = React.useRef({
     itemClassName,
-    renderItem,
     runtimeFilter,
     runtimeSort,
     groupBy,
     groupLabel,
-    groupOrder
-  ]);
+    groupOrder,
+    renderItem
+  });
+  configRef.current = config;
+  optionsRef.current = {
+    itemClassName,
+    runtimeFilter,
+    runtimeSort,
+    groupBy,
+    groupLabel,
+    groupOrder,
+    renderItem
+  };
+  const buildBoardsFromCache = React.useCallback(
+    (columnIds) => {
+      const currentConfig = configRef.current;
+      const currentOptions = optionsRef.current;
+      const entriesByColumn = entriesByColumnRef.current;
+      const columnIdSet = columnIds ? new Set(columnIds) : null;
+      const columns = columnIdSet ? currentConfig.columns.filter(
+        (column) => columnIdSet.has(column.id)
+      ) : currentConfig.columns;
+      for (const column of columns) {
+        if (!entriesByColumn.has(column.id)) {
+          entriesByColumn.set(column.id, []);
+        }
+      }
+      return buildBoardsFromEntries(
+        columns,
+        entriesByColumn,
+        currentOptions.renderItem,
+        {
+          itemClassName: currentOptions.itemClassName,
+          runtimeFilter: currentOptions.runtimeFilter,
+          runtimeSort: currentOptions.runtimeSort,
+          groupBy: currentOptions.groupBy,
+          groupLabel: currentOptions.groupLabel,
+          groupOrder: currentOptions.groupOrder
+        }
+      );
+    },
+    []
+  );
   const initKanban = React.useCallback(
     (initialBoards = []) => {
       var _a;
@@ -30394,45 +30493,329 @@ var useKanbanBoard = (options) => {
     },
     [boardId, logPrefix, onDropItem]
   );
-  const refreshBoard = React.useCallback(() => {
-    if (!kanbanInstanceRef.current) return;
-    if (Date.now() - lastInternalUpdateRef.current < internalUpdateDelayMs) {
-      return;
-    }
-    const boards = buildBoards();
-    initKanban(boards);
-  }, [buildBoards, initKanban, internalUpdateDelayMs]);
-  const scheduleRefresh = React.useCallback(() => {
+  const rebuild = React.useCallback(() => {
     if (refreshTimerRef.current !== null) {
       window.clearTimeout(refreshTimerRef.current);
-    }
-    refreshTimerRef.current = window.setTimeout(() => {
       refreshTimerRef.current = null;
-      refreshBoard();
-    }, refreshDelayMs);
-  }, [refreshBoard, refreshDelayMs]);
-  const rebuild = React.useCallback(() => {
-    const boards = buildBoards();
+    }
+    const currentConfig = configRef.current;
+    const currentOptions = optionsRef.current;
+    const { entriesByColumn, entriesByFile, columnLookup } = buildBoardEntries(app, currentConfig, {
+      logPrefix,
+      logItemErrors
+    });
+    entriesByColumnRef.current = entriesByColumn;
+    entriesByFileRef.current = entriesByFile;
+    columnLookupRef.current = columnLookup;
+    const boards = buildBoardsFromEntries(
+      currentConfig.columns,
+      entriesByColumn,
+      currentOptions.renderItem,
+      {
+        itemClassName: currentOptions.itemClassName,
+        runtimeFilter: currentOptions.runtimeFilter,
+        runtimeSort: currentOptions.runtimeSort,
+        groupBy: currentOptions.groupBy,
+        groupLabel: currentOptions.groupLabel,
+        groupOrder: currentOptions.groupOrder
+      }
+    );
     initKanban(boards);
-  }, [buildBoards, initKanban]);
+  }, [app, initKanban, logItemErrors, logPrefix]);
+  const syncBoardItems = React.useCallback(
+    (board) => {
+      var _a;
+      const kanban = kanbanInstanceRef.current;
+      if (!kanban) return false;
+      let boardEl = kanban.findBoard(board.id);
+      if (!boardEl) {
+        try {
+          kanban.addBoards([
+            { id: board.id, title: board.title, item: [] }
+          ]);
+          boardEl = kanban.findBoard(board.id);
+        } catch (err) {
+          console.error(
+            `[${logPrefix}] Failed to add board ${board.id}`,
+            err
+          );
+          return false;
+        }
+      }
+      if (!boardEl) return false;
+      const titleEl = boardEl.querySelector(".kanban-title-board");
+      if (titleEl && titleEl.textContent !== board.title) {
+        titleEl.textContent = board.title;
+      }
+      const existingEls = kanban.getBoardElements(
+        board.id
+      );
+      const existingById = /* @__PURE__ */ new Map();
+      for (const el of existingEls) {
+        const id = el.dataset.eid;
+        if (id) existingById.set(id, el);
+      }
+      const nextIds = /* @__PURE__ */ new Set();
+      for (const item of board.item) {
+        nextIds.add(item.id);
+      }
+      for (const [id] of existingById) {
+        if (!nextIds.has(id)) {
+          kanban.removeElement(id);
+        }
+      }
+      for (const item of board.item) {
+        let el = existingById.get(item.id);
+        if (!el) {
+          kanban.addElement(board.id, item);
+          el = kanban.findElement(item.id);
+        }
+        if (el && el.innerHTML !== item.title) {
+          el.innerHTML = item.title;
+        }
+      }
+      const dragEl = boardEl.querySelector(
+        ".kanban-drag"
+      );
+      if (dragEl) {
+        for (const item of board.item) {
+          const el = kanban.findElement(
+            item.id
+          );
+          if (el) {
+            dragEl.appendChild(el);
+          }
+        }
+      }
+      const boards = (_a = kanban.options) == null ? void 0 : _a.boards;
+      if (boards) {
+        const idx = boards.findIndex(
+          (existing) => existing.id === board.id
+        );
+        if (idx >= 0) {
+          boards[idx] = {
+            ...boards[idx],
+            title: board.title,
+            item: board.item
+          };
+        }
+      }
+      return true;
+    },
+    [logPrefix]
+  );
+  const refreshBoard = React.useCallback(
+    (columnIds) => {
+      if (!kanbanInstanceRef.current) {
+        rebuild();
+        return;
+      }
+      if (Date.now() - lastInternalUpdateRef.current < internalUpdateDelayMs) {
+        return;
+      }
+      const boards = buildBoardsFromCache(columnIds);
+      for (const board of boards) {
+        syncBoardItems(board);
+      }
+    },
+    [
+      buildBoardsFromCache,
+      internalUpdateDelayMs,
+      rebuild,
+      syncBoardItems
+    ]
+  );
+  const scheduleRefresh = React.useCallback(
+    (columnIds, forceAll = false) => {
+      if (forceAll) {
+        pendingRefreshRef.current.all = true;
+        pendingRefreshRef.current.columns.clear();
+      }
+      if (columnIds) {
+        for (const columnId of columnIds) {
+          pendingRefreshRef.current.columns.add(columnId);
+        }
+      }
+      if (refreshTimerRef.current !== null) {
+        window.clearTimeout(refreshTimerRef.current);
+      }
+      refreshTimerRef.current = window.setTimeout(() => {
+        refreshTimerRef.current = null;
+        const pending = pendingRefreshRef.current;
+        if (!pending.all && pending.columns.size === 0) {
+          return;
+        }
+        const columns = pending.all ? void 0 : pending.columns;
+        pendingRefreshRef.current = {
+          all: false,
+          columns: /* @__PURE__ */ new Set()
+        };
+        refreshBoard(columns);
+      }, refreshDelayMs);
+    },
+    [refreshBoard, refreshDelayMs]
+  );
+  const removeEntryByPath = React.useCallback((filePath) => {
+    const entriesByFile = entriesByFileRef.current;
+    const entriesByColumn = entriesByColumnRef.current;
+    const affectedColumns = /* @__PURE__ */ new Set();
+    const existingEntry = entriesByFile.get(filePath);
+    if (!existingEntry) return affectedColumns;
+    const columnEntries = entriesByColumn.get(existingEntry.columnId);
+    if (columnEntries) {
+      const index = columnEntries.findIndex(
+        (entry) => entry.filePath === filePath
+      );
+      if (index !== -1) {
+        columnEntries.splice(index, 1);
+      }
+    }
+    entriesByFile.delete(filePath);
+    affectedColumns.add(existingEntry.columnId);
+    return affectedColumns;
+  }, []);
+  const updateEntryForFile = React.useCallback(
+    (file) => {
+      var _a, _b;
+      const currentConfig = configRef.current;
+      const columnLookup = columnLookupRef.current;
+      const entriesByFile = entriesByFileRef.current;
+      const entriesByColumn = entriesByColumnRef.current;
+      const affectedColumns = /* @__PURE__ */ new Set();
+      if (!columnLookup) return affectedColumns;
+      const nextEntry = resolveBoardEntryForFile(
+        app,
+        file,
+        currentConfig,
+        columnLookup,
+        {
+          logPrefix,
+          logItemErrors
+        }
+      );
+      const existingEntry = entriesByFile.get(file.path);
+      if (!nextEntry) {
+        if (existingEntry) {
+          const removed = removeEntryByPath(file.path);
+          for (const columnId of removed) {
+            affectedColumns.add(columnId);
+          }
+        }
+        return affectedColumns;
+      }
+      if (existingEntry) {
+        if (existingEntry.columnId !== nextEntry.columnId) {
+          const previousColumnEntries = entriesByColumn.get(
+            existingEntry.columnId
+          );
+          if (previousColumnEntries) {
+            const index = previousColumnEntries.findIndex(
+              (entry) => entry.filePath === file.path
+            );
+            if (index !== -1) {
+              previousColumnEntries.splice(index, 1);
+            }
+          }
+          const nextColumnEntries2 = (_a = entriesByColumn.get(nextEntry.columnId)) != null ? _a : [];
+          if (!entriesByColumn.has(nextEntry.columnId)) {
+            entriesByColumn.set(
+              nextEntry.columnId,
+              nextColumnEntries2
+            );
+          }
+          nextColumnEntries2.push(nextEntry);
+          entriesByFile.set(file.path, nextEntry);
+          affectedColumns.add(existingEntry.columnId);
+          affectedColumns.add(nextEntry.columnId);
+        } else {
+          existingEntry.item = nextEntry.item;
+          existingEntry.frontmatter = nextEntry.frontmatter;
+          existingEntry.columnId = nextEntry.columnId;
+          entriesByFile.set(file.path, existingEntry);
+          affectedColumns.add(existingEntry.columnId);
+        }
+        return affectedColumns;
+      }
+      const nextColumnEntries = (_b = entriesByColumn.get(nextEntry.columnId)) != null ? _b : [];
+      if (!entriesByColumn.has(nextEntry.columnId)) {
+        entriesByColumn.set(nextEntry.columnId, nextColumnEntries);
+      }
+      nextColumnEntries.push(nextEntry);
+      entriesByFile.set(file.path, nextEntry);
+      affectedColumns.add(nextEntry.columnId);
+      return affectedColumns;
+    },
+    [app, logItemErrors, logPrefix, removeEntryByPath]
+  );
   React.useEffect(() => {
     rebuild();
+  }, [config, rebuild]);
+  React.useEffect(() => {
     const onMetadataChange = (file) => {
-      if (!file) return;
-      const cache = app.metadataCache.getFileCache(file);
-      if (!matchesItemFilter(file, cache, config.itemFilter)) return;
-      scheduleRefresh();
+      if (!(file instanceof import_obsidian4.TFile)) return;
+      const affected = updateEntryForFile(file);
+      if (affected.size > 0) {
+        scheduleRefresh(affected);
+      }
     };
-    const ref = app.metadataCache.on("changed", onMetadataChange);
+    const onCreate = (file) => {
+      if (!(file instanceof import_obsidian4.TFile)) return;
+      const affected = updateEntryForFile(file);
+      if (affected.size > 0) {
+        scheduleRefresh(affected);
+      }
+    };
+    const onDelete = (file) => {
+      if (!(file instanceof import_obsidian4.TFile)) return;
+      const affected = removeEntryByPath(file.path);
+      if (affected.size > 0) {
+        scheduleRefresh(affected);
+      }
+    };
+    const onRename = (file, oldPath) => {
+      if (!(file instanceof import_obsidian4.TFile)) return;
+      const affected = /* @__PURE__ */ new Set();
+      const removed = removeEntryByPath(oldPath);
+      for (const columnId of removed) {
+        affected.add(columnId);
+      }
+      const updated = updateEntryForFile(file);
+      for (const columnId of updated) {
+        affected.add(columnId);
+      }
+      if (affected.size > 0) {
+        scheduleRefresh(affected);
+      }
+    };
+    const metadataRef = app.metadataCache.on("changed", onMetadataChange);
+    const createRef = app.vault.on("create", onCreate);
+    const deleteRef = app.vault.on("delete", onDelete);
+    const renameRef = app.vault.on("rename", onRename);
     return () => {
-      app.metadataCache.offref(ref);
+      app.metadataCache.offref(metadataRef);
+      app.vault.offref(createRef);
+      app.vault.offref(deleteRef);
+      app.vault.offref(renameRef);
       if (refreshTimerRef.current !== null) {
         window.clearTimeout(refreshTimerRef.current);
         refreshTimerRef.current = null;
       }
       kanbanInstanceRef.current = null;
     };
-  }, [app, config.itemFilter, rebuild, scheduleRefresh]);
+  }, [app, removeEntryByPath, scheduleRefresh, updateEntryForFile]);
+  React.useEffect(() => {
+    if (!kanbanInstanceRef.current) return;
+    scheduleRefresh(void 0, true);
+  }, [
+    groupBy,
+    groupLabel,
+    groupOrder,
+    itemClassName,
+    renderItem,
+    runtimeFilter,
+    runtimeSort,
+    scheduleRefresh
+  ]);
   React.useEffect(() => {
     if (!onCardClick) return;
     const container = containerRef.current;
@@ -30616,18 +30999,9 @@ var WeeklyOrganiserBoard = ({ app }) => {
     [app, config, fieldManager]
   );
   const handleCardClick = React3.useCallback(
-    (event, itemId, _itemEl) => {
-      const target = event.target;
-      if (!target) return;
+    (_event, itemId, _itemEl) => {
       const file = app.vault.getAbstractFileByPath(itemId);
       if (!(file instanceof import_obsidian5.TFile)) return;
-      const isCtrlClick = event.ctrlKey || event.metaKey;
-      const isImageClick = !!target.closest(".card-cover");
-      if (isCtrlClick && isImageClick) {
-        const leaf2 = app.workspace.getLeaf("split", "vertical");
-        leaf2.openFile(file, { active: true });
-        return;
-      }
       const leaf = app.workspace.getLeaf("split", "vertical");
       leaf.openFile(file, { active: true });
     },
@@ -30677,17 +31051,18 @@ var WeeklyOrganiserBoard = ({ app }) => {
   }, []);
   const groupOrder = React3.useMemo(() => {
     if (groupBy !== "type") return void 0;
-    const ordered = activePreset.typeFilter.map(
-      (value) => value.toLowerCase()
-    );
+    const orderMap = /* @__PURE__ */ new Map();
+    activePreset.typeFilter.forEach((value, index) => {
+      orderMap.set(value.toLowerCase(), index);
+    });
     return (a, b) => {
-      const aIndex = ordered.indexOf(a.toLowerCase());
-      const bIndex = ordered.indexOf(b.toLowerCase());
-      if (aIndex === -1 && bIndex === -1) {
+      const aIndex = orderMap.get(a.toLowerCase());
+      const bIndex = orderMap.get(b.toLowerCase());
+      if (aIndex === void 0 && bIndex === void 0) {
         return a.localeCompare(b);
       }
-      if (aIndex === -1) return 1;
-      if (bIndex === -1) return -1;
+      if (aIndex === void 0) return 1;
+      if (bIndex === void 0) return -1;
       return aIndex - bIndex;
     };
   }, [activePreset.typeFilter, groupBy]);
@@ -30726,6 +31101,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
     renderItem: renderWeeklyOrganiserCard,
     itemClassName: "organiser-card",
     logPrefix: "WeeklyOrganiser",
+    logItemErrors: true,
     onDropItem: handleDrop,
     onCardClick: handleCardClick,
     runtimeFilter,
@@ -30979,7 +31355,8 @@ var WeeklyOrganiserView = class extends import_obsidian6.ItemView {
     return "calendar-days";
   }
   async onOpen() {
-    this.root = (0, import_client.createRoot)(this.containerEl.children[1]);
+    this.contentEl.empty();
+    this.root = (0, import_client.createRoot)(this.contentEl);
     this.root.render(
       /* @__PURE__ */ React4.createElement(React4.StrictMode, null, /* @__PURE__ */ React4.createElement("div", { className: "weekly-organiser-view-container" }, /* @__PURE__ */ React4.createElement(WeeklyOrganiserBoard, { app: this.app })))
     );

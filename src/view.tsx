@@ -25,7 +25,8 @@ export class WeeklyOrganiserView extends ItemView {
 	}
 
 	async onOpen() {
-		this.root = createRoot(this.containerEl.children[1]);
+		this.contentEl.empty();
+		this.root = createRoot(this.contentEl);
 		this.root.render(
 			<React.StrictMode>
 				<div className="weekly-organiser-view-container">

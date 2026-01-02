@@ -91,15 +91,42 @@ export const readFieldValue = (
  * Determines which column an item belongs to based on its frontmatter.
  * Returns undefined if the item doesn't belong to any column.
  */
+export interface ColumnLookup {
+	valueToColumnId: Map<string | boolean | number, string>;
+	defaultColumnId?: string;
+}
+
+export const createColumnLookup = (
+	columns: ColumnDefinition[]
+): ColumnLookup => {
+	const valueToColumnId = new Map<string | boolean | number, string>();
+	let defaultColumnId: string | undefined;
+
+	for (const column of columns) {
+		if (column.isDefault) {
+			defaultColumnId = column.id;
+		}
+		if (column.fieldValue !== undefined) {
+			valueToColumnId.set(column.fieldValue, column.id);
+		}
+	}
+
+	return { valueToColumnId, defaultColumnId };
+};
+
 export const getItemColumn = (
 	frontmatter: Record<string, unknown>,
 	columns: ColumnDefinition[],
-	mapping: FieldMapping
+	mapping: FieldMapping,
+	lookup?: ColumnLookup
 ): string | undefined => {
 	const fieldValue = readFieldValue(frontmatter, mapping);
 
 	// First, check if the field value matches any specific column
 	if (fieldValue !== undefined) {
+		const matchedColumn = lookup?.valueToColumnId.get(fieldValue);
+		if (matchedColumn) return matchedColumn;
+
 		for (const column of columns) {
 			if (column.fieldValue === fieldValue) {
 				return column.id;
@@ -117,8 +144,10 @@ export const getItemColumn = (
 			defaultValue === "yes";
 
 		if (isDefault && fieldValue === undefined) {
-			const defaultColumn = columns.find((c) => c.isDefault);
-			if (defaultColumn) return defaultColumn.id;
+			const defaultColumnId =
+				lookup?.defaultColumnId ??
+				columns.find((c) => c.isDefault)?.id;
+			if (defaultColumnId) return defaultColumnId;
 		}
 	}
 
