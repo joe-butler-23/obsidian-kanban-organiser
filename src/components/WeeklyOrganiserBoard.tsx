@@ -1,5 +1,5 @@
 import * as React from "react";
-import { App, TFile, moment } from "obsidian";
+import { App, TFile, WorkspaceLeaf, moment } from "obsidian";
 import { createWeeklyOrganiserConfig } from "../boards/weeklyOrganiserConfig";
 import { renderWeeklyOrganiserCard } from "../boards/weeklyOrganiserCard";
 import { useKanbanBoard } from "../hooks/useKanbanBoard";
@@ -48,6 +48,7 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 		() => `weekly-organiser-board-${Math.random().toString(36).slice(2, 11)}`,
 		[]
 	);
+	const lastOpenLeafRef = React.useRef<WorkspaceLeaf | null>(null);
 
 	const activePreset = React.useMemo(
 		() => findPresetById(activePresetId),
@@ -80,11 +81,35 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 	);
 
 	const handleCardClick = React.useCallback(
-		(_event: MouseEvent, itemId: string, _itemEl: HTMLElement) => {
+		(event: MouseEvent, itemId: string, _itemEl: HTMLElement) => {
 			const file = app.vault.getAbstractFileByPath(itemId);
 			if (!(file instanceof TFile)) return;
 
-			const leaf = app.workspace.getLeaf("split", "vertical");
+			const isForceSplit = event.ctrlKey || event.metaKey;
+			const isValidLeaf = (leaf: WorkspaceLeaf | null) => {
+				if (!leaf) return false;
+				if (leaf.view?.getViewType?.() === "weekly-organiser-view") {
+					return false;
+				}
+				const viewState = leaf.getViewState();
+				if (viewState?.pinned) return false;
+				return true;
+			};
+			let leaf: WorkspaceLeaf;
+			if (isForceSplit) {
+				leaf = app.workspace.getLeaf("split", "vertical");
+			} else if (isValidLeaf(lastOpenLeafRef.current)) {
+				leaf = lastOpenLeafRef.current as WorkspaceLeaf;
+			} else {
+				const recentLeaf = app.workspace.getMostRecentLeaf();
+				const fallbackLeaf = app.workspace
+					.getLeavesOfType("markdown")
+					.find((candidate) => isValidLeaf(candidate));
+				leaf = isValidLeaf(recentLeaf)
+					? (recentLeaf as WorkspaceLeaf)
+					: fallbackLeaf ?? app.workspace.getLeaf("split", "vertical");
+			}
+			lastOpenLeafRef.current = leaf;
 			leaf.openFile(file, { active: true });
 		},
 		[app]

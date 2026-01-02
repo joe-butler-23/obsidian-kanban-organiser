@@ -74,6 +74,7 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 	const containerRef = React.useRef<HTMLDivElement>(null);
 	const kanbanInstanceRef = React.useRef<any>(null);
 	const lastDragTimeRef = React.useRef(0);
+	const isDragInProgressRef = React.useRef(false);
 	const lastInternalUpdateRef = React.useRef(0);
 	const refreshTimerRef = React.useRef<number | null>(null);
 	const entriesByColumnRef = React.useRef<Map<string, BoardEntry<T>[]>>(
@@ -163,11 +164,13 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 					boards: initialBoards,
 					dragEl: (el: HTMLElement) => {
 						if (el.classList.contains("kanban-group-header")) return;
+						isDragInProgressRef.current = true;
 						el.classList.add("is-dragging");
 					},
 					dragendEl: (el: HTMLElement) => {
 						if (el.classList.contains("kanban-group-header")) return;
 						el.classList.remove("is-dragging");
+						isDragInProgressRef.current = false;
 						lastDragTimeRef.current = Date.now();
 					},
 					dropEl: (
@@ -186,6 +189,7 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 						const targetBoardId = targetBoardEl?.dataset.id;
 
 						if (itemId && targetBoardId) {
+							lastDragTimeRef.current = Date.now();
 							lastInternalUpdateRef.current = Date.now();
 							Promise.resolve(onDropItem(itemId, targetBoardId)).catch(
 								(err) => {
@@ -595,6 +599,7 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 			const itemEl = target.closest(".kanban-item") as HTMLElement | null;
 			if (!itemEl) return;
 			if (itemEl.classList.contains("kanban-group-header")) return;
+			if (isDragInProgressRef.current) return;
 
 			const timeSinceDrag = Date.now() - lastDragTimeRef.current;
 			if (

@@ -30370,6 +30370,7 @@ var useKanbanBoard = (options) => {
   const containerRef = React.useRef(null);
   const kanbanInstanceRef = React.useRef(null);
   const lastDragTimeRef = React.useRef(0);
+  const isDragInProgressRef = React.useRef(false);
   const lastInternalUpdateRef = React.useRef(0);
   const refreshTimerRef = React.useRef(null);
   const entriesByColumnRef = React.useRef(
@@ -30448,11 +30449,13 @@ var useKanbanBoard = (options) => {
           boards: initialBoards,
           dragEl: (el) => {
             if (el.classList.contains("kanban-group-header")) return;
+            isDragInProgressRef.current = true;
             el.classList.add("is-dragging");
           },
           dragendEl: (el) => {
             if (el.classList.contains("kanban-group-header")) return;
             el.classList.remove("is-dragging");
+            isDragInProgressRef.current = false;
             lastDragTimeRef.current = Date.now();
           },
           dropEl: (el, target, _source, _sibling) => {
@@ -30464,6 +30467,7 @@ var useKanbanBoard = (options) => {
             );
             const targetBoardId = targetBoardEl == null ? void 0 : targetBoardEl.dataset.id;
             if (itemId && targetBoardId) {
+              lastDragTimeRef.current = Date.now();
               lastInternalUpdateRef.current = Date.now();
               Promise.resolve(onDropItem(itemId, targetBoardId)).catch(
                 (err) => {
@@ -30826,6 +30830,7 @@ var useKanbanBoard = (options) => {
       const itemEl = target.closest(".kanban-item");
       if (!itemEl) return;
       if (itemEl.classList.contains("kanban-group-header")) return;
+      if (isDragInProgressRef.current) return;
       const timeSinceDrag = Date.now() - lastDragTimeRef.current;
       if (timeSinceDrag < clickBlockMs || itemEl.classList.contains("is-dragging") || itemEl.classList.contains("is-moving")) {
         return;
@@ -30973,6 +30978,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
     () => `weekly-organiser-board-${Math.random().toString(36).slice(2, 11)}`,
     []
   );
+  const lastOpenLeafRef = React3.useRef(null);
   const activePreset = React3.useMemo(
     () => findPresetById(activePresetId),
     [activePresetId]
@@ -30999,10 +31005,31 @@ var WeeklyOrganiserBoard = ({ app }) => {
     [app, config, fieldManager]
   );
   const handleCardClick = React3.useCallback(
-    (_event, itemId, _itemEl) => {
+    (event, itemId, _itemEl) => {
       const file = app.vault.getAbstractFileByPath(itemId);
       if (!(file instanceof import_obsidian5.TFile)) return;
-      const leaf = app.workspace.getLeaf("split", "vertical");
+      const isForceSplit = event.ctrlKey || event.metaKey;
+      const isValidLeaf = (leaf2) => {
+        var _a, _b;
+        if (!leaf2) return false;
+        if (((_b = (_a = leaf2.view) == null ? void 0 : _a.getViewType) == null ? void 0 : _b.call(_a)) === "weekly-organiser-view") {
+          return false;
+        }
+        const viewState = leaf2.getViewState();
+        if (viewState == null ? void 0 : viewState.pinned) return false;
+        return true;
+      };
+      let leaf;
+      if (isForceSplit) {
+        leaf = app.workspace.getLeaf("split", "vertical");
+      } else if (isValidLeaf(lastOpenLeafRef.current)) {
+        leaf = lastOpenLeafRef.current;
+      } else {
+        const recentLeaf = app.workspace.getMostRecentLeaf();
+        const fallbackLeaf = app.workspace.getLeavesOfType("markdown").find((candidate) => isValidLeaf(candidate));
+        leaf = isValidLeaf(recentLeaf) ? recentLeaf : fallbackLeaf != null ? fallbackLeaf : app.workspace.getLeaf("split", "vertical");
+      }
+      lastOpenLeafRef.current = leaf;
       leaf.openFile(file, { active: true });
     },
     [app]
