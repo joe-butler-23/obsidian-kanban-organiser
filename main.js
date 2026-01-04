@@ -29904,16 +29904,16 @@ __export(main_exports, {
   default: () => WeeklyOrganiserPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian7 = require("obsidian");
+var import_obsidian8 = require("obsidian");
 
 // src/view.tsx
-var import_obsidian6 = require("obsidian");
+var import_obsidian7 = require("obsidian");
 var React4 = __toESM(require_react());
 var import_client = __toESM(require_client());
 
 // src/components/WeeklyOrganiserBoard.tsx
 var React3 = __toESM(require_react());
-var import_obsidian5 = require("obsidian");
+var import_obsidian6 = require("obsidian");
 
 // src/boards/weeklyOrganiserConfig.ts
 var import_obsidian = require("obsidian");
@@ -29993,6 +29993,7 @@ var createWeeklyOrganiserConfig = (weekOffset, preset) => {
 };
 
 // src/boards/weeklyOrganiserCard.ts
+var import_obsidian2 = require("obsidian");
 var escapeHtml = (value) => value.replace(/[&<>"']/g, (char) => {
   switch (char) {
     case "&":
@@ -30013,18 +30014,62 @@ var toSafeString = (value) => {
   if (value === null || value === void 0) return "";
   return typeof value === "string" ? value : String(value);
 };
-var isSafeCoverImage = (value) => {
+var normalizeCoverImageValue = (value) => {
+  var _a;
   const trimmed = value.trim();
-  if (!trimmed) return false;
-  const lower = trimmed.toLowerCase();
-  if (lower.startsWith("http://") || lower.startsWith("https://")) {
+  if (!trimmed) return "";
+  const wikiMatch = trimmed.match(/^!?\[\[(.+)\]\]$/);
+  const inner = wikiMatch ? wikiMatch[1] : trimmed;
+  const pathPart = (_a = inner.split("|")[0]) != null ? _a : "";
+  return pathPart.trim();
+};
+var isSafeCoverUrl = (value) => {
+  const lower = value.toLowerCase();
+  if (lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("app://") || lower.startsWith("obsidian://")) {
     return true;
   }
   if (lower.startsWith("//")) return false;
-  if (/^[a-z][a-z0-9+.-]*:/.test(lower)) return false;
-  return true;
+  return !/^[a-z][a-z0-9+.-]*:/.test(lower);
 };
-var renderWeeklyOrganiserCard = (item) => {
+var joinVaultPath = (baseDir, relativePath) => {
+  const parts = [...baseDir.split("/"), ...relativePath.split("/")];
+  const resolved = [];
+  for (const part of parts) {
+    if (!part || part === ".") continue;
+    if (part === "..") {
+      resolved.pop();
+      continue;
+    }
+    resolved.push(part);
+  }
+  return resolved.join("/");
+};
+var resolveCoverImage = (app, item) => {
+  const rawCoverImage = typeof item.coverImage === "string" ? item.coverImage.trim() : "";
+  if (!rawCoverImage) return "";
+  const normalized = normalizeCoverImageValue(rawCoverImage).replace(
+    /\\/g,
+    "/"
+  );
+  if (!normalized || !isSafeCoverUrl(normalized)) return "";
+  const lower = normalized.toLowerCase();
+  if (lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("app://") || lower.startsWith("obsidian://")) {
+    return normalized;
+  }
+  const vaultPath = normalized.replace(/^\.\/+/, "").replace(/^\/+/, "");
+  let file = app.vault.getAbstractFileByPath(vaultPath);
+  if (file instanceof import_obsidian2.TFile) {
+    return app.vault.getResourcePath(file);
+  }
+  const baseDir = item.path.includes("/") ? item.path.slice(0, item.path.lastIndexOf("/")) : "";
+  const resolvedPath = baseDir ? joinVaultPath(baseDir, vaultPath) : vaultPath;
+  file = app.vault.getAbstractFileByPath(resolvedPath);
+  if (file instanceof import_obsidian2.TFile) {
+    return app.vault.getResourcePath(file);
+  }
+  return "";
+};
+var renderWeeklyOrganiserCard = (app, item) => {
   var _a;
   const iconByType = {
     recipe: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`,
@@ -30033,9 +30078,9 @@ var renderWeeklyOrganiserCard = (item) => {
   };
   const icon = (_a = iconByType[item.type]) != null ? _a : iconByType.task;
   const title = escapeHtml(toSafeString(item.title));
-  const rawCoverImage = typeof item.coverImage === "string" ? item.coverImage.trim() : "";
-  const coverImage = rawCoverImage && isSafeCoverImage(rawCoverImage) ? escapeHtml(rawCoverImage) : "";
-  const imageHTML = coverImage ? `<div class="card-cover"><img src="${coverImage}" alt="${title}" draggable="false" /></div>` : "";
+  const coverImage = resolveCoverImage(app, item);
+  const escapedCoverImage = coverImage ? escapeHtml(coverImage) : "";
+  const imageHTML = escapedCoverImage ? `<div class="card-cover"><img src="${escapedCoverImage}" alt="${title}" draggable="false" /></div>` : "";
   return `
 		<div class="organiser-card-content">
 			${imageHTML}
@@ -30049,11 +30094,11 @@ var renderWeeklyOrganiserCard = (item) => {
 
 // src/hooks/useKanbanBoard.ts
 var React = __toESM(require_react());
-var import_obsidian4 = require("obsidian");
+var import_obsidian5 = require("obsidian");
 
 // src/utils/field-manager.ts
-var import_obsidian2 = require("obsidian");
-var momentFn2 = import_obsidian2.moment;
+var import_obsidian3 = require("obsidian");
+var momentFn2 = import_obsidian3.moment;
 var normalizeFieldValue = (value, type, options) => {
   var _a;
   if (value === null || value === void 0) return void 0;
@@ -30174,7 +30219,7 @@ var FieldManager = class {
 };
 
 // src/kanban/itemFilter.ts
-var import_obsidian3 = require("obsidian");
+var import_obsidian4 = require("obsidian");
 var matchesItemFilter = (file, cache, filter) => {
   var _a;
   if (!filter) return true;
@@ -30182,7 +30227,7 @@ var matchesItemFilter = (file, cache, filter) => {
   const { pathPattern, requiredTags, requiredFields, customFilter } = filter;
   if (pathPattern && !pathPattern.test(file.path)) return false;
   if (requiredTags) {
-    const fileTags = cache ? (_a = (0, import_obsidian3.getAllTags)(cache)) != null ? _a : [] : [];
+    const fileTags = cache ? (_a = (0, import_obsidian4.getAllTags)(cache)) != null ? _a : [] : [];
     const hasTags = requiredTags.some((tag) => fileTags.includes(tag));
     if (!hasTags) return false;
   }
@@ -30346,7 +30391,7 @@ var resolveKanbanConstructor = () => {
 };
 
 // src/hooks/useKanbanBoard.ts
-var momentFn3 = import_obsidian4.moment;
+var momentFn3 = import_obsidian5.moment;
 var useKanbanBoard = (options) => {
   const {
     app,
@@ -30756,28 +30801,28 @@ var useKanbanBoard = (options) => {
   }, [config, rebuild]);
   React.useEffect(() => {
     const onMetadataChange = (file) => {
-      if (!(file instanceof import_obsidian4.TFile)) return;
+      if (!(file instanceof import_obsidian5.TFile)) return;
       const affected = updateEntryForFile(file);
       if (affected.size > 0) {
         scheduleRefresh(affected);
       }
     };
     const onCreate = (file) => {
-      if (!(file instanceof import_obsidian4.TFile)) return;
+      if (!(file instanceof import_obsidian5.TFile)) return;
       const affected = updateEntryForFile(file);
       if (affected.size > 0) {
         scheduleRefresh(affected);
       }
     };
     const onDelete = (file) => {
-      if (!(file instanceof import_obsidian4.TFile)) return;
+      if (!(file instanceof import_obsidian5.TFile)) return;
       const affected = removeEntryByPath(file.path);
       if (affected.size > 0) {
         scheduleRefresh(affected);
       }
     };
     const onRename = (file, oldPath) => {
-      if (!(file instanceof import_obsidian4.TFile)) return;
+      if (!(file instanceof import_obsidian5.TFile)) return;
       const affected = /* @__PURE__ */ new Set();
       const removed = removeEntryByPath(oldPath);
       for (const columnId of removed) {
@@ -30955,7 +31000,7 @@ var findPresetById = (id) => {
 };
 
 // src/components/WeeklyOrganiserBoard.tsx
-var momentFn4 = import_obsidian5.moment;
+var momentFn4 = import_obsidian6.moment;
 var WeeklyOrganiserBoard = ({ app }) => {
   const [activePresetId, setActivePresetId] = React3.useState(ORGANISER_PRESETS[0].id);
   const [searchQuery, setSearchQuery] = React3.useState("");
@@ -30994,7 +31039,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
       const targetColumn = config.columns.find(
         (c) => c.id === targetColumnId
       );
-      if (file instanceof import_obsidian5.TFile && targetColumn) {
+      if (file instanceof import_obsidian6.TFile && targetColumn) {
         await fieldManager.updateFieldForColumn(
           file,
           targetColumn,
@@ -31007,7 +31052,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
   const handleCardClick = React3.useCallback(
     (event, itemId, _itemEl) => {
       const file = app.vault.getAbstractFileByPath(itemId);
-      if (!(file instanceof import_obsidian5.TFile)) return;
+      if (!(file instanceof import_obsidian6.TFile)) return;
       const isForceSplit = event.ctrlKey || event.metaKey;
       const isValidLeaf = (leaf2) => {
         var _a, _b;
@@ -31125,7 +31170,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
     app,
     boardId,
     config,
-    renderItem: renderWeeklyOrganiserCard,
+    renderItem: (item) => renderWeeklyOrganiserCard(app, item),
     itemClassName: "organiser-card",
     logPrefix: "WeeklyOrganiser",
     logItemErrors: true,
@@ -31367,7 +31412,7 @@ var WeeklyOrganiserBoard = ({ app }) => {
 
 // src/view.tsx
 var VIEW_TYPE_WEEKLY_ORGANISER = "weekly-organiser-view";
-var WeeklyOrganiserView = class extends import_obsidian6.ItemView {
+var WeeklyOrganiserView = class extends import_obsidian7.ItemView {
   constructor(leaf) {
     super(leaf);
     this.root = null;
@@ -31395,7 +31440,7 @@ var WeeklyOrganiserView = class extends import_obsidian6.ItemView {
 };
 
 // src/main.ts
-var WeeklyOrganiserPlugin = class extends import_obsidian7.Plugin {
+var WeeklyOrganiserPlugin = class extends import_obsidian8.Plugin {
   async onload() {
     this.registerView(
       VIEW_TYPE_WEEKLY_ORGANISER,

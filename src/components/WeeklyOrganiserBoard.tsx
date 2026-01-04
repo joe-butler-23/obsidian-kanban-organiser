@@ -225,7 +225,7 @@ export const WeeklyOrganiserBoard = ({ app }: WeeklyOrganiserBoardProps) => {
 		app,
 		boardId,
 		config,
-		renderItem: renderWeeklyOrganiserCard,
+		renderItem: (item) => renderWeeklyOrganiserCard(app, item),
 		itemClassName: "organiser-card",
 		logPrefix: "WeeklyOrganiser",
 		logItemErrors: true,
