@@ -75,6 +75,10 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 	const kanbanInstanceRef = React.useRef<any>(null);
 	const lastDragTimeRef = React.useRef(0);
 	const isDragInProgressRef = React.useRef(false);
+	const lastForceSplitRef = React.useRef<{
+		itemId: string;
+		at: number;
+	} | null>(null);
 	const lastInternalUpdateRef = React.useRef(0);
 	const refreshTimerRef = React.useRef<number | null>(null);
 	const entriesByColumnRef = React.useRef<Map<string, BoardEntry<T>[]>>(
@@ -166,12 +170,20 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 						if (el.classList.contains("kanban-group-header")) return;
 						isDragInProgressRef.current = true;
 						el.classList.add("is-dragging");
+						console.log(
+							`[${logPrefix}] drag start`,
+							el.dataset.eid ?? "unknown"
+						);
 					},
 					dragendEl: (el: HTMLElement) => {
 						if (el.classList.contains("kanban-group-header")) return;
 						el.classList.remove("is-dragging");
 						isDragInProgressRef.current = false;
 						lastDragTimeRef.current = Date.now();
+						console.log(
+							`[${logPrefix}] drag end`,
+							el.dataset.eid ?? "unknown"
+						);
 					},
 					dropEl: (
 						el: HTMLElement,
@@ -592,14 +604,59 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 		const container = containerRef.current;
 		if (!container) return;
 
-		const handleClick = (event: MouseEvent) => {
+		console.log(`[${logPrefix}] click handler attached`, {
+			boardId,
+		});
+
+		const handleForceSplit = (event: MouseEvent) => {
+			if (!(event.ctrlKey || event.metaKey)) return;
 			const target = event.target as HTMLElement | null;
 			if (!target) return;
 
 			const itemEl = target.closest(".kanban-item") as HTMLElement | null;
 			if (!itemEl) return;
 			if (itemEl.classList.contains("kanban-group-header")) return;
-			if (isDragInProgressRef.current) return;
+
+			const itemId = itemEl.dataset.eid;
+			if (!itemId) return;
+
+			lastForceSplitRef.current = {
+				itemId,
+				at: Date.now(),
+			};
+			console.log(
+				`[${logPrefix}] ctrl/meta mousedown`,
+				{ itemId }
+			);
+			onCardClick(event, itemId, itemEl);
+		};
+
+		const handleClick = (event: MouseEvent) => {
+			const target = event.target as HTMLElement | null;
+			if (!target) {
+				console.log(`[${logPrefix}] click ignored: no target`);
+				return;
+			}
+
+			const itemEl = target.closest(".kanban-item") as HTMLElement | null;
+			if (!itemEl) {
+				console.log(`[${logPrefix}] click ignored: no item`);
+				return;
+			}
+			if (itemEl.classList.contains("kanban-group-header")) {
+				console.log(
+					`[${logPrefix}] click ignored: group header`,
+					itemEl.dataset.eid ?? "unknown"
+				);
+				return;
+			}
+			if (isDragInProgressRef.current) {
+				console.log(
+					`[${logPrefix}] click ignored: drag in progress`,
+					itemEl.dataset.eid ?? "unknown"
+				);
+				return;
+			}
 
 			const timeSinceDrag = Date.now() - lastDragTimeRef.current;
 			if (
@@ -607,16 +664,53 @@ export const useKanbanBoard = <T extends BaseKanbanItem>(
 				itemEl.classList.contains("is-dragging") ||
 				itemEl.classList.contains("is-moving")
 			) {
+				console.log(
+					`[${logPrefix}] click ignored: drag cooldown`,
+					{
+						itemId: itemEl.dataset.eid ?? "unknown",
+						timeSinceDrag,
+						clickBlockMs,
+						isDragging: itemEl.classList.contains("is-dragging"),
+						isMoving: itemEl.classList.contains("is-moving"),
+						ctrlKey: event.ctrlKey,
+						metaKey: event.metaKey,
+					}
+				);
 				return;
 			}
 
 			const itemId = itemEl.dataset.eid;
-			if (!itemId) return;
+			if (!itemId) {
+				console.log(`[${logPrefix}] click ignored: missing itemId`);
+				return;
+			}
+			const forceSplit = lastForceSplitRef.current;
+			if (
+				forceSplit &&
+				forceSplit.itemId === itemId &&
+				Date.now() - forceSplit.at < 750
+			) {
+				console.log(
+					`[${logPrefix}] click ignored: handled on mousedown`,
+					{ itemId }
+				);
+				return;
+			}
+			console.log(
+				`[${logPrefix}] click handled`,
+				{
+					itemId,
+					ctrlKey: event.ctrlKey,
+					metaKey: event.metaKey,
+				}
+			);
 			onCardClick(event, itemId, itemEl);
 		};
 
+		container.addEventListener("mousedown", handleForceSplit, true);
 		container.addEventListener("click", handleClick);
 		return () => {
+			container.removeEventListener("mousedown", handleForceSplit, true);
 			container.removeEventListener("click", handleClick);
 		};
 	}, [clickBlockMs, onCardClick]);

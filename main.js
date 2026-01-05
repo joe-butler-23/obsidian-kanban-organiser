@@ -30416,6 +30416,7 @@ var useKanbanBoard = (options) => {
   const kanbanInstanceRef = React.useRef(null);
   const lastDragTimeRef = React.useRef(0);
   const isDragInProgressRef = React.useRef(false);
+  const lastForceSplitRef = React.useRef(null);
   const lastInternalUpdateRef = React.useRef(0);
   const refreshTimerRef = React.useRef(null);
   const entriesByColumnRef = React.useRef(
@@ -30493,15 +30494,25 @@ var useKanbanBoard = (options) => {
           dragBoards: false,
           boards: initialBoards,
           dragEl: (el) => {
+            var _a2;
             if (el.classList.contains("kanban-group-header")) return;
             isDragInProgressRef.current = true;
             el.classList.add("is-dragging");
+            console.log(
+              `[${logPrefix}] drag start`,
+              (_a2 = el.dataset.eid) != null ? _a2 : "unknown"
+            );
           },
           dragendEl: (el) => {
+            var _a2;
             if (el.classList.contains("kanban-group-header")) return;
             el.classList.remove("is-dragging");
             isDragInProgressRef.current = false;
             lastDragTimeRef.current = Date.now();
+            console.log(
+              `[${logPrefix}] drag end`,
+              (_a2 = el.dataset.eid) != null ? _a2 : "unknown"
+            );
           },
           dropEl: (el, target, _source, _sibling) => {
             if (el.classList.contains("kanban-group-header")) return;
@@ -30869,23 +30880,97 @@ var useKanbanBoard = (options) => {
     if (!onCardClick) return;
     const container = containerRef.current;
     if (!container) return;
-    const handleClick = (event) => {
+    console.log(`[${logPrefix}] click handler attached`, {
+      boardId
+    });
+    const handleForceSplit = (event) => {
+      if (!(event.ctrlKey || event.metaKey)) return;
       const target = event.target;
       if (!target) return;
       const itemEl = target.closest(".kanban-item");
       if (!itemEl) return;
       if (itemEl.classList.contains("kanban-group-header")) return;
-      if (isDragInProgressRef.current) return;
+      const itemId = itemEl.dataset.eid;
+      if (!itemId) return;
+      lastForceSplitRef.current = {
+        itemId,
+        at: Date.now()
+      };
+      console.log(
+        `[${logPrefix}] ctrl/meta mousedown`,
+        { itemId }
+      );
+      onCardClick(event, itemId, itemEl);
+    };
+    const handleClick = (event) => {
+      var _a, _b, _c;
+      const target = event.target;
+      if (!target) {
+        console.log(`[${logPrefix}] click ignored: no target`);
+        return;
+      }
+      const itemEl = target.closest(".kanban-item");
+      if (!itemEl) {
+        console.log(`[${logPrefix}] click ignored: no item`);
+        return;
+      }
+      if (itemEl.classList.contains("kanban-group-header")) {
+        console.log(
+          `[${logPrefix}] click ignored: group header`,
+          (_a = itemEl.dataset.eid) != null ? _a : "unknown"
+        );
+        return;
+      }
+      if (isDragInProgressRef.current) {
+        console.log(
+          `[${logPrefix}] click ignored: drag in progress`,
+          (_b = itemEl.dataset.eid) != null ? _b : "unknown"
+        );
+        return;
+      }
       const timeSinceDrag = Date.now() - lastDragTimeRef.current;
       if (timeSinceDrag < clickBlockMs || itemEl.classList.contains("is-dragging") || itemEl.classList.contains("is-moving")) {
+        console.log(
+          `[${logPrefix}] click ignored: drag cooldown`,
+          {
+            itemId: (_c = itemEl.dataset.eid) != null ? _c : "unknown",
+            timeSinceDrag,
+            clickBlockMs,
+            isDragging: itemEl.classList.contains("is-dragging"),
+            isMoving: itemEl.classList.contains("is-moving"),
+            ctrlKey: event.ctrlKey,
+            metaKey: event.metaKey
+          }
+        );
         return;
       }
       const itemId = itemEl.dataset.eid;
-      if (!itemId) return;
+      if (!itemId) {
+        console.log(`[${logPrefix}] click ignored: missing itemId`);
+        return;
+      }
+      const forceSplit = lastForceSplitRef.current;
+      if (forceSplit && forceSplit.itemId === itemId && Date.now() - forceSplit.at < 750) {
+        console.log(
+          `[${logPrefix}] click ignored: handled on mousedown`,
+          { itemId }
+        );
+        return;
+      }
+      console.log(
+        `[${logPrefix}] click handled`,
+        {
+          itemId,
+          ctrlKey: event.ctrlKey,
+          metaKey: event.metaKey
+        }
+      );
       onCardClick(event, itemId, itemEl);
     };
+    container.addEventListener("mousedown", handleForceSplit, true);
     container.addEventListener("click", handleClick);
     return () => {
+      container.removeEventListener("mousedown", handleForceSplit, true);
       container.removeEventListener("click", handleClick);
     };
   }, [clickBlockMs, onCardClick]);
